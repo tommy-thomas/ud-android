@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "103666220829",
+    "firebase_url": "https://push-message-poc.firebaseio.com",
+    "project_id": "push-message-poc",
+    "storage_bucket": "push-message-poc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:103666220829:android:957e95a01a9c430c",
+        "android_client_info": {
+          "package_name": "com.example.android.pushmessagepoc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "103666220829-6m5ja62qhjnctjjrfoq25k6v92hn7e8s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDD53bsYuI3em7e2ym7HZQ2cxmdaMNhVoY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
