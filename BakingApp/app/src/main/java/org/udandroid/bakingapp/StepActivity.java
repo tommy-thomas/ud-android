@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.udandroid.bakingapp.adapters.StepAdapter;
+import org.udandroid.bakingapp.models.Ingredient;
 import org.udandroid.bakingapp.models.Recipe;
 import org.udandroid.bakingapp.models.Step;
 
@@ -22,6 +23,7 @@ public class StepActivity extends AppCompatActivity {
 
     private StepAdapter stepAdapter;
     private List<Step> stepList;
+    private List<Ingredient> ingredientList;
     private final static String TAG = StepActivity.class.getSimpleName();
 
     @Override
@@ -38,6 +40,7 @@ public class StepActivity extends AppCompatActivity {
             Recipe recipe = gson.fromJson(stringRecipe, type_recipe);
             this.setTitle(recipe.getName());
             stepList = recipe.getSteps();
+            ingredientList = recipe.getIngredients();
             Log.d(TAG, recipe.getIngredients().get(0).getIngredient().toString());
 
             loadStepViews();
