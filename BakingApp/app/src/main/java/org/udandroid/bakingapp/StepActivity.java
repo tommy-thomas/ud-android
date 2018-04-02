@@ -34,8 +34,8 @@ public class StepActivity extends AppCompatActivity {
         Gson gson = new Gson();
         String stringRecipe= recipeIntent.getStringExtra("RECIPE_EXTRA");
         if(stringRecipe != null) {
-            Type type_ingredient = new TypeToken<Recipe>() {}.getType();
-            Recipe recipe = gson.fromJson(stringRecipe, type_ingredient);
+            Type type_recipe = new TypeToken<Recipe>() {}.getType();
+            Recipe recipe = gson.fromJson(stringRecipe, type_recipe);
             this.setTitle(recipe.getName());
             stepList = recipe.getSteps();
             Log.d(TAG, recipe.getIngredients().get(0).getIngredient().toString());
