@@ -1,6 +1,7 @@
 package org.udandroid.bakingapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,10 +9,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 
 import org.udandroid.bakingapp.R;
+import org.udandroid.bakingapp.StepActivity;
 import org.udandroid.bakingapp.models.Recipe;
+
+import java.lang.reflect.Type;
 
 /**
  * Created by tommy-thomas on 3/31/18.
@@ -31,7 +37,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
 
     @Override
     public RecipeAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.ingredient_card, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recipe_card, viewGroup, false);
         return new ViewHolder(view);
     }
 
@@ -45,10 +51,27 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
 
            if( recipes[position].getImage() != "" && recipes[position].getImage().length() > 0){
                Picasso.with(context)
-                       .load(recipes[position].getImage()).into(viewHolder.ivIngredientCard);
+                       .load(recipes[position].getImage()).into(viewHolder.ivRecipeCard);
            }
 
-           viewHolder.tvIngredientCard.setText(recipes[position].getName().toString());
+           viewHolder.tvRecipeCard.setText(recipes[position].getName().toString());
+           viewHolder.ivRecipeCard.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   Context context = viewHolder.itemView.getContext();
+                   int i = viewHolder.getAdapterPosition();
+                   Intent showRecipeSteps = new Intent(context, StepActivity.class);
+
+                   Gson gson = new Gson();
+                   Type type_recipe = new TypeToken<Recipe>() {}.getType();
+                   String json_recipe = gson.toJson(recipes[i],  type_recipe);
+                   showRecipeSteps.putExtra("RECIPE_EXTRA", json_recipe);
+
+                   context.startActivity(showRecipeSteps);
+               }
+           });
+
+
 
         }
 
@@ -61,13 +84,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        private ImageView ivIngredientCard;
-        private TextView tvIngredientCard;
+        private ImageView ivRecipeCard;
+        private TextView tvRecipeCard;
 
         public ViewHolder(View view) {
             super(view);
-            ivIngredientCard = view.findViewById(R.id.iv_ingredient_card);
-            tvIngredientCard = view.findViewById(R.id.tv_ingredient_card);
+            ivRecipeCard = view.findViewById(R.id.iv_recipe_card);
+            tvRecipeCard = view.findViewById(R.id.tv_recipe_card);
         }
 
     }

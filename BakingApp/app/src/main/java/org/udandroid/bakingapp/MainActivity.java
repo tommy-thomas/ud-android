@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadRecipeViews(){
-        RecyclerView recyclerView = findViewById(R.id.rv_ingredient);
+        RecyclerView recyclerView = findViewById(R.id.rv_recipe);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 1);
         recyclerView.setLayoutManager(layoutManager);

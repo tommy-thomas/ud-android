@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="300dp">
 
     <ImageView
-        android:id="@+id/iv_ingredient_card"
+        android:id="@+id/iv_recipe_card"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:adjustViewBounds="true"
-        android:src="@drawable/ic_restaurant_black_36px" />
+        android:src="@drawable/ic_restaurant_black_36px"
+         />
 
     <TextView
-        android:id="@+id/tv_ingredient_card"
+        android:id="@+id/tv_recipe_card"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/iv_ingredient_card"
-        android:layout_alignRight="@+id/iv_ingredient_card"
+        android:layout_alignLeft="@+id/iv_recipe_card"
+        android:layout_alignRight="@+id/iv_recipe_card"
         android:layout_centerVertical="true"
         android:text="@string/recipe"
         android:textAppearance="?android:attr/textAppearanceLarge"

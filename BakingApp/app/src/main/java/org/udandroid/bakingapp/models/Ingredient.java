@@ -34,4 +34,5 @@ public class Ingredient {
         this.ingredient =ingredient;
     }
 
+
 }

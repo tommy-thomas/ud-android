@@ -15,6 +15,7 @@ public class Recipe {
     private List<Ingredient> ingredients;
     private List<Step> steps;
 
+
     public String getId(){
         return id;
     }
@@ -62,5 +63,4 @@ public class Recipe {
     public void setSteps(List<Step> steps){
         this.steps = steps;
     }
-
 }
