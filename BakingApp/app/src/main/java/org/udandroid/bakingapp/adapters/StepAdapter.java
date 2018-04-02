@@ -1,6 +1,8 @@
 package org.udandroid.bakingapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import org.udandroid.bakingapp.R;
+import org.udandroid.bakingapp.StepDetailActivity;
 import org.udandroid.bakingapp.models.Step;
 
 import java.util.List;
@@ -38,7 +41,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
 
 
     @Override
-    public void onBindViewHolder(final StepAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(final StepAdapter.ViewHolder viewHolder, final int position) {
 
         if( viewHolder != null ){
             if( steps.get(position).getThumbnailURL() != "" && steps.get(position).getThumbnailURL().length() > 0){
@@ -47,6 +50,22 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
             }
 
             viewHolder.tvStepShortDescription.setText(steps.get(position).getShortDescription().toString());
+
+            viewHolder.tvStepShortDescription.setOnClickListener( new View.OnClickListener(){
+
+                @Override
+                public void onClick(View v) {
+
+                    Intent showSteps = new Intent(context , StepDetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("Description" , steps.get(position).getDescription());
+                    bundle.putString("videoURL" , steps.get(position).getVideoURL());
+                    String stepLabel = "Step " + String.valueOf(steps.get(position).getId() + 1);
+                    bundle.putString("stepLabel" , stepLabel);
+                    showSteps.putExtras(bundle);
+                    context.startActivity(showSteps );
+                }
+            });
 
         }
     }

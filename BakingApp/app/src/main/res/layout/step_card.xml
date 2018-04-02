@@ -8,6 +8,7 @@
     android:clipToPadding="false"
     android:clipChildren="false" >
 
+
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,8 +19,7 @@
         android:clipChildren="false"
         card_view:cardElevation="10dp"
         card_view:cardPreventCornerOverlap="false"
-
-       >
+        android:id="@+id/cv_step">
 
         <RelativeLayout
             android:layout_width="match_parent"

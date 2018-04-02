@@ -5,13 +5,13 @@ package org.udandroid.bakingapp.models;
  */
 
 public class Step {
-    private String id;
+    private int id;
     private String shortDescription;
     private String description;
     private String videoURL;
     private String thumbnailURL;
 
-    public String getId(){
+    public int getId(){
         return id;
     }
 
