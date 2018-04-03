@@ -33,14 +33,14 @@ import org.udandroid.bakingapp.R;
  * Created by tommy-thomas on 4/2/18.
  */
 
-public class RecipeStepFragment extends Fragment implements View.OnClickListener, ExoPlayer.EventListener{
+public class RecipeDetailFragment extends Fragment implements View.OnClickListener, ExoPlayer.EventListener{
 
     private String description;
     private String videoUrl;
     private SimpleExoPlayer mExoPlayer;
     private SimpleExoPlayerView mPlayerView;
 
-    public RecipeStepFragment(){}
+    public RecipeDetailFragment(){}
 
     @Nullable
     @Override

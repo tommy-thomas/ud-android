@@ -1,4 +1,4 @@
-package org.udandroid.bakingapp;
+package org.udandroid.bakingapp.ui;
 
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -11,6 +11,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.udandroid.bakingapp.R;
 import org.udandroid.bakingapp.adapters.StepAdapter;
 import org.udandroid.bakingapp.models.Ingredient;
 import org.udandroid.bakingapp.models.Recipe;

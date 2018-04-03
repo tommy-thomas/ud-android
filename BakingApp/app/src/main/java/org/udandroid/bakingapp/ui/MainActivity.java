@@ -1,4 +1,4 @@
-package org.udandroid.bakingapp;
+package org.udandroid.bakingapp.ui;
 
 import android.content.res.Configuration;
 import android.os.AsyncTask;
@@ -7,7 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import org.udandroid.bakingapp.adapters.RecipeAdapter;
+import org.udandroid.bakingapp.R;
+import org.udandroid.bakingapp.adapters.RecipeListAdapter;
 import org.udandroid.bakingapp.helpers.RecipeMapper;
 import org.udandroid.bakingapp.models.Recipe;
 
@@ -15,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final static String TAG = MainActivity.class.getSimpleName();
     private Recipe[] recipes;
-    private RecipeAdapter recipeAdapter;
+    private RecipeListAdapter recipeListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
         }
-        recipeAdapter = new RecipeAdapter(getApplicationContext(), recipes);
-        recyclerView.setAdapter(recipeAdapter);
+        recipeListAdapter = new RecipeListAdapter(getApplicationContext(), recipes);
+        recyclerView.setAdapter(recipeListAdapter);
     }
 
     private class FetchIngredientsTask extends AsyncTask<String, String, Recipe[]>{

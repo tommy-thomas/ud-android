@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    tools:context="org.udandroid.bakingapp.MainActivity">
+    tools:context="org.udandroid.bakingapp.ui.MainActivity">
 <android.support.v7.widget.RecyclerView
     android:id="@+id/rv_recipe"
     android:scrollbars="vertical"

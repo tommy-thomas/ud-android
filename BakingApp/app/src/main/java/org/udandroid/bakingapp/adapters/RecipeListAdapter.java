@@ -14,7 +14,7 @@ import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 
 import org.udandroid.bakingapp.R;
-import org.udandroid.bakingapp.StepActivity;
+import org.udandroid.bakingapp.ui.StepActivity;
 import org.udandroid.bakingapp.models.Recipe;
 
 import java.lang.reflect.Type;
@@ -23,26 +23,26 @@ import java.lang.reflect.Type;
  * Created by tommy-thomas on 3/31/18.
  */
 
-public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder> {
+public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.ViewHolder> {
 
     private Recipe[] recipes;
     private Context context;
-    private final static String TAG = RecipeAdapter.class.getSimpleName();
+    private final static String TAG = RecipeListAdapter.class.getSimpleName();
 
-    public RecipeAdapter(Context context, Recipe[] recipes){
+    public RecipeListAdapter(Context context, Recipe[] recipes){
         this.recipes = recipes;
         this.context = context;
     }
 
 
     @Override
-    public RecipeAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public RecipeListAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recipe_card, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final RecipeAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(final RecipeListAdapter.ViewHolder viewHolder, int position) {
 
 
         if( viewHolder != null ){

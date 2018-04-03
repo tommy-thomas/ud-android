@@ -1,10 +1,11 @@
-package org.udandroid.bakingapp;
+package org.udandroid.bakingapp.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
-import org.udandroid.bakingapp.fragments.RecipeStepFragment;
+import org.udandroid.bakingapp.R;
+import org.udandroid.bakingapp.fragments.RecipeDetailFragment;
 
 public class StepDetailActivity extends AppCompatActivity {
 
@@ -18,15 +19,15 @@ public class StepDetailActivity extends AppCompatActivity {
         String description = getIntent().getStringExtra("Description");
         String videoURL = getIntent().getStringExtra("videoURL");
 
-        RecipeStepFragment recipeStepFragment = new RecipeStepFragment();
-        recipeStepFragment.setDescription(description);
-        recipeStepFragment.setVideoUrl(videoURL);
+        RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
+        recipeDetailFragment.setDescription(description);
+        recipeDetailFragment.setVideoUrl(videoURL);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
 
         fragmentManager.beginTransaction()
-               .add(R.id.fr_step_detail_container, recipeStepFragment)
+               .add(R.id.fr_step_detail_container, recipeDetailFragment)
                 .commit();
 
     }

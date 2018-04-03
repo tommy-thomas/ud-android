@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import org.udandroid.bakingapp.R;
-import org.udandroid.bakingapp.StepDetailActivity;
+import org.udandroid.bakingapp.ui.StepDetailActivity;
 import org.udandroid.bakingapp.models.Step;
 
 import java.util.List;
