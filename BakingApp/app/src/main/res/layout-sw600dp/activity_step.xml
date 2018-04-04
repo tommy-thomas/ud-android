@@ -8,7 +8,7 @@
     android:baselineAligned="false"
     android:orientation="horizontal"
     tools:context=".ui.StepActivity"
-    android:id="@+id/ll_step_detail">
+    android:id="@+id/fragment_step_detail">
     
     <!-- static master list fragment //-->
     <fragment

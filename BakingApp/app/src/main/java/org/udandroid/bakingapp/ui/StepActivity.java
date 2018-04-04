@@ -27,7 +27,7 @@ public class StepActivity extends AppCompatActivity implements MasterStepListFra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step);
 
-        if (findViewById(R.id.ll_step_detail) != null) {
+        if (findViewById(R.id.fragment_step_detail) != null) {
             mTwoPane = true;
         } else {
             mTwoPane = false;
@@ -54,7 +54,7 @@ public class StepActivity extends AppCompatActivity implements MasterStepListFra
 
 
                 fragmentManager.beginTransaction()
-                        .add(R.id.ll_step_detail, recipeDetailFragment)
+                        .add(R.id.fragment_step_detail, recipeDetailFragment)
                         .commit();
 
             } else {
