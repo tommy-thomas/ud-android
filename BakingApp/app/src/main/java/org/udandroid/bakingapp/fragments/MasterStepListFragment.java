@@ -36,7 +36,7 @@ public class MasterStepListFragment extends Fragment {
     StepAdapter stepAdapter;
     List <Step> stepList;
 
-    // RecipeStepLoader interface, calls methods for onclick listener and data loading
+    // StepClickListener interface, calls methods for onclick listener and data loading
     public interface StepClickListener {
 
         void onStepSelected(Step step);
@@ -86,7 +86,7 @@ public class MasterStepListFragment extends Fragment {
             if (getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
                 recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
             } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+                recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
             }
             stepAdapter = new StepAdapter(getContext(), stepList, mCallBack);
             recyclerView.setAdapter(stepAdapter);

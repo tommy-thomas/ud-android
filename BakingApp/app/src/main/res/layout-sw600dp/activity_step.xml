@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="horizontal"
+    tools:context=".ui.StepActivity"
+    android:id="@+id/ll_step_detail">
+    
+    <!-- static master list fragment //-->
+    <fragment
+        android:id="@+id/master_list_fragment"
+        android:name="org.udandroid.bakingapp.fragments.MasterStepListFragment"
+        android:layout_width="480dp"
+        android:layout_height="match_parent" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray" />
+
+    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+
+        android:id="@+id/pv_rescipe_step_video"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="0dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_recipe_step_description"
+        android:layout_marginLeft="0dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:textSize="24sp"
+        android:id="@+id/tv_recipe_step_description">
+
+    </TextView>
+
+</LinearLayout>
