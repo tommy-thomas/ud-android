@@ -36,12 +36,4 @@ public class RecipeMapper {
         return recipes;
     }
 
-    public void setCurrentSteps(List<Step> currentStepList ){
-        this.currentStepList = currentStepList;
-    }
-
-    public List<Step> getCurrentStepList(){
-        return this.currentStepList;
-    }
-
 }
