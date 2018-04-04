@@ -1,8 +1,6 @@
 package org.udandroid.bakingapp.adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +11,11 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import org.udandroid.bakingapp.R;
-import org.udandroid.bakingapp.ui.StepDetailActivity;
 import org.udandroid.bakingapp.models.Step;
 
 import java.util.List;
+
+import static org.udandroid.bakingapp.fragments.MasterStepListFragment.StepClickListener;
 
 /**
  * Created by tommy-thomas on 4/1/18.
@@ -27,10 +26,12 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
     private List<Step> steps;
     private Context context;
     private final static String TAG = StepAdapter.class.getSimpleName();
+    private StepClickListener mCallBack;
 
-    public StepAdapter(Context context, List<Step> steps){
+    public StepAdapter(Context context, List <Step> steps, StepClickListener mCallBack){
         this.steps = steps;
         this.context = context;
+        this.mCallBack = mCallBack;
     }
 
     @Override
@@ -51,22 +52,12 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
 
             viewHolder.tvStepShortDescription.setText(steps.get(position).getShortDescription().toString());
 
-            viewHolder.tvStepShortDescription.setOnClickListener( new View.OnClickListener(){
-
+            viewHolder.tvStepShortDescription.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    Intent showSteps = new Intent(context , StepDetailActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("Description" , steps.get(position).getDescription());
-                    bundle.putString("videoURL" , steps.get(position).getVideoURL());
-                    String stepLabel = "Step " + String.valueOf(steps.get(position).getId() + 1);
-                    bundle.putString("stepLabel" , stepLabel);
-                    showSteps.putExtras(bundle);
-                    context.startActivity(showSteps );
+                    mCallBack.onStepSelected(steps.get(position));
                 }
             });
-
         }
     }
 
