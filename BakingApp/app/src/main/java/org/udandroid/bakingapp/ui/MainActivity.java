@@ -48,8 +48,6 @@ public class MainActivity extends AppCompatActivity {
             RecipeMapper mapper = new RecipeMapper();
             mapper.mapData();
             recipes = mapper.recipes();
-//            List<Step> stepList = recipes[1].getSteps();
-//            Log.d(TAG , stepList.get(2).getDescription().toString());
             return null;
         }
 

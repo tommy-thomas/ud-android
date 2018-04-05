@@ -105,7 +105,7 @@ public class RecipeDetailFragment extends Fragment implements View.OnClickListen
     @Override
     public void onStop() {
         super.onStop();
-        initializePlayer(Uri.parse(videoUrl));
+        releasePlayer();
     }
 
     @Override

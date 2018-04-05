@@ -5,13 +5,18 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.udandroid.bakingapp.R;
 import org.udandroid.bakingapp.adapters.StepAdapter;
 import org.udandroid.bakingapp.fragments.MasterStepListFragment;
 import org.udandroid.bakingapp.fragments.RecipeDetailFragment;
 import org.udandroid.bakingapp.models.Ingredient;
+import org.udandroid.bakingapp.models.Recipe;
 import org.udandroid.bakingapp.models.Step;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 public class StepActivity extends AppCompatActivity implements MasterStepListFragment.StepClickListener {
@@ -27,6 +32,15 @@ public class StepActivity extends AppCompatActivity implements MasterStepListFra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step);
 
+        String stringRecipe = getIntent().getStringExtra("RECIPE_EXTRA");
+
+        Gson gson = new Gson();
+        Type type_recipe = new TypeToken <Recipe>() {
+        }.getType();
+        Recipe recipe = gson.fromJson(stringRecipe, type_recipe);
+        stepList = recipe.getSteps();
+        ingredientList = recipe.getIngredients();
+
         if (findViewById(R.id.ll_fragment_step_detail) != null) {
             mTwoPane = true;
         } else {
@@ -36,11 +50,30 @@ public class StepActivity extends AppCompatActivity implements MasterStepListFra
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        if (mTwoPane) {
+
+            Step firstStep = stepList.get(0);
+            RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
+            recipeDetailFragment.setDescription(firstStep.getDescription());
+            recipeDetailFragment.setVideoUrl(firstStep.getVideoURL());
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fr_step_detail_container, recipeDetailFragment)
+                    .commit();
+        }
+
+    }
+
+    @Override
     public void onStepSelected(Step step) {
 
         if (step != null) {
 
-            String stepLabel = "Step " + String.valueOf(step.getId());
+            String stepLabel = "Step " + String.valueOf(step.getId() + 1);
 
             if (mTwoPane) {
 
