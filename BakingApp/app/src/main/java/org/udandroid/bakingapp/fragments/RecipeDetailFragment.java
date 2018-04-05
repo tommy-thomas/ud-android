@@ -39,7 +39,6 @@ public class RecipeDetailFragment extends Fragment implements View.OnClickListen
     private String videoUrl;
     private SimpleExoPlayer mExoPlayer;
     private SimpleExoPlayerView mPlayerView;
-
     public RecipeDetailFragment(){}
 
     @Nullable
@@ -48,15 +47,12 @@ public class RecipeDetailFragment extends Fragment implements View.OnClickListen
 
         View rootView = inflater.inflate(R.layout.fragment_step_detail, container, false);
 
-        TextView tvIngredient = (TextView) rootView.findViewById(R.id.tv_recipe_step_description);
+        TextView tvIngredient = rootView.findViewById(R.id.tv_recipe_step_description);
 
         tvIngredient.setText(description);
 
         // Initialize the player view.
-        mPlayerView = (SimpleExoPlayerView)rootView.findViewById(R.id.pv_rescipe_step_video);
-
-        // Initialize the player.
-        initializePlayer(Uri.parse(videoUrl));
+        mPlayerView = rootView.findViewById(R.id.pv_rescipe_step_video);
 
         return rootView;
     }
@@ -91,6 +87,25 @@ public class RecipeDetailFragment extends Fragment implements View.OnClickListen
 
     public void setVideoUrl(String videoUrl){
         this.videoUrl = videoUrl;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Initialize the player.
+        initializePlayer(Uri.parse(videoUrl));
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        initializePlayer(Uri.parse(videoUrl));
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        initializePlayer(Uri.parse(videoUrl));
     }
 
     @Override
