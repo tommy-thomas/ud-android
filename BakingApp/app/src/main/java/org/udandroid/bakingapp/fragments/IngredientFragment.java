@@ -47,7 +47,7 @@ public class IngredientFragment extends Fragment {
             ingredientList = gson.fromJson(stringIngredient, type_ingredient);
             Log.d(TAG, ingredientList.get(2).getIngredient().toString());
 
-            final RecyclerView recyclerView = rootView.findViewById(R.id.rv_step);
+            final RecyclerView recyclerView = rootView.findViewById(R.id.rv_ingredient);
             recyclerView.setHasFixedSize(true);
             ingredientAdapter = new IngredientAdapter(getContext(), ingredientList);
             recyclerView.setAdapter(ingredientAdapter);

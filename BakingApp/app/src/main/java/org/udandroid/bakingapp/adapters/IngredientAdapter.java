@@ -28,7 +28,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
 
     @Override
     public IngredientAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.step_card, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.ingredient_detail, viewGroup, false);
         return new IngredientAdapter.ViewHolder(view);
     }
 
@@ -64,7 +64,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
             super(view);
             tvIngredient = view.findViewById(R.id.tv_ingredient);
             tvMeasure = view.findViewById(R.id.tv_ingredient_measure);
-            tvQuantity = view.findViewById(R.id.tv_ingredient_quantiy);
+            tvQuantity = view.findViewById(R.id.tv_ingredient_quantity);
         }
 
     }

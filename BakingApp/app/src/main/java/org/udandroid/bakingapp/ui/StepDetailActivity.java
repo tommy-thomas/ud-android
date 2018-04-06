@@ -27,7 +27,7 @@ public class StepDetailActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         fragmentManager.beginTransaction()
-               .add(R.id.fr_ingredient_detail_container, recipeDetailFragment)
+               .add(R.id.fr_step_detail_container, recipeDetailFragment)
                 .commit();
 
     }
