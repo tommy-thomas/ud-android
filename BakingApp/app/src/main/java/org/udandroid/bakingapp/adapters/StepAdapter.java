@@ -21,14 +21,14 @@ import static org.udandroid.bakingapp.fragments.MasterStepListFragment.StepClick
  * Created by tommy-thomas on 4/1/18.
  */
 
-public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
+public class StepAdapter extends RecyclerView.Adapter <StepAdapter.ViewHolder> {
 
-    private List<Step> steps;
+    private List <Step> steps;
     private Context context;
     private final static String TAG = StepAdapter.class.getSimpleName();
     private StepClickListener mCallBack;
 
-    public StepAdapter(Context context, List <Step> steps, StepClickListener mCallBack){
+    public StepAdapter(Context context, List <Step> steps, StepClickListener mCallBack) {
         this.steps = steps;
         this.context = context;
         this.mCallBack = mCallBack;
@@ -36,16 +36,16 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
 
     @Override
     public StepAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-       View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.step_card, viewGroup, false);
-       return new ViewHolder(view);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.step_card, viewGroup, false);
+        return new ViewHolder(view);
     }
 
 
     @Override
     public void onBindViewHolder(final StepAdapter.ViewHolder viewHolder, final int position) {
 
-        if( viewHolder != null ){
-            if( steps.get(position).getThumbnailURL() != "" && steps.get(position).getThumbnailURL().length() > 0){
+        if (viewHolder != null) {
+            if (steps.get(position).getThumbnailURL() != "" && steps.get(position).getThumbnailURL().length() > 0) {
                 Picasso.with(context)
                         .load(steps.get(position).getThumbnailURL()).into(viewHolder.ivStepThumbnail);
             }
@@ -71,12 +71,12 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
         return steps.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView ivStepThumbnail;
         private TextView tvStepShortDescription;
 
-        public ViewHolder(View view){
+        public ViewHolder(View view) {
             super(view);
             ivStepThumbnail = view.findViewById(R.id.iv_step_thumbnail);
             tvStepShortDescription = view.findViewById(R.id.tv_step_short_description);

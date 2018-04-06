@@ -24,6 +24,7 @@ public class StepActivity extends AppCompatActivity implements MasterStepListFra
 
     private StepAdapter stepAdapter;
     public List <Step> stepList;
+    Step currentStep;
     private List <Ingredient> ingredientList;
     private final static String TAG = StepActivity.class.getSimpleName();
     private boolean mTwoPane;
@@ -48,6 +49,13 @@ public class StepActivity extends AppCompatActivity implements MasterStepListFra
             mTwoPane = false;
         }
 
+
+        if( savedInstanceState != null){
+            Type type_step= new TypeToken <Step>() {
+            }.getType();
+            currentStep = gson.fromJson( savedInstanceState.getString("stringStep"), type_step);
+        }
+
     }
 
     @Override
@@ -61,10 +69,10 @@ public class StepActivity extends AppCompatActivity implements MasterStepListFra
         super.onStart();
         if (mTwoPane) {
 
-            Step firstStep = stepList.get(0);
+            currentStep = currentStep != null ? currentStep : stepList.get(0);
             RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
-            recipeDetailFragment.setDescription(firstStep.getDescription());
-            recipeDetailFragment.setVideoUrl(firstStep.getVideoURL());
+            recipeDetailFragment.setDescription(currentStep.getDescription());
+            recipeDetailFragment.setVideoUrl(currentStep.getVideoURL());
 
             FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -76,19 +84,33 @@ public class StepActivity extends AppCompatActivity implements MasterStepListFra
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if (currentStep != null ) {
+            Gson gson = new Gson();
+            Type type_step = new TypeToken <Step>() {
+            }.getType();
+            String json_step = gson.toJson(currentStep, type_step);
+            outState.putString("stringStep", json_step);
+        }
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void onStepSelected(Step step) {
 
         if (step != null) {
 
-            String stepLabel = "Step " + String.valueOf(step.getId() + 1);
+            currentStep = step;
+
+            String stepLabel = currentStep.getShortDescription();
 
             if (mTwoPane) {
 
                 this.setTitle(stepLabel);
 
                 RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
-                recipeDetailFragment.setDescription(step.getDescription());
-                recipeDetailFragment.setVideoUrl(step.getVideoURL());
+                recipeDetailFragment.setDescription(currentStep.getDescription());
+                recipeDetailFragment.setVideoUrl(currentStep.getVideoURL());
 
                 FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -101,9 +123,9 @@ public class StepActivity extends AppCompatActivity implements MasterStepListFra
 
                 final Intent intent = new Intent(this, StepDetailActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("videoURL", step.getVideoURL());
-                bundle.putString("Description", step.getDescription());
-                bundle.putString("stepLabel", stepLabel);
+                bundle.putString("videoURL", currentStep.getVideoURL());
+                bundle.putString("Description", currentStep.getDescription());
+                bundle.putString("stepLabel", currentStep.getShortDescription());
                 intent.putExtras(bundle);
 
                 startActivity(intent);
