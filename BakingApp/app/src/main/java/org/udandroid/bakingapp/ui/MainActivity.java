@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new FetchIngredientsTask().execute();
+        new FetchRecipesTask().execute();
 
     }
 
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(recipeListAdapter);
     }
 
-    private class FetchIngredientsTask extends AsyncTask<String, String, Recipe[]>{
+    private class FetchRecipesTask extends AsyncTask<String, String, Recipe[]>{
 
         @Override
         protected Recipe[] doInBackground(String... strings) {
