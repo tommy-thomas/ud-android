@@ -19,7 +19,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.StepActivity" />
-        <activity android:name=".ui.StepDetailActivity"></activity>
+        <activity android:name=".ui.StepDetailActivity"
+            android:configChanges="orientation|screenSize" />
+        <receiver android:name=".fragments.RecipeDetailFragment$MediaReceiver" />
     </application>
 
 </manifest>

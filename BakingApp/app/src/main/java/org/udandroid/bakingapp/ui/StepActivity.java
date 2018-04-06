@@ -1,6 +1,7 @@
 package org.udandroid.bakingapp.ui;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -48,6 +49,12 @@ public class StepActivity extends AppCompatActivity implements MasterStepListFra
         }
 
     }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
+
 
     @Override
     protected void onStart() {
