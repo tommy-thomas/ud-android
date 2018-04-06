@@ -29,7 +29,7 @@ import java.util.List;
 
 public class MasterStepListFragment extends Fragment {
 
-    StepClickListener mCallBack;
+    StepClickListener stepClickListener;
 
     private static final String TAG = MasterStepListFragment.class.getSimpleName();
 
@@ -52,7 +52,7 @@ public class MasterStepListFragment extends Fragment {
         // This makes sure that the host activity has implemented the callback interface
         // If not, it throws an exception
         try {
-            mCallBack = (StepClickListener) context;
+            stepClickListener = (StepClickListener) context;
 
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
@@ -88,7 +88,7 @@ public class MasterStepListFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
             }
-            stepAdapter = new StepAdapter(getContext(), stepList, mCallBack);
+            stepAdapter = new StepAdapter(getContext(), stepList, stepClickListener);
             recyclerView.setAdapter(stepAdapter);
 
 

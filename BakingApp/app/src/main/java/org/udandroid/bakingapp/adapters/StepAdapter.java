@@ -26,12 +26,12 @@ public class StepAdapter extends RecyclerView.Adapter <StepAdapter.ViewHolder> {
     private List <Step> steps;
     private Context context;
     private final static String TAG = StepAdapter.class.getSimpleName();
-    private StepClickListener mCallBack;
+    private StepClickListener stepClickListener;
 
-    public StepAdapter(Context context, List <Step> steps, StepClickListener mCallBack) {
+    public StepAdapter(Context context, List <Step> steps, StepClickListener stepClickListener) {
         this.steps = steps;
         this.context = context;
-        this.mCallBack = mCallBack;
+        this.stepClickListener = stepClickListener;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class StepAdapter extends RecyclerView.Adapter <StepAdapter.ViewHolder> {
             viewHolder.tvStepShortDescription.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mCallBack.onStepSelected(steps.get(position));
+                    stepClickListener.onStepSelected(steps.get(position));
                 }
             });
         }

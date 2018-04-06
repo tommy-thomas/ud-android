@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -28,6 +29,7 @@ public class StepActivity extends AppCompatActivity implements MasterStepListFra
     private List <Ingredient> ingredientList;
     private final static String TAG = StepActivity.class.getSimpleName();
     private boolean mTwoPane;
+    private TextView tvIngredient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

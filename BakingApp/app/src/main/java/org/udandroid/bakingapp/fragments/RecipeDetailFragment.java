@@ -68,9 +68,9 @@ public class RecipeDetailFragment extends Fragment implements View.OnClickListen
 
         View rootView = inflater.inflate(R.layout.fragment_step_detail, container, false);
 
-        TextView tvIngredient = rootView.findViewById(R.id.tv_recipe_step_description);
+        TextView tvDescription = rootView.findViewById(R.id.tv_recipe_step_description);
 
-        tvIngredient.setText(description);
+        tvDescription.setText(description);
 
         // Initialize the player view.
         mPlayerView = rootView.findViewById(R.id.pv_rescipe_step_video);

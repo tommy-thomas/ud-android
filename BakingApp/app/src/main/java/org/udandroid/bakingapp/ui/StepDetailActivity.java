@@ -13,6 +13,7 @@ public class StepDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_step_detail);
 
         this.setTitle(getIntent().getStringExtra("stepLabel"));
@@ -25,9 +26,8 @@ public class StepDetailActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-
         fragmentManager.beginTransaction()
-               .add(R.id.fr_step_detail_container, recipeDetailFragment)
+               .add(R.id.fr_ingredient_detail_container, recipeDetailFragment)
                 .commit();
 
     }
