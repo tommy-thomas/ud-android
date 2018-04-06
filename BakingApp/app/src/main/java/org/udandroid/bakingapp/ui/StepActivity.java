@@ -12,6 +12,7 @@ import com.google.gson.reflect.TypeToken;
 
 import org.udandroid.bakingapp.R;
 import org.udandroid.bakingapp.adapters.StepAdapter;
+import org.udandroid.bakingapp.fragments.IngredientFragment;
 import org.udandroid.bakingapp.fragments.MasterStepListFragment;
 import org.udandroid.bakingapp.fragments.RecipeDetailFragment;
 import org.udandroid.bakingapp.models.Ingredient;
@@ -21,7 +22,8 @@ import org.udandroid.bakingapp.models.Step;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class StepActivity extends AppCompatActivity implements MasterStepListFragment.StepClickListener {
+public class StepActivity extends AppCompatActivity implements MasterStepListFragment.StepClickListener,
+        IngredientFragment.IngredientClickListener{
 
     private StepAdapter stepAdapter;
     public List <Step> stepList;
@@ -134,5 +136,20 @@ public class StepActivity extends AppCompatActivity implements MasterStepListFra
             }
         }
 
+    }
+
+    @Override
+    public void onIngredientClicked() {
+
+        final Intent intent = new Intent(this, IngredientActivity.class);
+        Bundle bundle = new Bundle();
+        Gson gson = new Gson();
+        Type type_ingredient = new TypeToken<List<Ingredient>>() {
+        }.getType();
+        String json_ingredient = gson.toJson(ingredientList, type_ingredient);
+        bundle.putString("stringIngredient" , json_ingredient);
+        intent.putExtras(bundle);
+
+        startActivity(intent);
     }
 }

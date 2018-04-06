@@ -1,5 +1,6 @@
 package org.udandroid.bakingapp.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -28,9 +29,40 @@ public class IngredientFragment extends Fragment {
     List <Ingredient> ingredientList;
     private final String TAG = IngredientFragment.class.getSimpleName();
     IngredientAdapter ingredientAdapter;
+    IngredientClickListener ingredientClickListener;
+
 
     public IngredientFragment() {
     }
+
+    // IngredientClickListener interface, calls methods for onclick listener and data loading
+    public interface IngredientClickListener {
+
+        void onIngredientClicked();
+
+    }
+
+    // Override onAttach to make sure that the container activity has implemented the callback
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        // This makes sure that the host activity has implemented the callback interface
+        // If not, it throws an exception
+        try {
+
+           ingredientClickListener = (IngredientClickListener) context;
+
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnStepClickListener and LoadSteps.");
+        }
+    }
+
+    public void setIngredientList(List<Ingredient> ingredientList){
+        ingredientList = ingredientList;
+    }
+
 
     @Nullable
     @Override
@@ -38,13 +70,11 @@ public class IngredientFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_ingredient_list, container, false);
 
-        String stringIngredient = getActivity().getIntent().getStringExtra("INGREDIENT_EXTRA");
 
-        if (stringIngredient != null) {
+        if (ingredientList != null) {
             Gson gson = new Gson();
             Type type_ingredient = new TypeToken <List <Ingredient>>() {
             }.getType();
-            ingredientList = gson.fromJson(stringIngredient, type_ingredient);
             Log.d(TAG, ingredientList.get(2).getIngredient().toString());
 
             final RecyclerView recyclerView = rootView.findViewById(R.id.rv_ingredient);
@@ -52,6 +82,8 @@ public class IngredientFragment extends Fragment {
             ingredientAdapter = new IngredientAdapter(getContext(), ingredientList);
             recyclerView.setAdapter(ingredientAdapter);
         }
+
+
 
 
         return rootView;
