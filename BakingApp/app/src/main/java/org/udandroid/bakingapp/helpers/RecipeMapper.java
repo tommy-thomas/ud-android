@@ -24,8 +24,7 @@ public class RecipeMapper {
         Mapper = new ObjectMapper();
         try {
             recipes = Mapper.readValue(new URL(URL_RECIPES), Recipe[].class);
-            //List<Step> stepList = recipes[2].getSteps();
-            //Log.d(TAG , stepList.get(2).getDescription().toString());
+
         } catch (Exception e) {
             e.printStackTrace();
         }

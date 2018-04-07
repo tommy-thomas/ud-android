@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -12,7 +13,6 @@ import com.google.gson.reflect.TypeToken;
 
 import org.udandroid.bakingapp.R;
 import org.udandroid.bakingapp.adapters.StepAdapter;
-import org.udandroid.bakingapp.fragments.IngredientFragment;
 import org.udandroid.bakingapp.fragments.MasterStepListFragment;
 import org.udandroid.bakingapp.fragments.RecipeDetailFragment;
 import org.udandroid.bakingapp.models.Ingredient;
@@ -22,8 +22,8 @@ import org.udandroid.bakingapp.models.Step;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class StepActivity extends AppCompatActivity implements MasterStepListFragment.StepClickListener,
-        IngredientFragment.IngredientClickListener{
+public class StepActivity extends AppCompatActivity implements
+        MasterStepListFragment.StepClickListener {
 
     private StepAdapter stepAdapter;
     public List <Step> stepList;
@@ -47,18 +47,30 @@ public class StepActivity extends AppCompatActivity implements MasterStepListFra
         stepList = recipe.getSteps();
         ingredientList = recipe.getIngredients();
 
+        // Two panes?
         if (findViewById(R.id.ll_fragment_step_detail) != null) {
             mTwoPane = true;
         } else {
             mTwoPane = false;
         }
 
-
+        // check for saved step in savedInstanceState.
         if( savedInstanceState != null){
             Type type_step= new TypeToken <Step>() {
             }.getType();
             currentStep = gson.fromJson( savedInstanceState.getString("stringStep"), type_step);
         }
+
+
+        tvIngredient = (TextView) findViewById(R.id.tv_ingredients);
+        tvIngredient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onIngredientClicked();
+            }
+        });
+
+
 
     }
 
@@ -138,7 +150,6 @@ public class StepActivity extends AppCompatActivity implements MasterStepListFra
 
     }
 
-    @Override
     public void onIngredientClicked() {
 
         final Intent intent = new Intent(this, IngredientActivity.class);
