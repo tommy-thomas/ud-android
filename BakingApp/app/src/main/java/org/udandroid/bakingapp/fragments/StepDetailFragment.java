@@ -10,15 +10,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -33,61 +36,148 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.udandroid.bakingapp.R;
+import org.udandroid.bakingapp.adapters.IngredientAdapter;
+import org.udandroid.bakingapp.models.Ingredient;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 /**
  * Created by tommy-thomas on 4/2/18.
  */
 
-public class RecipeDetailFragment extends Fragment implements View.OnClickListener, ExoPlayer.EventListener{
+public class StepDetailFragment extends Fragment implements View.OnClickListener, ExoPlayer.EventListener {
 
-    private final String TAG = RecipeDetailFragment.class.getSimpleName();
+    private final String TAG = StepDetailFragment.class.getSimpleName();
     private String description;
     private String videoUrl;
     private SimpleExoPlayer mExoPlayer;
+    List <Ingredient> ingredientList;
+    IngredientAdapter ingredientAdapter;
     public static MediaSessionCompat mMediaSession;
     private PlaybackStateCompat.Builder mStateBuilder;
     private SimpleExoPlayerView mPlayerView;
-    public RecipeDetailFragment(){}
+    private boolean showStepDetail = true;
+
+    public StepDetailFragment() {
+    }
+
     private long mPlayerPosition;
-    private  boolean mPlayWhenReady;
+    private boolean mPlayWhenReady;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        mPlayerPosition = C.TIME_UNSET;
-        if (savedInstanceState != null) {
-            mPlayerPosition = savedInstanceState.getLong("selectedPosition", C.TIME_UNSET);
-            description = savedInstanceState.getString("description");
-            videoUrl = savedInstanceState.getString("videoUrl");
-        }
-
-        releasePlayer();
-
         View rootView = inflater.inflate(R.layout.fragment_step_detail, container, false);
 
-        TextView tvDescription = rootView.findViewById(R.id.tv_recipe_step_description);
+        if (showStepDetail) {
+            mPlayerPosition = C.TIME_UNSET;
+            if (savedInstanceState != null) {
+                mPlayerPosition = savedInstanceState.getLong("selectedPosition", C.TIME_UNSET);
+                description = savedInstanceState.getString("description");
+                videoUrl = savedInstanceState.getString("videoUrl");
+            }
 
-        tvDescription.setText(description);
+            releasePlayer();
 
-        // Initialize the player view.
-        mPlayerView = rootView.findViewById(R.id.pv_rescipe_step_video);
 
-        initializeMediaSession();
+            TextView tvDescription = rootView.findViewById(R.id.tv_recipe_step_description);
 
-       // initializePlayer(Uri.parse(videoUrl));
+            tvDescription.setText(description);
+
+            // Initialize the player view.
+            mPlayerView = rootView.findViewById(R.id.pv_rescipe_step_video);
+
+            initializeMediaSession();
+
+            loadIngredientList();
+        }
+
+        if (ingredientList != null) {
+
+            Log.d(TAG, ingredientList.get(2).getIngredient().toString());
+
+            final RecyclerView recyclerView = rootView.findViewById(R.id.rv_ingredient);
+            recyclerView.setHasFixedSize(true);
+            ingredientAdapter = new IngredientAdapter(getContext(), ingredientList);
+            RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(ingredientAdapter);
+        }
+
+        if (showStepDetail) {
+
+            RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.rv_ingredient);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+
+            SimpleExoPlayerView simpleExoPlayerView = (SimpleExoPlayerView) rootView.findViewById(R.id.pv_rescipe_step_video);
+            TextView textView = (TextView) rootView.findViewById(R.id.tv_recipe_step_description);
+
+            simpleExoPlayerView.setVisibility(View.GONE);
+            textView.setVisibility(View.GONE);
+
+        }
 
         return rootView;
     }
 
+    private void loadIngredientList() {
+
+        if (ingredientList == null) {
+            String stringIngredient = getActivity().getIntent().getStringExtra("ingredientList");
+            if (stringIngredient != null) {
+                Gson gson = new Gson();
+                Type type_ingredient = new TypeToken <List <Ingredient>>() {
+                }.getType();
+                ingredientList = gson.fromJson(stringIngredient, type_ingredient);
+            }
+        }
+    }
+
+
+    public void setDescription(String desc) {
+        this.description = desc;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    public void setIngredientList(List <Ingredient> ingredientList) {
+        this.ingredientList = ingredientList;
+    }
+
+    public void setShowStepDetail(boolean showStepDetail) {
+
+        this.showStepDetail = showStepDetail;
+    }
+
+    private boolean isShowStepDetail() {
+
+        if (videoUrl != null && description != null) {
+            return true;
+        }
+
+        if (ingredientList != null) {
+            return false;
+        }
+
+        return false;
+    }
+
     /**
      * Initialize ExoPlayer.
+     *
      * @param mediaUri The URI of the sample to play.
      */
     private void initializePlayer(Uri mediaUri) {
-        if (mExoPlayer == null) {
+        if (mExoPlayer == null && isShowStepDetail()) {
             // Create an instance of the ExoPlayer.
             TrackSelector trackSelector = new DefaultTrackSelector();
             LoadControl loadControl = new DefaultLoadControl();
@@ -103,7 +193,7 @@ public class RecipeDetailFragment extends Fragment implements View.OnClickListen
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
                     getActivity(), userAgent), new DefaultExtractorsFactory(), null, null);
             mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(true);
+            mExoPlayer.setPlayWhenReady(false);
         }
     }
 
@@ -143,37 +233,29 @@ public class RecipeDetailFragment extends Fragment implements View.OnClickListen
 
     }
 
-
-    public void setDescription(String desc){
-        this.description = desc;
-    }
-
-    public void setVideoUrl(String videoUrl){
-        this.videoUrl = videoUrl;
-    }
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putString("description" , description);
+        outState.putString("description", description);
         outState.putString("videoUrl", videoUrl);
-        outState.putLong("selectedPosition" , mPlayerPosition);
-        outState.putBoolean("playWhenReadt" , mPlayWhenReady);
+        outState.putLong("selectedPosition", mPlayerPosition);
+        outState.putBoolean("playWhenReadt", mPlayWhenReady);
         super.onSaveInstanceState(outState);
     }
 
     /**
      * Method that is called when the ExoPlayer state changes. Used to update the MediaSession
      * PlayBackState to keep in sync.
+     *
      * @param playWhenReady true if ExoPlayer is playing, false if it's paused.
      * @param playbackState int describing the state of ExoPlayer. Can be STATE_READY, STATE_IDLE,
      *                      STATE_BUFFERING, or STATE_ENDED.
      */
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-        if((playbackState == ExoPlayer.STATE_READY) && playWhenReady){
+        if ((playbackState == ExoPlayer.STATE_READY) && playWhenReady) {
             mStateBuilder.setState(PlaybackStateCompat.STATE_PLAYING,
                     mExoPlayer.getCurrentPosition(), 1f);
-        } else if((playbackState == ExoPlayer.STATE_READY)){
+        } else if ((playbackState == ExoPlayer.STATE_READY)) {
             mStateBuilder.setState(PlaybackStateCompat.STATE_PAUSED,
                     mExoPlayer.getCurrentPosition(), 1f);
         }
@@ -198,15 +280,19 @@ public class RecipeDetailFragment extends Fragment implements View.OnClickListen
     @Override
     public void onPause() {
         super.onPause();
+        if(showStepDetail){
         mPlayerPosition = mExoPlayer.getCurrentPosition();
         releasePlayer();
+        }
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        if(showStepDetail){
         releasePlayer();
         initializePlayer(Uri.parse(videoUrl));
+        }
     }
 
 //    @Override
@@ -218,7 +304,9 @@ public class RecipeDetailFragment extends Fragment implements View.OnClickListen
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if(showStepDetail){
         releasePlayer();
+        }
     }
 
     /**
@@ -285,11 +373,12 @@ public class RecipeDetailFragment extends Fragment implements View.OnClickListen
 
     public static class MediaReceiver extends BroadcastReceiver {
 
-        public MediaReceiver(){}
+        public MediaReceiver() {
+        }
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            MediaButtonReceiver.handleIntent(  mMediaSession , intent );
+            MediaButtonReceiver.handleIntent(mMediaSession, intent);
         }
 
 

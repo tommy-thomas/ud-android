@@ -26,9 +26,8 @@
             android:name=".ui.StepDetailActivity"
             android:configChanges="orientation|screenSize" />
 
-        <receiver android:name=".fragments.RecipeDetailFragment$MediaReceiver" />
+        <receiver android:name=".fragments.StepDetailFragment$MediaReceiver" />
 
-        <activity android:name=".ui.IngredientActivity"></activity>
     </application>
 
 </manifest>
