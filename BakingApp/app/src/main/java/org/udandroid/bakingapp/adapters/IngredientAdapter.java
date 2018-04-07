@@ -21,6 +21,8 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
     private List<Ingredient> ingredientList;
     private Context context;
     private final String TAG = IngredientAdapter.class.getSimpleName();
+
+
     public IngredientAdapter(Context context, List<Ingredient> ingredients){
         this.ingredientList = ingredients;
         this.context = context;
