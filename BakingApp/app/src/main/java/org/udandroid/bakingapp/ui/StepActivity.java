@@ -52,6 +52,7 @@ public class StepActivity extends AppCompatActivity implements
         Type type_recipe = new TypeToken <Recipe>() {
         }.getType();
         Recipe recipe = gson.fromJson(stringRecipe, type_recipe);
+        this.setTitle( recipe.getName() );
         stepList = recipe.getSteps();
         ingredientList = recipe.getIngredients();
 
