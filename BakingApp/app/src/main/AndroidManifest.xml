@@ -20,8 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.StepActivity"
-            android:parentActivityName=".ui.MainActivity"/>
+        <activity
+            android:name=".ui.StepActivity"
+            android:parentActivityName=".ui.MainActivity" />
         <activity
             android:name=".ui.StepDetailActivity"
             android:configChanges="orientation|screenSize" />

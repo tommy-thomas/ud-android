@@ -3,27 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/tv_ingredients"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:layout_margin="16dp"
-        android:layout_alignParentTop="true"
-        android:text="@string/ingredients"/>
 
 
     <fragment
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/master_list_fragment"
-        android:layout_below="@+id/tv_ingredients"
         android:name="org.udandroid.bakingapp.fragments.MasterStepListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    </RelativeLayout>
 
 </LinearLayout>

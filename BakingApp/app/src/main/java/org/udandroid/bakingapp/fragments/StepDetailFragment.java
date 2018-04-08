@@ -10,9 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +72,6 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
 
         View rootView = inflater.inflate(R.layout.fragment_step_detail, container, false);
 
-        if (showStepDetail) {
             mPlayerPosition = C.TIME_UNSET;
             if (savedInstanceState != null) {
                 mPlayerPosition = savedInstanceState.getLong("selectedPosition", C.TIME_UNSET);
@@ -95,36 +91,7 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
 
             initializeMediaSession();
 
-            loadIngredientList();
-        }
-
-        if (ingredientList != null) {
-
-            Log.d(TAG, ingredientList.get(2).getIngredient().toString());
-
-            final RecyclerView recyclerView = rootView.findViewById(R.id.rv_ingredient);
-            recyclerView.setHasFixedSize(true);
-            ingredientAdapter = new IngredientAdapter(getContext(), ingredientList);
-            RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setAdapter(ingredientAdapter);
-        }
-
-        if (showStepDetail) {
-
-            RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.rv_ingredient);
-            recyclerView.setVisibility(View.GONE);
-        } else {
-
-            SimpleExoPlayerView simpleExoPlayerView = (SimpleExoPlayerView) rootView.findViewById(R.id.pv_rescipe_step_video);
-            TextView textView = (TextView) rootView.findViewById(R.id.tv_recipe_step_description);
-
-            simpleExoPlayerView.setVisibility(View.GONE);
-            textView.setVisibility(View.GONE);
-
-        }
-
-        return rootView;
+            return rootView;
     }
 
     private void loadIngredientList() {
@@ -193,7 +160,7 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
                     getActivity(), userAgent), new DefaultExtractorsFactory(), null, null);
             mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(false);
+            mExoPlayer.setPlayWhenReady(true);
         }
     }
 
