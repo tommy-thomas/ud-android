@@ -1,4 +1,4 @@
-package org.udandroid.bakingapp.fragments;
+package org.udandroid.bakingapp.fragment;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -37,8 +37,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.udandroid.bakingapp.R;
-import org.udandroid.bakingapp.adapters.IngredientAdapter;
-import org.udandroid.bakingapp.models.Ingredient;
+import org.udandroid.bakingapp.adapter.IngredientAdapter;
+import org.udandroid.bakingapp.model.Ingredient;
 
 import java.lang.reflect.Type;
 import java.util.List;

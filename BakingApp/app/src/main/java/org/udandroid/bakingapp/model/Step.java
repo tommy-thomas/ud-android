@@ -1,4 +1,4 @@
-package org.udandroid.bakingapp.models;
+package org.udandroid.bakingapp.model;
 
 /**
  * Created by tommy-thomas on 3/30/18.

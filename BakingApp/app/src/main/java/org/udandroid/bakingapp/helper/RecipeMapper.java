@@ -1,9 +1,9 @@
-package org.udandroid.bakingapp.helpers;
+package org.udandroid.bakingapp.helper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.udandroid.bakingapp.models.Recipe;
-import org.udandroid.bakingapp.models.Step;
+import org.udandroid.bakingapp.model.Recipe;
+import org.udandroid.bakingapp.model.Step;
 
 import java.net.URL;
 import java.util.List;

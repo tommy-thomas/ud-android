@@ -1,4 +1,4 @@
-package org.udandroid.bakingapp.fragments;
+package org.udandroid.bakingapp.fragment;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -16,9 +16,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.udandroid.bakingapp.R;
-import org.udandroid.bakingapp.adapters.StepAdapter;
-import org.udandroid.bakingapp.models.Recipe;
-import org.udandroid.bakingapp.models.Step;
+import org.udandroid.bakingapp.adapter.StepAdapter;
+import org.udandroid.bakingapp.model.Recipe;
+import org.udandroid.bakingapp.model.Step;
 
 import java.lang.reflect.Type;
 import java.util.List;

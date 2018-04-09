@@ -18,7 +18,7 @@
     <!-- static master list fragment //-->
     <fragment
         android:id="@+id/master_list_fragment"
-        android:name="org.udandroid.bakingapp.fragments.MasterStepListFragment"
+        android:name="org.udandroid.bakingapp.fragment.MasterStepListFragment"
         android:layout_width="400dp"
         android:layout_height="wrap_content" />
 

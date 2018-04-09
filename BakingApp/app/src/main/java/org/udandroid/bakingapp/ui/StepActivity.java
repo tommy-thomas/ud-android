@@ -18,13 +18,13 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.udandroid.bakingapp.R;
-import org.udandroid.bakingapp.adapters.IngredientAdapter;
-import org.udandroid.bakingapp.adapters.StepAdapter;
-import org.udandroid.bakingapp.fragments.MasterStepListFragment;
-import org.udandroid.bakingapp.fragments.StepDetailFragment;
-import org.udandroid.bakingapp.models.Ingredient;
-import org.udandroid.bakingapp.models.Recipe;
-import org.udandroid.bakingapp.models.Step;
+import org.udandroid.bakingapp.adapter.IngredientAdapter;
+import org.udandroid.bakingapp.adapter.StepAdapter;
+import org.udandroid.bakingapp.fragment.MasterStepListFragment;
+import org.udandroid.bakingapp.fragment.StepDetailFragment;
+import org.udandroid.bakingapp.model.Ingredient;
+import org.udandroid.bakingapp.model.Recipe;
+import org.udandroid.bakingapp.model.Step;
 
 import java.lang.reflect.Type;
 import java.util.List;

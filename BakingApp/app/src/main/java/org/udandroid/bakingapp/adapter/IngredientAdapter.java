@@ -1,4 +1,4 @@
-package org.udandroid.bakingapp.adapters;
+package org.udandroid.bakingapp.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.udandroid.bakingapp.R;
-import org.udandroid.bakingapp.models.Ingredient;
+import org.udandroid.bakingapp.model.Ingredient;
 
 import java.util.List;
 

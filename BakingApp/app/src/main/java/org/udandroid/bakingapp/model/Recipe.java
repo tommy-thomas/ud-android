@@ -1,4 +1,4 @@
-package org.udandroid.bakingapp.models;
+package org.udandroid.bakingapp.model;
 
 import java.util.List;
 

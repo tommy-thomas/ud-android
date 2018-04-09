@@ -1,4 +1,4 @@
-package org.udandroid.bakingapp.adapters;
+package org.udandroid.bakingapp.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import org.udandroid.bakingapp.R;
 import org.udandroid.bakingapp.ui.StepActivity;
-import org.udandroid.bakingapp.models.Recipe;
+import org.udandroid.bakingapp.model.Recipe;
 
 import java.lang.reflect.Type;
 

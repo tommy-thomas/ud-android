@@ -14,9 +14,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.udandroid.bakingapp.R;
-import org.udandroid.bakingapp.adapters.IngredientAdapter;
-import org.udandroid.bakingapp.fragments.StepDetailFragment;
-import org.udandroid.bakingapp.models.Ingredient;
+import org.udandroid.bakingapp.adapter.IngredientAdapter;
+import org.udandroid.bakingapp.fragment.StepDetailFragment;
+import org.udandroid.bakingapp.model.Ingredient;
 
 import java.lang.reflect.Type;
 import java.util.List;

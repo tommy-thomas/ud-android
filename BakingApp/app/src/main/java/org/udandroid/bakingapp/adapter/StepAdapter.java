@@ -1,4 +1,4 @@
-package org.udandroid.bakingapp.adapters;
+package org.udandroid.bakingapp.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -11,11 +11,11 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import org.udandroid.bakingapp.R;
-import org.udandroid.bakingapp.models.Step;
+import org.udandroid.bakingapp.model.Step;
 
 import java.util.List;
 
-import static org.udandroid.bakingapp.fragments.MasterStepListFragment.StepClickListener;
+import static org.udandroid.bakingapp.fragment.MasterStepListFragment.StepClickListener;
 
 /**
  * Created by tommy-thomas on 4/1/18.
