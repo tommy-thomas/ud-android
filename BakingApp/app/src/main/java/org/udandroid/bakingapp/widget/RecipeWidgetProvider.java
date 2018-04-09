@@ -33,12 +33,9 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         } catch (Exception e){
             e.getMessage();
         }
-        appWidgetManager.updateAppWidget(appWidgetId, views);
-        //views.setOnClickPendingIntent(R.id.appwidget_text, pendingIntent);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
-
 
     }
 

@@ -1,7 +1,9 @@
 package org.udandroid.bakingapp.ui;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -9,7 +11,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,6 +30,11 @@ import org.udandroid.bakingapp.model.Step;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import static org.udandroid.bakingapp.data.RecipeContract.RecipeEntry.COLUMN_ID;
+import static org.udandroid.bakingapp.data.RecipeContract.RecipeEntry.COLUMN_INGREDIENT_BUNDLE;
+import static org.udandroid.bakingapp.data.RecipeContract.RecipeEntry.COLUMN_RECIPE_NAME;
+import static org.udandroid.bakingapp.data.RecipeContract.RecipeEntry.CONTENT_URI;
+
 public class StepActivity extends AppCompatActivity implements
         MasterStepListFragment.StepClickListener {
 
@@ -36,6 +42,8 @@ public class StepActivity extends AppCompatActivity implements
     public List <Step> stepList;
     Step currentStep;
     private List <Ingredient> ingredientList;
+    private int recipeID;
+    private String recipeName;
     private final static String TAG = StepActivity.class.getSimpleName();
     private boolean mTwoPane;
     private TextView tvIngredient;
@@ -52,11 +60,11 @@ public class StepActivity extends AppCompatActivity implements
         Type type_recipe = new TypeToken <Recipe>() {
         }.getType();
         Recipe recipe = gson.fromJson(stringRecipe, type_recipe);
-        this.setTitle( recipe.getName() );
+        this.setTitle(recipe.getName());
+        recipeID = Integer.parseInt(recipe.getId());
+        recipeName = recipe.getName();
         stepList = recipe.getSteps();
         ingredientList = recipe.getIngredients();
-
-        Log.d(TAG , "Two Pane: " + ingredientList.get(0).getIngredient().toString());
 
 
         // Two panes?
@@ -90,7 +98,7 @@ public class StepActivity extends AppCompatActivity implements
     }
 
 
-    private void setIngredientSheet(){
+    private void setIngredientSheet() {
         // get the bottom sheet view
         LinearLayout llBottomSheet = (LinearLayout) findViewById(R.id.bottom_sheet);
 
@@ -152,7 +160,26 @@ public class StepActivity extends AppCompatActivity implements
             String json_step = gson.toJson(currentStep, type_step);
             outState.putString("stringStep", json_step);
         }
+
+        if( ingredientList != null ){
+            saveIngredientListBundleState();
+        }
+
         super.onSaveInstanceState(outState);
+    }
+
+    private void saveIngredientListBundleState( ){
+        Gson gson = new Gson();
+        Type type_ingredient = new TypeToken <List <Ingredient>>() {
+        }.getType();
+        String json_ingredient = gson.toJson(ingredientList, type_ingredient);
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_ID , recipeID);
+        contentValues.put(COLUMN_RECIPE_NAME, recipeName);
+        contentValues.put(COLUMN_INGREDIENT_BUNDLE, json_ingredient);
+
+        Uri uri = getContentResolver().insert(CONTENT_URI , contentValues);
     }
 
     @Override
@@ -201,39 +228,8 @@ public class StepActivity extends AppCompatActivity implements
 
     }
 
-    public void hideIngredientList() {
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_ingredient);
-        recyclerView.setVisibility(View.INVISIBLE);
-    }
 
-    private void onIngredientClicked() {
-
-        if (mTwoPane) {
-
-            StepDetailFragment stepDetailFragment = new StepDetailFragment();
-                stepDetailFragment.setIngredientList(ingredientList);
-                stepDetailFragment.setShowStepDetail(false);
-
-            FragmentManager fragmentManager = getSupportFragmentManager();
-
-            fragmentManager.beginTransaction()
-                    .replace(R.id.fr_step_detail_container, stepDetailFragment)
-                    .commit();
-        } else {
-
-            final Intent intent = new Intent(this, StepDetailActivity.class);
-            Bundle bundle = new Bundle();
-            Gson gson = new Gson();
-            Type type_ingredient = new TypeToken <List <Ingredient>>() {
-            }.getType();
-            String json_ingredient = gson.toJson(ingredientList, type_ingredient);
-            bundle.putString("stringIngredient", json_ingredient);
-            intent.putExtras(bundle);
-
-            startActivity(intent);
-        }
-    }
 
     //TODO add a flag to bundles in  onIngredientClicked and onStepSelected that can be passed to stepDetailFragment.setShowStepDetail(true);
 }

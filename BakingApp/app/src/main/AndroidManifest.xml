@@ -44,6 +44,12 @@
 
         <service android:name=".service.IngredientRemoteViewsService"
             android:permission="android.permission.BIND_REMOTEVIEWS"></service>
+
+
+        <provider
+            android:name=".data.RecipeContentProvider"
+            android:authorities="org.udandroid.bakingapp"
+            android:exported="false"/>
     </application>
 
 </manifest>

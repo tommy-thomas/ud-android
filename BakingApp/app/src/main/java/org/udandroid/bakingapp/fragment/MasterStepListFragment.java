@@ -76,7 +76,6 @@ public class MasterStepListFragment extends Fragment {
             }.getType();
             Recipe recipe = gson.fromJson(stringRecipe, type_recipe);
             stepList = recipe.getSteps();
-            Log.d(TAG, recipe.getIngredients().get(2).getIngredient().toString());
 
 
             final RecyclerView recyclerView = rootView.findViewById(R.id.rv_step);
