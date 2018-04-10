@@ -43,18 +43,18 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
     private void setIngredientList(){
         try {
 
-            Cursor cursor = context.getContentResolver().query(CONTENT_URI,
+            mCursor = context.getContentResolver().query(CONTENT_URI,
                     null,
                     null,
                     null,
                     _ID + " DESC LIMIT 1");
 
-            if (cursor.moveToFirst()) {
+            if (mCursor.moveToFirst()) {
 
                     //String stringRecipe = getIntent().getStringExtra("RECIPE_EXTRA");
                     Type type_ingredient = new TypeToken<List<Ingredient>>() {
                     }.getType();
-                    ingredientList = gson.fromJson( cursor.getString(cursor.getColumnIndex(COLUMN_INGREDIENT_BUNDLE)) , type_ingredient);
+                    ingredientList = gson.fromJson( mCursor.getString(mCursor.getColumnIndex(COLUMN_INGREDIENT_BUNDLE)) , type_ingredient);
 
             }
 
@@ -105,10 +105,10 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
     public RemoteViews getViewAt(int position) {
 
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_ingredient_item);
-        if( ingredientList != null ){
+        if( ingredientList != null && ingredientList.size() > 0){
         remoteViews.setTextViewText(R.id.tv_ingredient, ingredientList.get(position).getIngredient());
         remoteViews.setTextViewText(R.id.tv_ingredient_measure, ingredientList.get(position).getMeasure());
-        remoteViews.setTextViewText(R.id.tv_ingredient_quantity, ingredientList.get(0).getQuantity());
+        remoteViews.setTextViewText(R.id.tv_ingredient_quantity, ingredientList.get(position).getQuantity());
         }
 
         return remoteViews;
