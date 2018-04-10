@@ -16,26 +16,26 @@ import java.util.List;
  * Created by tommy-thomas on 4/6/18.
  */
 
-public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.ViewHolder> {
+public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAdapter.ViewHolder> {
 
     private List<Ingredient> ingredientList;
     private Context context;
-    private final String TAG = IngredientAdapter.class.getSimpleName();
+    private final String TAG = IngredientListAdapter.class.getSimpleName();
 
 
-    public IngredientAdapter(Context context, List<Ingredient> ingredients){
+    public IngredientListAdapter(Context context, List<Ingredient> ingredients){
         this.ingredientList = ingredients;
         this.context = context;
     }
 
     @Override
-    public IngredientAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public IngredientListAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.ingredient_detail, viewGroup, false);
-        return new IngredientAdapter.ViewHolder(view);
+        return new IngredientListAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final IngredientAdapter.ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(final IngredientListAdapter.ViewHolder viewHolder, final int position) {
 
         if( viewHolder != null ){
 

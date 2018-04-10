@@ -37,7 +37,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.udandroid.bakingapp.R;
-import org.udandroid.bakingapp.adapter.IngredientAdapter;
+import org.udandroid.bakingapp.adapter.IngredientListAdapter;
 import org.udandroid.bakingapp.model.Ingredient;
 
 import java.lang.reflect.Type;
@@ -54,7 +54,7 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
     private String videoUrl;
     private SimpleExoPlayer mExoPlayer;
     List <Ingredient> ingredientList;
-    IngredientAdapter ingredientAdapter;
+    IngredientListAdapter ingredientListAdapter;
     public static MediaSessionCompat mMediaSession;
     private PlaybackStateCompat.Builder mStateBuilder;
     private SimpleExoPlayerView mPlayerView;

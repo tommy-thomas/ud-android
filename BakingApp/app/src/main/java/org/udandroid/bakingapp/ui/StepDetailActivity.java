@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.udandroid.bakingapp.R;
-import org.udandroid.bakingapp.adapter.IngredientAdapter;
+import org.udandroid.bakingapp.adapter.IngredientListAdapter;
 import org.udandroid.bakingapp.fragment.StepDetailFragment;
 import org.udandroid.bakingapp.model.Ingredient;
 
@@ -24,7 +24,7 @@ import java.util.List;
 public class StepDetailActivity extends AppCompatActivity {
 
     private List <Ingredient> ingredientList;
-    private IngredientAdapter ingredientAdapter;
+    private IngredientListAdapter ingredientListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,10 +93,10 @@ public class StepDetailActivity extends AppCompatActivity {
 
         final RecyclerView recyclerView = findViewById(R.id.rv_ingredient);
         recyclerView.setHasFixedSize(true);
-        ingredientAdapter = new IngredientAdapter(this, ingredientList);
+        ingredientListAdapter = new IngredientListAdapter(this, ingredientList);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(ingredientAdapter);
+        recyclerView.setAdapter(ingredientListAdapter);
 
     }
 

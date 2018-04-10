@@ -1,50 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_step"
+    android:background="?android:attr/selectableItemBackground"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:clipToPadding="false"
-    android:clipChildren="false" >
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical">
 
+    <ImageView
+        android:id="@+id/iv_step_thumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/ic_restaurant_black_36px" />
 
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tv_step_short_description"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:elevation="8dp"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0.0px"
-        android:clipToPadding="false"
-        android:clipChildren="false"
-        card_view:cardElevation="10dp"
-        card_view:cardPreventCornerOverlap="false"
-        android:id="@+id/cv_step">
+        android:gravity="center_vertical|left"
+        android:layout_marginTop="22dp"
+        android:layout_toRightOf="@+id/iv_step_thumbnail"
+        android:textSize="18dp"/>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp">
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/darkGrey"
+        android:layout_below="@+id/iv_step_thumbnail"/>
 
-            <ImageView
-                android:id="@+id/iv_step_thumbnail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginRight="16dp"
-                android:src="@drawable/ic_restaurant_black_36px"/>
 
-            <TextView
-                android:id="@+id/tv_step_short_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/iv_step_thumbnail"
-                android:textSize="30sp"
-                android:layout_margin="0dp"/>
+</RelativeLayout>
 
-        </RelativeLayout>
 
-    </android.support.v7.widget.CardView>
-
-</LinearLayout>

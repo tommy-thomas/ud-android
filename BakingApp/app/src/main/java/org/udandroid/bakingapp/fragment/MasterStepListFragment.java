@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.udandroid.bakingapp.R;
-import org.udandroid.bakingapp.adapter.StepAdapter;
+import org.udandroid.bakingapp.adapter.StepListAdapter;
 import org.udandroid.bakingapp.model.Recipe;
 import org.udandroid.bakingapp.model.Step;
 
@@ -33,7 +32,7 @@ public class MasterStepListFragment extends Fragment {
 
     private static final String TAG = MasterStepListFragment.class.getSimpleName();
 
-    StepAdapter stepAdapter;
+    StepListAdapter stepListAdapter;
     List <Step> stepList;
 
     // StepClickListener interface, calls methods for onclick listener and data loading
@@ -87,8 +86,8 @@ public class MasterStepListFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
             }
-            stepAdapter = new StepAdapter(getContext(), stepList, stepClickListener);
-            recyclerView.setAdapter(stepAdapter);
+            stepListAdapter = new StepListAdapter(getContext(), stepList, stepClickListener);
+            recyclerView.setAdapter(stepListAdapter);
 
 
         }

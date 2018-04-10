@@ -17,8 +17,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.udandroid.bakingapp.R;
-import org.udandroid.bakingapp.adapter.IngredientAdapter;
-import org.udandroid.bakingapp.adapter.StepAdapter;
+import org.udandroid.bakingapp.adapter.IngredientListAdapter;
+import org.udandroid.bakingapp.adapter.StepListAdapter;
 import org.udandroid.bakingapp.fragment.MasterStepListFragment;
 import org.udandroid.bakingapp.fragment.StepDetailFragment;
 import org.udandroid.bakingapp.model.Ingredient;
@@ -32,7 +32,7 @@ import java.util.List;
 public class StepActivity extends AppCompatActivity implements
         MasterStepListFragment.StepClickListener {
 
-    private StepAdapter stepAdapter;
+    private StepListAdapter stepListAdapter;
     public List <Step> stepList;
     Step currentStep;
     private List <Ingredient> ingredientList;
@@ -42,7 +42,7 @@ public class StepActivity extends AppCompatActivity implements
     private boolean mTwoPane;
     private TextView tvIngredient;
     private Gson gson = new Gson();
-    private IngredientAdapter ingredientAdapter;
+    private IngredientListAdapter ingredientListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +67,10 @@ public class StepActivity extends AppCompatActivity implements
             setIngredientSheet();
             RecyclerView recyclerView = findViewById(R.id.rv_ingredient);
             recyclerView.setHasFixedSize(true);
-            ingredientAdapter = new IngredientAdapter(this, ingredientList);
+            ingredientListAdapter = new IngredientListAdapter(this, ingredientList);
             RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 1);
             recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setAdapter(ingredientAdapter);
+            recyclerView.setAdapter(ingredientListAdapter);
 
         } else {
             mTwoPane = false;

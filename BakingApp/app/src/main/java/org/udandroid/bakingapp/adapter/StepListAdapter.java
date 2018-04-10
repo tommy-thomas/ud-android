@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import org.udandroid.bakingapp.R;
 import org.udandroid.bakingapp.model.Step;
 
@@ -21,34 +19,34 @@ import static org.udandroid.bakingapp.fragment.MasterStepListFragment.StepClickL
  * Created by tommy-thomas on 4/1/18.
  */
 
-public class StepAdapter extends RecyclerView.Adapter <StepAdapter.ViewHolder> {
+public class StepListAdapter extends RecyclerView.Adapter <StepListAdapter.ViewHolder> {
 
     private List <Step> steps;
     private Context context;
-    private final static String TAG = StepAdapter.class.getSimpleName();
+    private final static String TAG = StepListAdapter.class.getSimpleName();
     private StepClickListener stepClickListener;
 
-    public StepAdapter(Context context, List <Step> steps, StepClickListener stepClickListener) {
+    public StepListAdapter(Context context, List <Step> steps, StepClickListener stepClickListener) {
         this.steps = steps;
         this.context = context;
         this.stepClickListener = stepClickListener;
     }
 
     @Override
-    public StepAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public StepListAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.step_card, viewGroup, false);
         return new ViewHolder(view);
     }
 
 
     @Override
-    public void onBindViewHolder(final StepAdapter.ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(final StepListAdapter.ViewHolder viewHolder, final int position) {
 
         if (viewHolder != null) {
-            if (steps.get(position).getThumbnailURL() != "" && steps.get(position).getThumbnailURL().length() > 0) {
-                Picasso.with(context)
-                        .load(steps.get(position).getThumbnailURL()).into(viewHolder.ivStepThumbnail);
-            }
+//            if (steps.get(position).getThumbnailURL() != "" && steps.get(position).getThumbnailURL().length() > 0) {
+//                Picasso.with(context)
+//                        .load(steps.get(position).getThumbnailURL()).into(viewHolder.ivStepThumbnail);
+//            }
 
             viewHolder.tvStepShortDescription.setText(steps.get(position).getShortDescription().toString());
 
