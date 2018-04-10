@@ -1,9 +1,7 @@
 package org.udandroid.bakingapp.ui;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -26,14 +24,10 @@ import org.udandroid.bakingapp.fragment.StepDetailFragment;
 import org.udandroid.bakingapp.model.Ingredient;
 import org.udandroid.bakingapp.model.Recipe;
 import org.udandroid.bakingapp.model.Step;
+import org.udandroid.bakingapp.util.RecipeData;
 
 import java.lang.reflect.Type;
 import java.util.List;
-
-import static org.udandroid.bakingapp.data.RecipeContract.RecipeEntry.COLUMN_ID;
-import static org.udandroid.bakingapp.data.RecipeContract.RecipeEntry.COLUMN_INGREDIENT_BUNDLE;
-import static org.udandroid.bakingapp.data.RecipeContract.RecipeEntry.COLUMN_RECIPE_NAME;
-import static org.udandroid.bakingapp.data.RecipeContract.RecipeEntry.CONTENT_URI;
 
 public class StepActivity extends AppCompatActivity implements
         MasterStepListFragment.StepClickListener {
@@ -174,12 +168,8 @@ public class StepActivity extends AppCompatActivity implements
         }.getType();
         String json_ingredient = gson.toJson(ingredientList, type_ingredient);
 
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_ID , recipeID);
-        contentValues.put(COLUMN_RECIPE_NAME, recipeName);
-        contentValues.put(COLUMN_INGREDIENT_BUNDLE, json_ingredient);
-
-        Uri uri = getContentResolver().insert(CONTENT_URI , contentValues);
+        RecipeData recipeData = new RecipeData(this);
+        recipeData.saveIngredientState( recipeID, recipeName , json_ingredient);
     }
 
     @Override
@@ -228,8 +218,4 @@ public class StepActivity extends AppCompatActivity implements
 
     }
 
-
-
-
-    //TODO add a flag to bundles in  onIngredientClicked and onStepSelected that can be passed to stepDetailFragment.setShowStepDetail(true);
 }

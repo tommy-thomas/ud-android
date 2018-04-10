@@ -6,7 +6,6 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="app_title">Baking Time</string>
-    <string name="ingredients">Ingredients</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="arrow_previous"><![CDATA[<]]></string>
@@ -15,4 +14,5 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
     <string name="SAVED_STEP_STATE">SAVED-STEP-STATE</string>
+    <string name="ingredients">Ingredients</string>
 </resources>

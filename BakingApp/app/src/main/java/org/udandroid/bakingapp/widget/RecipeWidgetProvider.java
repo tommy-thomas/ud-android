@@ -9,6 +9,7 @@ import android.widget.RemoteViews;
 import org.udandroid.bakingapp.R;
 import org.udandroid.bakingapp.model.Ingredient;
 import org.udandroid.bakingapp.service.IngredientRemoteViewsService;
+import org.udandroid.bakingapp.util.RecipeData;
 
 import java.util.List;
 
@@ -22,13 +23,15 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
-
+        RecipeData recipeData =new RecipeData(context);
+        CharSequence widgetTitle = recipeData.getRecipeName() != null &&
+                recipeData.getRecipeName() != "" ? recipeData.getRecipeName() : "Recipe";
 
 
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
+
+       views.setTextViewText(R.id.tv_recipe_title , widgetTitle);
 
         try {
             Intent intent = new Intent(context, IngredientRemoteViewsService.class);

@@ -1,12 +1,10 @@
-package org.udandroid.bakingapp.helper;
+package org.udandroid.bakingapp.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.udandroid.bakingapp.model.Recipe;
-import org.udandroid.bakingapp.model.Step;
 
 import java.net.URL;
-import java.util.List;
 
 /**
  * Created by tommy-thomas on 3/31/18.
@@ -18,7 +16,6 @@ public class RecipeMapper {
     ObjectMapper Mapper;
     public static final String URL_RECIPES = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
     private Recipe[] recipes;
-    private List<Step> currentStepList;
 
     public void mapData() {
         Mapper = new ObjectMapper();

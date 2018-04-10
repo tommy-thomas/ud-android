@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 
 import org.udandroid.bakingapp.R;
 import org.udandroid.bakingapp.adapter.RecipeListAdapter;
-import org.udandroid.bakingapp.helper.RecipeMapper;
+import org.udandroid.bakingapp.util.RecipeMapper;
 import org.udandroid.bakingapp.model.Recipe;
 
 public class MainActivity extends AppCompatActivity {

@@ -3,23 +3,14 @@ package org.udandroid.bakingapp.service;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import org.udandroid.bakingapp.R;
 import org.udandroid.bakingapp.model.Ingredient;
+import org.udandroid.bakingapp.util.RecipeData;
 
-import java.lang.reflect.Type;
 import java.util.List;
-
-import static org.udandroid.bakingapp.data.RecipeContract.RecipeEntry.COLUMN_INGREDIENT_BUNDLE;
-import static org.udandroid.bakingapp.data.RecipeContract.RecipeEntry.CONTENT_URI;
-import static org.udandroid.bakingapp.data.RecipeContract.RecipeEntry._ID;
 
 /**
  * Created by tommy-thomas on 4/8/18.
@@ -30,38 +21,15 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
     private Context context;
     private List<Ingredient> ingredientList;
     private final String TAG = IngredientRemoteViewsFactory.class.getSimpleName();
-    private Gson gson = new Gson();
-    private Cursor mCursor;
+    private RecipeData recipeData;
+
 
     public IngredientRemoteViewsFactory(Context context, Intent intent){
 
         this.context = context;
-        setIngredientList();
+        recipeData = new RecipeData(context);
+        ingredientList = recipeData.getIngredientList();
 
-    }
-
-    private void setIngredientList(){
-        try {
-
-            mCursor = context.getContentResolver().query(CONTENT_URI,
-                    null,
-                    null,
-                    null,
-                    _ID + " DESC LIMIT 1");
-
-            if (mCursor.moveToFirst()) {
-
-                    //String stringRecipe = getIntent().getStringExtra("RECIPE_EXTRA");
-                    Type type_ingredient = new TypeToken<List<Ingredient>>() {
-                    }.getType();
-                    ingredientList = gson.fromJson( mCursor.getString(mCursor.getColumnIndex(COLUMN_INGREDIENT_BUNDLE)) , type_ingredient);
-
-            }
-
-        } catch (Exception e) {
-            Log.e(TAG, "Failed to load data.");
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -90,9 +58,7 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
 
     @Override
     public void onDestroy() {
-        if (mCursor != null) {
-            mCursor.close();
-        }
+
 
     }
 
