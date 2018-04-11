@@ -13,6 +13,7 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.C;
@@ -39,6 +40,7 @@ import com.google.gson.reflect.TypeToken;
 import org.udandroid.bakingapp.R;
 import org.udandroid.bakingapp.adapter.IngredientListAdapter;
 import org.udandroid.bakingapp.model.Ingredient;
+import org.udandroid.bakingapp.model.Step;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -52,6 +54,8 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
     private final String TAG = StepDetailFragment.class.getSimpleName();
     private String description;
     private String videoUrl;
+    private Step previousStep;
+    private Step nextStep;
     private SimpleExoPlayer mExoPlayer;
     List <Ingredient> ingredientList;
     IngredientListAdapter ingredientListAdapter;
@@ -90,9 +94,37 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
 
         }
 
-        TextView tvDescription = rootView.findViewById(R.id.tv_recipe_step_description);
+
+        final TextView tvDescription = rootView.findViewById(R.id.tv_recipe_step_description);
 
         tvDescription.setText(description);
+
+        Button previousBtn = rootView.findViewById(R.id.btn_previous);
+        previousBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if( previousStep != null){
+                    tvDescription.setText( previousStep.getDescription());
+                    releasePlayer();
+                    videoUrl = previousStep.getVideoURL();
+                    initializePlayer(Uri.parse(videoUrl));
+                }
+            }
+        });
+
+
+        Button nextBtn = rootView.findViewById(R.id.btn_next);
+        previousBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if( nextStep != null){
+                    tvDescription.setText( nextStep.getDescription());
+                    releasePlayer();
+                    videoUrl = nextStep.getVideoURL();
+                    initializePlayer(Uri.parse(videoUrl));
+                }
+            }
+        });
 
         return rootView;
     }
@@ -121,6 +153,11 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
 
     public void setIngredientList(List <Ingredient> ingredientList) {
         this.ingredientList = ingredientList;
+    }
+
+    public void setPreviousAndNextStep(Step previous, Step next){
+        previousStep = previous;
+        nextStep = next;
     }
 
 
