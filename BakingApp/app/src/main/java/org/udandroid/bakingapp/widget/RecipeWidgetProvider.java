@@ -1,5 +1,6 @@
 package org.udandroid.bakingapp.widget;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.widget.RemoteViews;
 import org.udandroid.bakingapp.R;
 import org.udandroid.bakingapp.model.Ingredient;
 import org.udandroid.bakingapp.service.IngredientRemoteViewsService;
+import org.udandroid.bakingapp.ui.MainActivity;
 import org.udandroid.bakingapp.util.RecipeData;
 
 import java.util.List;
@@ -18,12 +20,12 @@ import java.util.List;
  */
 public class RecipeWidgetProvider extends AppWidgetProvider {
 
-    private List<Ingredient> ingredientList;
+    private List <Ingredient> ingredientList;
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        RecipeData recipeData =new RecipeData(context);
+        RecipeData recipeData = new RecipeData(context);
         CharSequence widgetTitle = recipeData.getRecipeName() != null &&
                 recipeData.getRecipeName() != "" ? recipeData.getRecipeName() : "Recipe";
 
@@ -31,12 +33,16 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
 
-       views.setTextViewText(R.id.tv_recipe_title , widgetTitle);
+        views.setTextViewText(R.id.tv_recipe_title, widgetTitle);
+
+        Intent contextIntent = new Intent(context, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, contextIntent, 0);
+        views.setOnClickPendingIntent(R.id.tv_recipe_title, pendingIntent);
 
         try {
             Intent intent = new Intent(context, IngredientRemoteViewsService.class);
             views.setRemoteAdapter(R.id.lv_ingredient_list, intent);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.getMessage();
         }
 

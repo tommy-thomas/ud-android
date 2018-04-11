@@ -73,7 +73,7 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
 
         mPlayerView = rootView.findViewById(R.id.pv_rescipe_step_video);
 
-        if( videoUrl != null && videoUrl != ""){
+        if( videoUrl != null && videoUrl.length() > 1){
 
             mPlayerPosition = C.TIME_UNSET;
             if (savedInstanceState != null) {
@@ -88,8 +88,6 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
             // Initialize the player view.
             initializeMediaSession();
 
-        } else {
-            viewGroup.removeViewAt(viewGroup.indexOfChild(mPlayerView));
         }
 
         TextView tvDescription = rootView.findViewById(R.id.tv_recipe_step_description);
@@ -193,7 +191,7 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
         outState.putString("description", description);
         outState.putString("videoUrl", videoUrl);
         outState.putLong("selectedPosition", mPlayerPosition);
-        outState.putBoolean("playWhenReadt", mPlayWhenReady);
+        outState.putBoolean("playWhenReady", mPlayWhenReady);
         super.onSaveInstanceState(outState);
     }
 
