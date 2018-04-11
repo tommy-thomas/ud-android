@@ -86,6 +86,7 @@ public class MasterStepListFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
             }
+
             stepListAdapter = new StepListAdapter(getContext(), stepList, stepClickListener);
             recyclerView.setAdapter(stepListAdapter);
 

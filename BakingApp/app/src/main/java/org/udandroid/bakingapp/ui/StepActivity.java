@@ -105,7 +105,7 @@ public class StepActivity extends AppCompatActivity implements
 //        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
         // set the peek height
-        bottomSheetBehavior.setPeekHeight(200);
+        //bottomSheetBehavior.setPeekHeight(200);
 
         // set hideable or not
         bottomSheetBehavior.setHideable(false);

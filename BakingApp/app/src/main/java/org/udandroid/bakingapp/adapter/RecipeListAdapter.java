@@ -54,6 +54,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Vi
                        .load(recipes[position].getImage()).into(viewHolder.ivRecipeCard);
            }
 
+           viewHolder.tvServingCard.setText("Serving: " + recipes[position].getServings());
            viewHolder.tvRecipeCard.setText(recipes[position].getName().toString());
            viewHolder.ivRecipeCard.setOnClickListener(new View.OnClickListener() {
                @Override
@@ -86,11 +87,13 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Vi
 
         private ImageView ivRecipeCard;
         private TextView tvRecipeCard;
+        private TextView tvServingCard;
 
         public ViewHolder(View view) {
             super(view);
             ivRecipeCard = view.findViewById(R.id.iv_recipe_card);
             tvRecipeCard = view.findViewById(R.id.tv_recipe_card);
+            tvServingCard = view.findViewById(R.id.tv_recipe_serving_card);
         }
 
     }

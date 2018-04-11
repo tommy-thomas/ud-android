@@ -58,7 +58,6 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
     public static MediaSessionCompat mMediaSession;
     private PlaybackStateCompat.Builder mStateBuilder;
     private SimpleExoPlayerView mPlayerView;
-    private boolean showStepDetail = true;
 
     public StepDetailFragment() {
     }
@@ -68,9 +67,13 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup viewGroup, @Nullable Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_step_detail, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_step_detail, viewGroup, false);
+
+        mPlayerView = rootView.findViewById(R.id.pv_rescipe_step_video);
+
+        if( videoUrl != null && videoUrl != ""){
 
             mPlayerPosition = C.TIME_UNSET;
             if (savedInstanceState != null) {
@@ -81,17 +84,19 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
 
             releasePlayer();
 
-
-            TextView tvDescription = rootView.findViewById(R.id.tv_recipe_step_description);
-
-            tvDescription.setText(description);
-
+            initializePlayer(Uri.parse(videoUrl));
             // Initialize the player view.
-            mPlayerView = rootView.findViewById(R.id.pv_rescipe_step_video);
-
             initializeMediaSession();
 
-            return rootView;
+        } else {
+            viewGroup.removeViewAt(viewGroup.indexOfChild(mPlayerView));
+        }
+
+        TextView tvDescription = rootView.findViewById(R.id.tv_recipe_step_description);
+
+        tvDescription.setText(description);
+
+        return rootView;
     }
 
     private void loadIngredientList() {
@@ -120,23 +125,6 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
         this.ingredientList = ingredientList;
     }
 
-    public void setShowStepDetail(boolean showStepDetail) {
-
-        this.showStepDetail = showStepDetail;
-    }
-
-    private boolean isShowStepDetail() {
-
-        if (videoUrl != null && description != null) {
-            return true;
-        }
-
-        if (ingredientList != null) {
-            return false;
-        }
-
-        return false;
-    }
 
     /**
      * Initialize ExoPlayer.
@@ -144,7 +132,7 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
      * @param mediaUri The URI of the sample to play.
      */
     private void initializePlayer(Uri mediaUri) {
-        if (mExoPlayer == null && isShowStepDetail()) {
+        if (  mExoPlayer == null ) {
             // Create an instance of the ExoPlayer.
             TrackSelector trackSelector = new DefaultTrackSelector();
             LoadControl loadControl = new DefaultLoadControl();
@@ -160,7 +148,7 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
                     getActivity(), userAgent), new DefaultExtractorsFactory(), null, null);
             mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(true);
+            mExoPlayer.setPlayWhenReady(false);
         }
     }
 
@@ -244,23 +232,20 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
 //    }
 
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        if(showStepDetail){
-        mPlayerPosition = mExoPlayer.getCurrentPosition();
-        releasePlayer();
-        }
-    }
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        mPlayerPosition = mExoPlayer.getCurrentPosition();
+//        releasePlayer();
+//
+//    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        if(showStepDetail){
-        releasePlayer();
-        initializePlayer(Uri.parse(videoUrl));
-        }
-    }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        releasePlayer();
+//        initializePlayer(Uri.parse(videoUrl));
+//    }
 
 //    @Override
 //    public void onStop() {
@@ -271,9 +256,7 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(showStepDetail){
         releasePlayer();
-        }
     }
 
     /**

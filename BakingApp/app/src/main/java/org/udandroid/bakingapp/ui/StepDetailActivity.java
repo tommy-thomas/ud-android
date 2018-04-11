@@ -66,6 +66,7 @@ public class StepDetailActivity extends AppCompatActivity {
         String description = getIntent().getStringExtra("Description");
         String videoURL = getIntent().getStringExtra("videoURL");
 
+        // Load ingredients into ingredientList
         String stringIngredient = getIntent().getStringExtra("stringIngredient");
         if (stringIngredient != null) {
             Gson gson = new Gson();
@@ -76,20 +77,14 @@ public class StepDetailActivity extends AppCompatActivity {
 
 
         StepDetailFragment stepDetailFragment = new StepDetailFragment();
-        stepDetailFragment.setShowStepDetail(true);
         stepDetailFragment.setDescription(description);
         stepDetailFragment.setVideoUrl(videoURL);
-//        if( ingredientList != null ){
-//            stepDetailFragment.setIngredientList( ingredientList );
-//            stepDetailFragment.setShowStepDetail(false);
-//        }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         fragmentManager.beginTransaction()
                 .add(R.id.fr_step_detail_container, stepDetailFragment)
                 .commit();
-
 
         final RecyclerView recyclerView = findViewById(R.id.rv_ingredient);
         recyclerView.setHasFixedSize(true);

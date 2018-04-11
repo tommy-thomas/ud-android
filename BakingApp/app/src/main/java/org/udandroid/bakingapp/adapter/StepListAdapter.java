@@ -50,12 +50,13 @@ public class StepListAdapter extends RecyclerView.Adapter <StepListAdapter.ViewH
 
             viewHolder.tvStepShortDescription.setText(steps.get(position).getShortDescription().toString());
 
-            viewHolder.tvStepShortDescription.setOnClickListener(new View.OnClickListener() {
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     stepClickListener.onStepSelected(steps.get(position));
                 }
             });
+
         }
     }
 
