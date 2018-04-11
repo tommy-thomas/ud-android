@@ -11,14 +11,12 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.udandroid.bakingapp.R;
 import org.udandroid.bakingapp.adapter.IngredientListAdapter;
-import org.udandroid.bakingapp.adapter.StepListAdapter;
 import org.udandroid.bakingapp.fragment.MasterStepListFragment;
 import org.udandroid.bakingapp.fragment.StepDetailFragment;
 import org.udandroid.bakingapp.model.Ingredient;
@@ -32,15 +30,15 @@ import java.util.List;
 public class StepActivity extends AppCompatActivity implements
         MasterStepListFragment.StepClickListener {
 
-    private StepListAdapter stepListAdapter;
     public List <Step> stepList;
     Step currentStep;
+    Step previousStep;
+    Step nextStep;
     private List <Ingredient> ingredientList;
     private int recipeID;
     private String recipeName;
     private final static String TAG = StepActivity.class.getSimpleName();
     private boolean mTwoPane;
-    private TextView tvIngredient;
     private Gson gson = new Gson();
     private IngredientListAdapter ingredientListAdapter;
 
@@ -173,7 +171,7 @@ public class StepActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onStepSelected(Step step) {
+    public void onStepSelected(Step step, Step previousStep, Step nextStep) {
 
         if (step != null) {
 
