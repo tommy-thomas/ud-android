@@ -56,7 +56,8 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Vi
 
            viewHolder.tvServingCard.setText("Serving: " + recipes[position].getServings());
            viewHolder.tvRecipeCard.setText(recipes[position].getName().toString());
-           viewHolder.ivRecipeCard.setOnClickListener(new View.OnClickListener() {
+
+           viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
                    Context context = viewHolder.itemView.getContext();
