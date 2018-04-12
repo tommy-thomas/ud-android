@@ -91,6 +91,7 @@ public class StepDetailActivity extends AppCompatActivity {
 
         fragmentManager.beginTransaction()
                 .add(R.id.fr_step_detail_container, stepDetailFragment)
+                .addToBackStack(null)
                 .commit();
 
         final RecyclerView recyclerView = findViewById(R.id.rv_ingredient);
