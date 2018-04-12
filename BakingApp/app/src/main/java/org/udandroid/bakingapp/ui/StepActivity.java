@@ -130,7 +130,7 @@ public class StepActivity extends AppCompatActivity implements
             currentStep = currentStep != null ? currentStep : stepList.get(0);
             int currentIndex = currentStep.getId() - 1;
             int previousStepPos = currentIndex > 0 ? currentIndex - 1 : -1;
-            int nextStepPos = currentIndex != ingredientList.size() -1 ? currentIndex + 1 : -1;
+            int nextStepPos = currentIndex < ingredientList.size() -1 ? currentIndex + 1 : -1;
             StepDetailFragment stepDetailFragment = new StepDetailFragment();
             stepDetailFragment.setDescription(currentStep.getDescription());
             stepDetailFragment.setVideoUrl(currentStep.getVideoURL());
