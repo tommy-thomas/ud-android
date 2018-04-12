@@ -130,7 +130,7 @@ public class StepActivity extends AppCompatActivity implements
             currentStep = currentStep != null ? currentStep : stepList.get(0);
             int currentIndex = currentStep.getId() - 1;
             int previousStepPos = currentIndex > 0 ? currentIndex - 1 : -1;
-            int nextStepPos = currentIndex < ingredientList.size() -1 ? currentIndex + 1 : -1;
+            int nextStepPos = currentIndex < ingredientList.size() - 1 ? currentIndex + 1 : -1;
             StepDetailFragment stepDetailFragment = new StepDetailFragment();
             stepDetailFragment.setDescription(currentStep.getDescription());
             stepDetailFragment.setVideoUrl(currentStep.getVideoURL());
@@ -158,21 +158,21 @@ public class StepActivity extends AppCompatActivity implements
 
         }
 
-        if( ingredientList != null ){
+        if (ingredientList != null) {
             saveIngredientListBundleState();
         }
 
         super.onSaveInstanceState(outState);
     }
 
-    private void saveIngredientListBundleState( ){
+    private void saveIngredientListBundleState() {
         Gson gson = new Gson();
         Type type_ingredient = new TypeToken <List <Ingredient>>() {
         }.getType();
         String json_ingredient = gson.toJson(ingredientList, type_ingredient);
 
         RecipeData recipeData = new RecipeData(this);
-        recipeData.saveIngredientState( recipeID, recipeName , json_ingredient);
+        recipeData.saveIngredientState(recipeID, recipeName, json_ingredient);
     }
 
     @Override
@@ -210,17 +210,17 @@ public class StepActivity extends AppCompatActivity implements
                 bundle.putString("videoURL", currentStep.getVideoURL());
                 bundle.putString("Description", currentStep.getDescription());
                 bundle.putString("stepLabel", currentStep.getShortDescription());
-                bundle.putInt("previousStepPos" , previousStepPos);
-                bundle.putInt("nextStepPos" , nextStepPos);
+                bundle.putInt("previousStepPos", previousStepPos);
+                bundle.putInt("nextStepPos", nextStepPos);
                 Gson gson = new Gson();
                 Type type_ingredient = new TypeToken <List <Ingredient>>() {
                 }.getType();
                 String json_ingredient = gson.toJson(ingredientList, type_ingredient);
                 bundle.putString("stringIngredient", json_ingredient);
-                Type type_step = new TypeToken <List<Step>>() {
+                Type type_step = new TypeToken <List <Step>>() {
                 }.getType();
                 String json_step_list = gson.toJson(stepList, type_step);
-                bundle.putString("stepListString",json_step_list);
+                bundle.putString("stepListString", json_step_list);
                 intent.putExtras(bundle);
 
                 startActivity(intent);

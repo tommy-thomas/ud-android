@@ -101,6 +101,8 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
 
         tvDescription.setText(description);
 
+        getActivity().setTitle(description);
+
         final Button previousBtn = rootView.findViewById(R.id.btn_previous);
         if (previousStepPosition == -1) {
             previousBtn.setVisibility(View.GONE);
