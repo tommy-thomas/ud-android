@@ -54,9 +54,9 @@ public class StepListAdapter extends RecyclerView.Adapter <StepListAdapter.ViewH
                 @Override
                 public void onClick(View v) {
                     Step currentStep = steps.get(position);
-                    Step previousStep = position != 0 ? steps.get(position - 1) : null;
-                    Step nextStep = ( position != steps.size()-1 ) ? steps.get(position + 1) : null;
-                    stepClickListener.onStepSelected(currentStep , previousStep, nextStep);
+                    int previousStepPos = position != 0 ? position - 1 : -1;
+                    int nextStepPos = ( position != steps.size()-1 ) ? position + 1 : -1;
+                    stepClickListener.onStepSelected(currentStep , previousStepPos, nextStepPos);
                 }
             });
 

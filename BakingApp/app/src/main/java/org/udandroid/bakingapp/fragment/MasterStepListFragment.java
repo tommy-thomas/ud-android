@@ -38,7 +38,7 @@ public class MasterStepListFragment extends Fragment {
     // StepClickListener interface, calls methods for onclick listener and data loading
     public interface StepClickListener {
 
-        void onStepSelected(Step step, Step previousStep, Step nextStep );
+        void onStepSelected(Step step, int previousStepPosition, int nextStepPosition );
 
     }
 

@@ -10,4 +10,5 @@
     <color name="colorSecondaryText">#000000</color>
     <color name="colorAccent">#7C4DFF</color>
     <color name="divider">#BDBDBD</color>
+    <color name="grey">#cccccc</color>
 </resources>

@@ -17,6 +17,7 @@ import org.udandroid.bakingapp.R;
 import org.udandroid.bakingapp.adapter.IngredientListAdapter;
 import org.udandroid.bakingapp.fragment.StepDetailFragment;
 import org.udandroid.bakingapp.model.Ingredient;
+import org.udandroid.bakingapp.model.Step;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -40,11 +41,9 @@ public class StepDetailActivity extends AppCompatActivity {
 
         // change the state of the bottom sheet
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-//        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-//        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
         // set the peek height
-        bottomSheetBehavior.setPeekHeight(200);
+        bottomSheetBehavior.setPeekHeight(180);
 
         // set hideable or not
         bottomSheetBehavior.setHideable(false);
@@ -65,11 +64,17 @@ public class StepDetailActivity extends AppCompatActivity {
         this.setTitle(getIntent().getStringExtra("stepLabel"));
         String description = getIntent().getStringExtra("Description");
         String videoURL = getIntent().getStringExtra("videoURL");
+        int previousStepPos = getIntent().getIntExtra("previousStepPos" , -1);
+        int nextStepPos  = getIntent().getIntExtra("nextStepPos" , -1);
+        String stepListString =  getIntent().getStringExtra("stepListString");
+        Gson gson = new Gson();
+        Type type_step = new TypeToken <List <Step>>() {
+        }.getType();
+        List <Step> stepList = gson.fromJson(stepListString, type_step);
 
         // Load ingredients into ingredientList
         String stringIngredient = getIntent().getStringExtra("stringIngredient");
         if (stringIngredient != null) {
-            Gson gson = new Gson();
             Type type_ingredient = new TypeToken <List <Ingredient>>() {
             }.getType();
             ingredientList = gson.fromJson(stringIngredient, type_ingredient);
@@ -79,6 +84,8 @@ public class StepDetailActivity extends AppCompatActivity {
         StepDetailFragment stepDetailFragment = new StepDetailFragment();
         stepDetailFragment.setDescription(description);
         stepDetailFragment.setVideoUrl(videoURL);
+        stepDetailFragment.setPreviousAndNextStep(previousStepPos, nextStepPos);
+        stepDetailFragment.setStepList(stepList);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 

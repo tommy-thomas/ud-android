@@ -25,7 +25,6 @@ import org.udandroid.bakingapp.model.Step;
 import org.udandroid.bakingapp.util.RecipeData;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 public class StepActivity extends AppCompatActivity implements
@@ -133,6 +132,7 @@ public class StepActivity extends AppCompatActivity implements
             stepDetailFragment.setDescription(currentStep.getDescription());
             stepDetailFragment.setVideoUrl(currentStep.getVideoURL());
             stepDetailFragment.setIngredientList(ingredientList);
+            stepDetailFragment.setStepList(stepList);
 
             FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -150,6 +150,7 @@ public class StepActivity extends AppCompatActivity implements
             }.getType();
             String json_step = gson.toJson(currentStep, type_step);
             outState.putString("stringStep", json_step);
+
         }
 
         if( ingredientList != null ){
@@ -170,7 +171,7 @@ public class StepActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onStepSelected(Step step, Step previousStep, Step nextStep) {
+    public void onStepSelected(Step step, int previousStepPos, int nextStepPos) {
 
         if (step != null) {
 
@@ -186,13 +187,15 @@ public class StepActivity extends AppCompatActivity implements
                 stepDetailFragment.setDescription(currentStep.getDescription());
                 stepDetailFragment.setVideoUrl(currentStep.getVideoURL());
                 stepDetailFragment.setIngredientList(ingredientList);
-                stepDetailFragment.setPreviousAndNextStep(previousStep, nextStep);
+                stepDetailFragment.setPreviousAndNextStep(previousStepPos, nextStepPos);
+                stepDetailFragment.setStepList(stepList);
 
                 FragmentManager fragmentManager = getSupportFragmentManager();
 
 
                 fragmentManager.beginTransaction()
                         .replace(R.id.fr_step_detail_container, stepDetailFragment)
+                        .addToBackStack(null)
                         .commit();
 
             } else {
@@ -202,18 +205,17 @@ public class StepActivity extends AppCompatActivity implements
                 bundle.putString("videoURL", currentStep.getVideoURL());
                 bundle.putString("Description", currentStep.getDescription());
                 bundle.putString("stepLabel", currentStep.getShortDescription());
+                bundle.putInt("previousStepPos" , previousStepPos);
+                bundle.putInt("nextStepPos" , nextStepPos);
                 Gson gson = new Gson();
                 Type type_ingredient = new TypeToken <List <Ingredient>>() {
                 }.getType();
                 String json_ingredient = gson.toJson(ingredientList, type_ingredient);
                 bundle.putString("stringIngredient", json_ingredient);
-                Type type_step = new TypeToken <ArrayList<Step>>() {
+                Type type_step = new TypeToken <List<Step>>() {
                 }.getType();
-                ArrayList<Step> previousAndNextStep = new ArrayList <>();
-                previousAndNextStep.add(previousStep);
-                previousAndNextStep.add(nextStep);
-                String json_previous_and_next_step = gson.toJson(previousAndNextStep, type_step);
-                bundle.putString("stringPreviousAndNextStep", json_previous_and_next_step);
+                String json_step_list = gson.toJson(stepList, type_step);
+                bundle.putString("stepListString",json_step_list);
                 intent.putExtras(bundle);
 
                 startActivity(intent);

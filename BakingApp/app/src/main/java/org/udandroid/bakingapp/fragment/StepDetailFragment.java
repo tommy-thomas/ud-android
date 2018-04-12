@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
@@ -54,10 +55,11 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
     private final String TAG = StepDetailFragment.class.getSimpleName();
     private String description;
     private String videoUrl;
-    private Step previousStep;
-    private Step nextStep;
+    private int previousStepPosition;
+    private int nextStepPosition;
     private SimpleExoPlayer mExoPlayer;
     List <Ingredient> ingredientList;
+    List <Step> stepList;
     IngredientListAdapter ingredientListAdapter;
     public static MediaSessionCompat mMediaSession;
     private PlaybackStateCompat.Builder mStateBuilder;
@@ -77,7 +79,7 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
 
         mPlayerView = rootView.findViewById(R.id.pv_rescipe_step_video);
 
-        if( videoUrl != null && videoUrl.length() > 1){
+        if (videoUrl != null && videoUrl.length() > 1) {
 
             mPlayerPosition = C.TIME_UNSET;
             if (savedInstanceState != null) {
@@ -99,33 +101,65 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
 
         tvDescription.setText(description);
 
-        Button previousBtn = rootView.findViewById(R.id.btn_previous);
-        previousBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if( previousStep != null){
-                    tvDescription.setText( previousStep.getDescription());
-                    releasePlayer();
-                    videoUrl = previousStep.getVideoURL();
-                    initializePlayer(Uri.parse(videoUrl));
+        final Button previousBtn = rootView.findViewById(R.id.btn_previous);
+        if (previousStepPosition == -1) {
+            previousBtn.setVisibility(View.GONE);
+        } else {
+            previousBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (stepList != null) {
+                        Step currentStep = stepList.get(previousStepPosition);
+                        int previous = previousStepPosition > 0 ? previousStepPosition - 1 : -1;
+                        int next = nextStepPosition != stepList.size() - 1 ? nextStepPosition + 1 : -1;
+                        StepDetailFragment stepDetailFragment = new StepDetailFragment();
+                        stepDetailFragment.setDescription(currentStep.getDescription());
+                        stepDetailFragment.setVideoUrl(currentStep.getVideoURL());
+                        stepDetailFragment.setIngredientList(ingredientList);
+                        stepDetailFragment.setPreviousAndNextStep(previous, next);
+                        stepDetailFragment.setStepList(stepList);
+
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.fr_step_detail_container, stepDetailFragment)
+                                .addToBackStack(null)
+                                .commit();
+                    }
+
                 }
-            }
-        });
+            });
+        }
 
 
-        Button nextBtn = rootView.findViewById(R.id.btn_next);
-        previousBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if( nextStep != null){
-                    tvDescription.setText( nextStep.getDescription());
-                    releasePlayer();
-                    videoUrl = nextStep.getVideoURL();
-                    initializePlayer(Uri.parse(videoUrl));
+        final Button nextBtn = rootView.findViewById(R.id.btn_next);
+        if (nextStepPosition == -1) {
+            nextBtn.setVisibility(View.GONE);
+        } else {
+            nextBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (stepList != null) {
+                        Step currentStep = stepList.get(nextStepPosition);
+                        int previous = nextStepPosition > 0 ? nextStepPosition - 1 : -1;
+                        int next = nextStepPosition != stepList.size() - 1 ? nextStepPosition + 1 : -1;
+                        StepDetailFragment stepDetailFragment = new StepDetailFragment();
+                        stepDetailFragment.setDescription(currentStep.getDescription());
+                        stepDetailFragment.setVideoUrl(currentStep.getVideoURL());
+                        stepDetailFragment.setIngredientList(ingredientList);
+                        stepDetailFragment.setPreviousAndNextStep(previous, next);
+                        stepDetailFragment.setStepList(stepList);
+
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.fr_step_detail_container, stepDetailFragment)
+                                .addToBackStack(null)
+                                .commit();
+                    }
                 }
-            }
-        });
-
+            });
+        }
         return rootView;
     }
 
@@ -155,9 +189,13 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
         this.ingredientList = ingredientList;
     }
 
-    public void setPreviousAndNextStep(Step previous, Step next){
-        previousStep = previous;
-        nextStep = next;
+    public void setStepList(List <Step> stepList) {
+        this.stepList = stepList;
+    }
+
+    public void setPreviousAndNextStep(int previous, int next) {
+        previousStepPosition = previous;
+        nextStepPosition = next;
     }
 
 
@@ -167,7 +205,7 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
      * @param mediaUri The URI of the sample to play.
      */
     private void initializePlayer(Uri mediaUri) {
-        if (  mExoPlayer == null ) {
+        if (mExoPlayer == null) {
             // Create an instance of the ExoPlayer.
             TrackSelector trackSelector = new DefaultTrackSelector();
             LoadControl loadControl = new DefaultLoadControl();
