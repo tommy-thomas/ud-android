@@ -13,10 +13,11 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@color/grey"
+        android:background="@color/colorSecondaryLight"
         android:gravity="center"
         android:text="@string/ingredients"
         android:textSize="18sp"
+
         android:textStyle="bold|italic"
         android:textColor="@android:color/white" />
 

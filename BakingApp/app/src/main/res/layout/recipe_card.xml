@@ -43,7 +43,9 @@
                 android:layout_centerVertical="true"
                 android:text="@string/recipe"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:gravity="center" />
+                android:gravity="center"
+                android:textStyle="italic|bold"
+                android:textSize="26sp"/>
 
             <TextView
                 android:id="@+id/tv_recipe_serving_card"

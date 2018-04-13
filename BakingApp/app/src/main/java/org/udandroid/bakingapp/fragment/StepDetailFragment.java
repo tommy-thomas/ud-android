@@ -269,6 +269,8 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
         outState.putString("videoUrl", videoUrl);
         outState.putLong("selectedPosition", mPlayerPosition);
         outState.putBoolean("playWhenReady", mPlayWhenReady);
+        outState.putInt("previousStepPos" , previousStepPosition);
+        outState.putInt("nextStepPos" , nextStepPosition);
         super.onSaveInstanceState(outState);
     }
 
