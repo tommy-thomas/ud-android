@@ -1,7 +1,9 @@
 package org.udandroid.bakingapp.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -17,12 +19,12 @@ import com.google.gson.reflect.TypeToken;
 
 import org.udandroid.bakingapp.R;
 import org.udandroid.bakingapp.adapter.IngredientListAdapter;
+import org.udandroid.bakingapp.data.RecipeDatabase;
 import org.udandroid.bakingapp.fragment.MasterStepListFragment;
 import org.udandroid.bakingapp.fragment.StepDetailFragment;
 import org.udandroid.bakingapp.model.Ingredient;
 import org.udandroid.bakingapp.model.Recipe;
 import org.udandroid.bakingapp.model.Step;
-import org.udandroid.bakingapp.util.RecipeData;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -33,8 +35,7 @@ public class StepActivity extends AppCompatActivity implements
     public List <Step> stepList;
     private Step currentStep;
     private List <Ingredient> ingredientList;
-    private int recipeID;
-    private String recipeName;
+    private Recipe currentRecipe;
     private final static String TAG = StepActivity.class.getSimpleName();
     private boolean mTwoPane;
     private Gson gson = new Gson();
@@ -49,12 +50,10 @@ public class StepActivity extends AppCompatActivity implements
 
         Type type_recipe = new TypeToken <Recipe>() {
         }.getType();
-        Recipe recipe = gson.fromJson(stringRecipe, type_recipe);
-        this.setTitle(recipe.getName());
-        recipeID = Integer.parseInt(recipe.getId());
-        recipeName = recipe.getName();
-        stepList = recipe.getSteps();
-        ingredientList = recipe.getIngredients();
+        currentRecipe = gson.fromJson(stringRecipe, type_recipe);
+        this.setTitle(currentRecipe.getName());
+        stepList = currentRecipe.getSteps();
+        ingredientList = currentRecipe.getIngredients();
 
 
         // Two panes?
@@ -78,6 +77,10 @@ public class StepActivity extends AppCompatActivity implements
             }.getType();
             currentStep = gson.fromJson(savedInstanceState.getString("stringStep"), type_step);
         }
+
+        //Save current recipe as most recent
+        currentRecipe.setDate(System.currentTimeMillis() / 1000);
+        new SaveRecipeTask(this).execute(currentRecipe);
 
 
     }
@@ -158,9 +161,9 @@ public class StepActivity extends AppCompatActivity implements
 
         }
 
-        if (ingredientList != null) {
-            saveIngredientListBundleState();
-        }
+//        if (ingredientList != null) {
+//            saveIngredientListBundleState();
+//        }
 
         super.onSaveInstanceState(outState);
     }
@@ -171,8 +174,6 @@ public class StepActivity extends AppCompatActivity implements
         }.getType();
         String json_ingredient = gson.toJson(ingredientList, type_ingredient);
 
-        RecipeData recipeData = new RecipeData(this);
-        recipeData.saveIngredientState(recipeID, recipeName, json_ingredient);
     }
 
     @Override
@@ -227,6 +228,22 @@ public class StepActivity extends AppCompatActivity implements
             }
         }
 
+    }
+
+    private class SaveRecipeTask extends AsyncTask <Recipe, String, Recipe> {
+
+        private Context aynscContext;
+
+        public SaveRecipeTask(Context context) {
+            aynscContext = context;
+        }
+
+        @Override
+        protected Recipe doInBackground(Recipe... recipes) {
+            RecipeDatabase recipeDatabase = RecipeDatabase.getRecipeDatabase(aynscContext);
+            recipeDatabase.recipeDAO().update(recipes[0]);
+            return null;
+        }
     }
 
 }

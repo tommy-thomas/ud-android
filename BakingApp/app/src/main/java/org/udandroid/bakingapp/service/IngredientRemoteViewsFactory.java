@@ -3,12 +3,14 @@ package org.udandroid.bakingapp.service;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import org.udandroid.bakingapp.R;
+import org.udandroid.bakingapp.data.RecipeDatabase;
 import org.udandroid.bakingapp.model.Ingredient;
-import org.udandroid.bakingapp.util.RecipeData;
+import org.udandroid.bakingapp.model.Recipe;
 
 import java.util.List;
 
@@ -21,46 +23,31 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
     private Context context;
     private List<Ingredient> ingredientList;
     private final String TAG = IngredientRemoteViewsFactory.class.getSimpleName();
-    private RecipeData recipeData;
 
 
     public IngredientRemoteViewsFactory(Context context, Intent intent){
 
         this.context = context;
-        recipeData = new RecipeData(context);
-        ingredientList = recipeData.getIngredientList();
 
+    }
+
+    private void setIngredientList(List ingredientList){
+        this.ingredientList = ingredientList;
     }
 
     @Override
     public void onCreate() {
-
+        new TaskRecentRecipeTask(context).execute();
     }
 
     @Override
     public void onDataSetChanged() {
 
-//        if (mCursor != null) {
-//            mCursor.close();
-//        }
-//
-//        final long identityToken = Binder.clearCallingIdentity();
-//        Uri uri = RecipeContract.BASE_CONTENT_URI;
-//        mCursor = context.getContentResolver().query(uri,
-//                null,
-//                null,
-//                null,
-//                _ID + " DESC");
-//
-//        Binder.restoreCallingIdentity(identityToken);
-
+        //new TaskRecentRecipeTask(context).execute();
     }
 
     @Override
-    public void onDestroy() {
-
-
-    }
+    public void onDestroy() {}
 
     @Override
     public int getCount() {
@@ -98,6 +85,28 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
     @Override
     public boolean hasStableIds() {
         return true;
+    }
+
+    private class TaskRecentRecipeTask extends AsyncTask<String,String,Recipe> {
+
+        private Context aynscContext;
+
+        public TaskRecentRecipeTask(Context context){
+            aynscContext = context;
+        }
+
+        @Override
+        protected Recipe doInBackground(String... strings) {
+            RecipeDatabase recipeDatabase = RecipeDatabase.getRecipeDatabase(aynscContext);
+            return recipeDatabase.recipeDAO().getRecent();
+        }
+
+        @Override
+        protected void onPostExecute(Recipe recipe) {
+            if( recipe != null ){
+                setIngredientList((List) recipe.getIngredients());
+            }
+        }
     }
 
 }

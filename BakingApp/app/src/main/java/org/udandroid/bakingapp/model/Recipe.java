@@ -1,26 +1,52 @@
 package org.udandroid.bakingapp.model;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
 /**
  * Created by tommy-thomas on 3/30/18.
  */
-
+@Entity(tableName = "recipes")
 public class Recipe {
+    @NonNull
+    @PrimaryKey(autoGenerate = true)
+    private int id;
 
-    private String id;
+    @ColumnInfo(name = "name")
     private String name;
+
+    @ColumnInfo(name = "servings")
     private String servings;
+
+    @ColumnInfo(name = "image")
     private String image;
+
+    @ColumnInfo(name = "ingredients")
     private List<Ingredient> ingredients;
+
+    @ColumnInfo(name = "steps")
     private List<Step> steps;
 
+    @ColumnInfo(name = "date")
+    private long date;
 
-    public String getId(){
+    public long getDate(){
+        return date;
+    }
+
+    public void setDate(long date){
+        this.date = date;
+    }
+
+    public int getId(){
         return id;
     }
 
-    public void setId(String id){
+    public void setId(int id){
         this.id = id;
     }
 

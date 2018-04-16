@@ -8,32 +8,23 @@ import android.content.Intent;
 import android.widget.RemoteViews;
 
 import org.udandroid.bakingapp.R;
-import org.udandroid.bakingapp.model.Ingredient;
 import org.udandroid.bakingapp.service.IngredientRemoteViewsService;
 import org.udandroid.bakingapp.ui.MainActivity;
-import org.udandroid.bakingapp.util.RecipeData;
-
-import java.util.List;
 
 /**
  * Implementation of App Widget functionality.
  */
 public class RecipeWidgetProvider extends AppWidgetProvider {
 
-    private List <Ingredient> ingredientList;
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
-
-        RecipeData recipeData = new RecipeData(context);
-        CharSequence widgetTitle = recipeData.getRecipeName() != null &&
-                recipeData.getRecipeName() != "" ? recipeData.getRecipeName() : "Recipe";
 
 
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
 
-        views.setTextViewText(R.id.tv_recipe_title, widgetTitle);
+        views.setTextViewText(R.id.tv_recipe_title, "Recipe");
 
         Intent contextIntent = new Intent(context, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, contextIntent, 0);
@@ -69,7 +60,6 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
     }
-
 
 }
 

@@ -1,5 +1,6 @@
 package org.udandroid.bakingapp.ui;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new FetchRecipesTask().execute();
+        new FetchRecipesTask(this).execute();
 
     }
 
@@ -41,15 +42,22 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(recipeListAdapter);
     }
 
-    private class FetchRecipesTask extends AsyncTask<String, String, Recipe[]>{
+    private class FetchRecipesTask extends AsyncTask<String,String,Recipe[]>{
+
+        private Context aynscContext;
+
+        public FetchRecipesTask(Context context){
+            aynscContext = context;
+        }
 
         @Override
         protected Recipe[] doInBackground(String... strings) {
-            RecipeMapper mapper = new RecipeMapper();
+            RecipeMapper mapper = new RecipeMapper(aynscContext);
             mapper.mapData();
             recipes = mapper.recipes();
             return null;
         }
+
 
         @Override
         protected void onPostExecute(Recipe[] recipes) {
