@@ -1,4 +1,4 @@
-package org.udandroid.bakingapp.service;
+package org.udandroid.bakingapp.widget;
 
 import android.content.Intent;
 import android.widget.RemoteViewsService;
@@ -8,6 +8,7 @@ import android.widget.RemoteViewsService;
  */
 
 public class IngredientRemoteViewsService extends RemoteViewsService {
+
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
         return new IngredientRemoteViewsFactory(this.getApplicationContext(), intent);

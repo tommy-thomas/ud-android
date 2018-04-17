@@ -14,7 +14,7 @@
         android:layout_centerVertical="true"
         android:layout_margin="8dp"
         android:background="#eeeeee"
-        android:contentDescription="@string/appwidget_text"
+        android:contentDescription="@string/recipe"
         android:textColor="#333333"
         android:textSize="24sp"
         android:textStyle="bold|italic" />
