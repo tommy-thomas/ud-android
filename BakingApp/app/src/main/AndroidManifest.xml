@@ -12,6 +12,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <receiver android:name=".widget.RecipeWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/recipe_widget_provider_info" />
+        </receiver>
         <activity
             android:name=".ui.MainActivity"
             android:configChanges="orientation|screenSize">
@@ -29,19 +38,11 @@
             android:configChanges="orientation|screenSize" />
 
         <receiver android:name=".fragment.StepDetailFragment$MediaReceiver" />
-        <receiver android:name=".widget.RecipeWidgetProvider">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
 
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/recipe_widget_provider_info" />
-        </receiver>
+        <service android:name=".widget.IngredientListService" />
 
-        <service android:name=".widget.IngredientRemoteViewsService" />
         <service
-            android:name=".widget.IngredientListService"
+            android:name=".widget.IngredientRemoteViewsService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <provider

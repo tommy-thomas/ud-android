@@ -43,11 +43,13 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
         try {
             Gson gson = new Gson();
-            Type type = new TypeToken <List <Ingredient>>() {}.getType();
+            Type type = new TypeToken <List <Ingredient>>() {
+            }.getType();
             String json_ingredient_list = gson.toJson(ingredientList, type);
             Intent intent = new Intent(context, IngredientRemoteViewsService.class);
-            intent.putExtra("ingredientList" , json_ingredient_list);
+            intent.putExtra("ingredientList", json_ingredient_list);
             views.setRemoteAdapter(R.id.lv_ingredient_list, intent);
+
         } catch (Exception e) {
             e.getMessage();
         }
@@ -69,8 +71,8 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     @Override
     public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager,
                                           int appWidgetId, Bundle newOptions) {
-        IngredientListService.startActionUpdateIngredients(context);
-        super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
+//        IngredientListService.startActionUpdateIngredients(context);
+//        super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
     }
 
 

@@ -109,6 +109,7 @@ public class StepActivity extends AppCompatActivity implements
         // set hideable or not
         bottomSheetBehavior.setHideable(false);
 
+
         // set callback for changes
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override

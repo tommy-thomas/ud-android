@@ -32,23 +32,20 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
 
         this.context = context;
         this.serviceIntent = intent;
-        Log.d(TAG, "Starting factory...");
 
         if (intent.hasExtra("ingredientList")) {
             Gson gson = new Gson();
             String stringIngredientList = intent.getStringExtra("ingredientList");
-            Log.d(TAG, stringIngredientList);
             Type type = new TypeToken <List <Ingredient>>() {
             }.getType();
             ingredientList = gson.fromJson(stringIngredientList, type);
-            Log.d(TAG, ingredientList.get(2).getIngredient());
         }
 
     }
 
     @Override
     public void onCreate() {
-
+        Log.d(TAG , "Factory started...");
     }
 
     @Override
@@ -57,11 +54,9 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
         if (serviceIntent.hasExtra("ingredientList")) {
             Gson gson = new Gson();
             String stringIngredientList = serviceIntent.getStringExtra("ingredientList");
-            Log.d(TAG, stringIngredientList);
             Type type = new TypeToken <List <Ingredient>>() {
             }.getType();
             ingredientList = gson.fromJson(stringIngredientList, type);
-            Log.d(TAG, ingredientList.get(2).getIngredient());
         }
 
     }
@@ -104,6 +99,6 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
 
     @Override
     public boolean hasStableIds() {
-        return true;
+        return false;
     }
 }
