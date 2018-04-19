@@ -35,7 +35,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
 
-        views.setTextViewText(R.id.tv_recipe_title, recipeName);
+        views.setTextViewText(R.id.tv_recipe_title, "Recipe: " + recipeName);
 
         Intent contextIntent = new Intent(context, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, contextIntent, 0);

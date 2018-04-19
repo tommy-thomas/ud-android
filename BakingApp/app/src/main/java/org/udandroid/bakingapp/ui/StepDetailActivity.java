@@ -43,7 +43,7 @@ public class StepDetailActivity extends AppCompatActivity {
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
         // set the peek height
-        bottomSheetBehavior.setPeekHeight(180);
+        bottomSheetBehavior.setPeekHeight(90);
 
         // set hideable or not
         bottomSheetBehavior.setHideable(false);

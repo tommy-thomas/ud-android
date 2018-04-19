@@ -1,18 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<resources>-->
-    <!--<color name="colorPrimary">#9575cd</color>-->
-    <!--<color name="colorPrimaryLight">#c7a4ff</color>-->
-    <!--<color name="colorPrimaryDark">#65499c</color>-->
-    <!--<color name="colorSecondar">#b29ddb</color>-->
-    <!--<color name="colorSecondaryLight">#e5ceff</color>-->
-    <!--<color name="colorSecondaryDark">#826fa9</color>-->
-    <!--<color name="colorPrimaryText">#000000</color>-->
-    <!--<color name="colorSecondaryText">#000000</color>-->
-    <!--<color name="colorAccent">#7C4DFF</color>-->
-    <!--<color name="divider">#BDBDBD</color>-->
-    <!--<color name="grey">#cccccc</color>-->
-<!--</resources>-->
-<!--?xml version="1.0" encoding="UTF-8"?-->
 <resources>
     <color name="colorPrimary">#455a64</color>
     <color name="colorPrimaryLight">#718792</color>
@@ -24,5 +10,5 @@
     <color name="colorAccent">#a30000</color>
     <color name="colorSecondaryText">#ffffff</color>
     <color name="grey">#718792</color>
-    <color name="divider">#455a64</color>
+    <color name="divider">#dddddd</color>
 </resources>

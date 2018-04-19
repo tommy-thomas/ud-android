@@ -19,8 +19,6 @@ public abstract class RecipeDatabase extends RoomDatabase {
 
     public abstract RecipeDAO recipeDAO();
 
-    //public abstract SelectedRecipeDAO selectedRecipeDAO();
-
 
     public static RecipeDatabase getRecipeDatabase(Context context) {
         if (INSTANCE == null) {

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#eeeeee"
+    android:background="@color/colorAccent"
     android:padding="@dimen/widget_margin"
     android:orientation="vertical">
 
@@ -13,16 +13,17 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_margin="8dp"
-        android:background="#eeeeee"
         android:contentDescription="@string/recipe"
-        android:textColor="#333333"
-        android:textSize="24sp"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        android:background="@color/colorAccent"
         android:textStyle="bold|italic" />
 
     <ListView
         android:id="@+id/lv_ingredient_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#ffffff"
         tools:listitem="@layout/recipe_widget_ingredient_item"/>
 
 </LinearLayout>

@@ -28,10 +28,6 @@ public class RecipeMapper {
         this.context = context;
     }
 
-    public void RecipeMapper(Context context) {
-        this.context = context;
-    }
-
     public void mapData() {
 
         ConnectivityManager cm =
@@ -41,32 +37,24 @@ public class RecipeMapper {
 
         boolean isConnected = activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
-
-        ObjectMapper Mapper = new ObjectMapper();
         RecipeDatabase recipeDatabase = RecipeDatabase.getRecipeDatabase(context);
-
-
         if (isConnected) {
             try {
+
+                ObjectMapper Mapper = new ObjectMapper();
                 recipes = Mapper.readValue(new URL(URL_RECIPES), Recipe[].class);
-               // recipes = recipeDatabase.recipeDAO().getAll();
 
-//                recipeDatabase.recipeDAO().clearRecipes();
-//                recipeDatabase.recipeDAO().insertAll(recipes);
-
-//                Recipe[] test = recipeDatabase.recipeDAO().getAll();
-//                Log.d(TAG , test.toString());
+                if (recipes.length > 0) {
+                    recipeDatabase.recipeDAO().insertAll(recipes);
+                }
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
 
-
             if (recipeDatabase.recipeDAO().countRecipes() > 0)
                 recipes = recipeDatabase.recipeDAO().getAll();
-
-
         }
 
     }

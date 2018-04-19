@@ -1,5 +1,7 @@
 package org.udandroid.bakingapp.ui;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -25,6 +27,7 @@ import org.udandroid.bakingapp.fragment.StepDetailFragment;
 import org.udandroid.bakingapp.model.Ingredient;
 import org.udandroid.bakingapp.model.Recipe;
 import org.udandroid.bakingapp.model.Step;
+import org.udandroid.bakingapp.widget.RecipeWidgetProvider;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -162,19 +165,7 @@ public class StepActivity extends AppCompatActivity implements
 
         }
 
-//        if (ingredientList != null) {
-//            saveIngredientListBundleState();
-//        }
-
         super.onSaveInstanceState(outState);
-    }
-
-    private void saveIngredientListBundleState() {
-        Gson gson = new Gson();
-        Type type_ingredient = new TypeToken <List <Ingredient>>() {
-        }.getType();
-        String json_ingredient = gson.toJson(ingredientList, type_ingredient);
-
     }
 
     @Override
@@ -231,6 +222,16 @@ public class StepActivity extends AppCompatActivity implements
 
     }
 
+    private void notifyServiceUpdateRecipeWidget(){
+        Intent intent = new Intent(this, RecipeWidgetProvider.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
+        // since it seems the onUpdate() is only fired on that:
+        int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), RecipeWidgetProvider.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        sendBroadcast(intent);
+    }
+
     private class SaveRecipeTask extends AsyncTask <Recipe, String, Recipe> {
 
         private Context aynscContext;
@@ -243,6 +244,8 @@ public class StepActivity extends AppCompatActivity implements
         protected Recipe doInBackground(Recipe... recipes) {
             RecipeDatabase recipeDatabase = RecipeDatabase.getRecipeDatabase(aynscContext);
             recipeDatabase.recipeDAO().update(recipes[0]);
+
+            notifyServiceUpdateRecipeWidget();
             return null;
         }
     }
