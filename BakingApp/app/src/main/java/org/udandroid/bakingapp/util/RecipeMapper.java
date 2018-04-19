@@ -45,7 +45,7 @@ public class RecipeMapper {
                 recipes = Mapper.readValue(new URL(URL_RECIPES), Recipe[].class);
 
                 if (recipes.length > 0) {
-                    recipeDatabase.recipeDAO().insertAll(recipes);
+                    //recipeDatabase.recipeDAO().insertAll(recipes);
                 }
 
             } catch (Exception e) {

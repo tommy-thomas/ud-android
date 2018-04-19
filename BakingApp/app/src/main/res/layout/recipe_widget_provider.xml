@@ -16,8 +16,7 @@
         android:contentDescription="@string/recipe"
         android:textColor="#ffffff"
         android:textSize="18sp"
-        android:background="@color/colorAccent"
-        android:textStyle="bold|italic" />
+        android:background="@color/colorAccent" />
 
     <ListView
         android:id="@+id/lv_ingredient_list"

@@ -35,6 +35,5 @@
 
 
 </LinearLayout>
-    <!-- include bottom sheet -->
-    <include layout="@layout/ingredient_bottom_sheet" />
+
 </android.support.design.widget.CoordinatorLayout>

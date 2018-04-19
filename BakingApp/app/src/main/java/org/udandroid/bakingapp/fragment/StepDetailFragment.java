@@ -5,16 +5,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.C;
@@ -102,6 +107,44 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
         tvDescription.setText(description);
 
         getActivity().setTitle(description);
+
+        if(rootView.findViewById(R.id.bottom_sheet) != null){
+            // get the bottom sheet view
+            LinearLayout llBottomSheet = (LinearLayout) rootView.findViewById(R.id.bottom_sheet);
+
+            // init the bottom sheet behavior
+            BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
+
+            // change the state of the bottom sheet
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+            // set the peek height
+            bottomSheetBehavior.setPeekHeight(90);
+
+            // set hideable or not
+            bottomSheetBehavior.setHideable(false);
+
+            // set callback for changes
+            bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+                @Override
+                public void onStateChanged(@NonNull View bottomSheet, int newState) {
+
+                }
+
+                @Override
+                public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+                }
+            });
+
+            //ListView adapter
+            final RecyclerView recyclerView = rootView.findViewById(R.id.rv_ingredient);
+            recyclerView.setHasFixedSize(true);
+            ingredientListAdapter = new IngredientListAdapter(getContext(), ingredientList);
+            RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(ingredientListAdapter);
+        }
 
         final Button previousBtn = rootView.findViewById(R.id.btn_previous);
         if (previousStepPosition == -1) {

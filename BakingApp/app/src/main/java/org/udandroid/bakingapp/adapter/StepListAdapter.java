@@ -43,10 +43,6 @@ public class StepListAdapter extends RecyclerView.Adapter <StepListAdapter.ViewH
     public void onBindViewHolder(final StepListAdapter.ViewHolder viewHolder, final int position) {
 
         if (viewHolder != null) {
-//            if (steps.get(position).getThumbnailURL() != "" && steps.get(position).getThumbnailURL().length() > 0) {
-//                Picasso.with(context)
-//                        .load(steps.get(position).getThumbnailURL()).into(viewHolder.ivStepThumbnail);
-//            }
 
             viewHolder.tvStepShortDescription.setText(steps.get(position).getShortDescription().toString());
 
