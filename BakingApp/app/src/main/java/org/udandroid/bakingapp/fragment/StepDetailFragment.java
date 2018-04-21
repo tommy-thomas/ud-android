@@ -105,6 +105,10 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
             // Initialize the player view.
             initializeMediaSession();
 
+        } else {
+           SimpleExoPlayerView simpleExoPlayerView = rootView.findViewById(R.id.pv_rescipe_step_video);
+           simpleExoPlayerView.setVisibility(View.GONE);
+
         }
 
 
