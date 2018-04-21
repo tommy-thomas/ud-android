@@ -61,6 +61,7 @@ public class StepDetailActivity extends AppCompatActivity {
             }
         });
 
+
         this.setTitle(getIntent().getStringExtra("stepLabel"));
         String description = getIntent().getStringExtra("Description");
         String videoURL = getIntent().getStringExtra("videoURL");
@@ -101,6 +102,13 @@ public class StepDetailActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(ingredientListAdapter);
 
+    }
+
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 
 

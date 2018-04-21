@@ -163,8 +163,8 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
                 public void onClick(View v) {
                     if (stepList != null) {
                         Step currentStep = stepList.get(previousStepPosition);
-                        int previous = previousStepPosition > 0 ? previousStepPosition - 1 : -1;
-                        int next = (previousStepPosition + 2) < stepList.size() - 1 ? previousStepPosition + 2 : -1;
+                        int previous = previousStepPosition - 1;
+                        int next = previousStepPosition < stepList.size() - 1 ? previousStepPosition + 2 : -1;
                         StepDetailFragment stepDetailFragment = new StepDetailFragment();
                         stepDetailFragment.setDescription(currentStep.getDescription());
                         stepDetailFragment.setVideoUrl(currentStep.getVideoURL());
