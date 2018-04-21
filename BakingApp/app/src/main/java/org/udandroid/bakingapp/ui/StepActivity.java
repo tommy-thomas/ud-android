@@ -1,11 +1,7 @@
 package org.udandroid.bakingapp.ui;
 
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -15,13 +11,11 @@ import com.google.gson.reflect.TypeToken;
 
 import org.udandroid.bakingapp.R;
 import org.udandroid.bakingapp.adapter.IngredientListAdapter;
-import org.udandroid.bakingapp.data.RecipeDatabase;
 import org.udandroid.bakingapp.fragment.MasterStepListFragment;
 import org.udandroid.bakingapp.fragment.StepDetailFragment;
 import org.udandroid.bakingapp.model.Ingredient;
 import org.udandroid.bakingapp.model.Recipe;
 import org.udandroid.bakingapp.model.Step;
-import org.udandroid.bakingapp.widget.RecipeWidgetProvider;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -67,10 +61,6 @@ public class StepActivity extends AppCompatActivity implements
             currentStep = gson.fromJson(savedInstanceState.getString("stringStep"), type_step);
         }
 
-        //Save current recipe as most recent
-        currentRecipe.setDate(System.currentTimeMillis() / 1000);
-        new SaveRecipeTask(this).execute(currentRecipe);
-
 
     }
 
@@ -105,6 +95,7 @@ public class StepActivity extends AppCompatActivity implements
         }
 
     }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -171,34 +162,6 @@ public class StepActivity extends AppCompatActivity implements
             }
         }
 
-    }
-
-    private void notifyServiceUpdateRecipeWidget(){
-        Intent intent = new Intent(this, RecipeWidgetProvider.class);
-        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
-        // since it seems the onUpdate() is only fired on that:
-        int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), RecipeWidgetProvider.class));
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-        sendBroadcast(intent);
-    }
-
-    private class SaveRecipeTask extends AsyncTask <Recipe, String, Recipe> {
-
-        private Context aynscContext;
-
-        public SaveRecipeTask(Context context) {
-            aynscContext = context;
-        }
-
-        @Override
-        protected Recipe doInBackground(Recipe... recipes) {
-            RecipeDatabase recipeDatabase = RecipeDatabase.getRecipeDatabase(aynscContext);
-            recipeDatabase.recipeDAO().update(recipes[0]);
-
-            notifyServiceUpdateRecipeWidget();
-            return null;
-        }
     }
 
 }

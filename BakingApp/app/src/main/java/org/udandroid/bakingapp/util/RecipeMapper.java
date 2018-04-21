@@ -4,12 +4,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.udandroid.bakingapp.data.RecipeDatabase;
 import org.udandroid.bakingapp.model.Recipe;
-
-import java.net.URL;
 
 /**
  * Created by tommy-thomas on 3/31/18.
@@ -40,9 +36,10 @@ public class RecipeMapper {
         RecipeDatabase recipeDatabase = RecipeDatabase.getRecipeDatabase(context);
         if (isConnected) {
             try {
-
-                ObjectMapper Mapper = new ObjectMapper();
-                recipes = Mapper.readValue(new URL(URL_RECIPES), Recipe[].class);
+//
+//                ObjectMapper Mapper = new ObjectMapper();
+//                recipes = Mapper.readValue(new URL(URL_RECIPES), Recipe[].class);
+                recipes = recipeDatabase.recipeDAO().getAll();
 
                 if (recipes.length > 0) {
                     //recipeDatabase.recipeDAO().insertAll(recipes);

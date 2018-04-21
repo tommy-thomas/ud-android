@@ -73,6 +73,12 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
     public StepDetailFragment() {
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
+
     private long mPlayerPosition;
     private boolean mPlayWhenReady;
 
@@ -104,11 +110,13 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
 
         final TextView tvDescription = rootView.findViewById(R.id.tv_recipe_step_description);
 
-        tvDescription.setText(description);
+        if( tvDescription != null ){
+            tvDescription.setText(description);
+        }
 
         getActivity().setTitle(description);
 
-        if(rootView.findViewById(R.id.bottom_sheet) != null){
+        if (rootView.findViewById(R.id.bottom_sheet) != null) {
             // get the bottom sheet view
             LinearLayout llBottomSheet = (LinearLayout) rootView.findViewById(R.id.bottom_sheet);
 
@@ -156,7 +164,7 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
                     if (stepList != null) {
                         Step currentStep = stepList.get(previousStepPosition);
                         int previous = previousStepPosition > 0 ? previousStepPosition - 1 : -1;
-                        int next =  (previousStepPosition + 2) < stepList.size() - 1 ?  previousStepPosition + 2 : -1;
+                        int next = (previousStepPosition + 2) < stepList.size() - 1 ? previousStepPosition + 2 : -1;
                         StepDetailFragment stepDetailFragment = new StepDetailFragment();
                         stepDetailFragment.setDescription(currentStep.getDescription());
                         stepDetailFragment.setVideoUrl(currentStep.getVideoURL());
@@ -312,8 +320,8 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
         outState.putString("videoUrl", videoUrl);
         outState.putLong("selectedPosition", mPlayerPosition);
         outState.putBoolean("playWhenReady", mPlayWhenReady);
-        outState.putInt("previousStepPos" , previousStepPosition);
-        outState.putInt("nextStepPos" , nextStepPosition);
+        outState.putInt("previousStepPos", previousStepPosition);
+        outState.putInt("nextStepPos", nextStepPosition);
         super.onSaveInstanceState(outState);
     }
 
