@@ -108,9 +108,7 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
         } else {
            SimpleExoPlayerView simpleExoPlayerView = rootView.findViewById(R.id.pv_rescipe_step_video);
            simpleExoPlayerView.setVisibility(View.GONE);
-
         }
-
 
         final TextView tvDescription = rootView.findViewById(R.id.tv_recipe_step_description);
 

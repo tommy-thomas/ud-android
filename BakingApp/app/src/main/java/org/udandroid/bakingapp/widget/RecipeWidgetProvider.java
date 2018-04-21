@@ -50,6 +50,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
             intent.putExtra("ingredientList", json_ingredient_list);
             views.setRemoteAdapter(R.id.lv_ingredient_list, intent);
 
+
         } catch (Exception e) {
             e.getMessage();
         }
@@ -71,8 +72,9 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     @Override
     public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager,
                                           int appWidgetId, Bundle newOptions) {
-        super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
         IngredientListService.startActionUpdateIngredients(context);
+        super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
+
     }
 
     @Override

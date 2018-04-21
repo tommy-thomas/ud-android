@@ -27,35 +27,44 @@ public class IngredientListService extends IntentService {
 
     public static final String ACTION_UPDATE_INGREDIENTS = "org.udandroid.bakingapp.service.action.update_ingredients";
 
+
     public IngredientListService() {
         super("IngredientListService");
     }
 
-    public static void startActionUpdateIngredients(Context context){
-        Intent intent = new Intent(context , IngredientListService.class);
+    public static void startActionUpdateIngredients(Context context) {
+        Intent intent = new Intent(context, IngredientListService.class);
         intent.setAction(ACTION_UPDATE_INGREDIENTS);
         context.startService(intent);
     }
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        if( intent != null){
+        if (intent != null) {
             final String action = intent.getAction();
-            if( ACTION_UPDATE_INGREDIENTS.equals(action)){
+            if (ACTION_UPDATE_INGREDIENTS.equals(action)) {
                 handleActionUpdateIngredients();
             }
         }
 
     }
 
-    private void handleActionUpdateIngredients(){
+    private void handleActionUpdateIngredients() {
         RecipeDatabase recipeDatabase = RecipeDatabase.getRecipeDatabase(this);
         Recipe recipe = recipeDatabase.recipeDAO().getRecent();
         String recipeName = recipe.getName();
-        List<Ingredient> ingredientList = recipe.getIngredients();
+        List <Ingredient> ingredientList = recipe.getIngredients();
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, RecipeWidgetProvider.class));
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.lv_ingredient_list);
-       RecipeWidgetProvider.updateRecipeWidget(this, appWidgetManager , appWidgetIds, recipeName, ingredientList);
+        RecipeWidgetProvider.updateRecipeWidget(this, appWidgetManager, appWidgetIds, recipeName, ingredientList);
     }
+
+    public List<Ingredient> getIngredientList(){
+        RecipeDatabase recipeDatabase = RecipeDatabase.getRecipeDatabase(this);
+        Recipe recipe = recipeDatabase.recipeDAO().getRecent();
+        return recipe.getIngredients();
+    }
+
+
 }

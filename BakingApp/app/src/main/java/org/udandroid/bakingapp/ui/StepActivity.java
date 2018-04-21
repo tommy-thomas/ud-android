@@ -61,7 +61,6 @@ public class StepActivity extends AppCompatActivity implements
             currentStep = gson.fromJson(savedInstanceState.getString("stringStep"), type_step);
         }
 
-
     }
 
     @Override

@@ -3,7 +3,6 @@ package org.udandroid.bakingapp.widget;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -25,13 +24,11 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
     private Context context;
     private List <Ingredient> ingredientList;
     private final String TAG = IngredientRemoteViewsFactory.class.getSimpleName();
-    private Intent serviceIntent;
 
 
     public IngredientRemoteViewsFactory(Context context, Intent intent) {
 
         this.context = context;
-        this.serviceIntent = intent;
 
         if (intent.hasExtra("ingredientList")) {
             Gson gson = new Gson();
@@ -43,22 +40,20 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
 
     }
 
+    public interface UpdateIngredientListener {
+
+        List<Ingredient> getIngredient();
+
+    }
+
     @Override
     public void onCreate() {
-        Log.d(TAG , "Factory started...");
     }
 
     @Override
     public void onDataSetChanged() {
-
-        if (serviceIntent.hasExtra("ingredientList")) {
-            Gson gson = new Gson();
-            String stringIngredientList = serviceIntent.getStringExtra("ingredientList");
-            Type type = new TypeToken <List <Ingredient>>() {
-            }.getType();
-            ingredientList = gson.fromJson(stringIngredientList, type);
-        }
-
+        IngredientListService ingredientListService = new IngredientListService();
+        ingredientList = ingredientListService.getIngredientList();
     }
 
     @Override
