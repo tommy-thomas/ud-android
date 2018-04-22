@@ -15,14 +15,14 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentLeft="true"
-            android:background="@drawable/ic_navigate_before_black_24px"
+            android:background="@drawable/nav_previous"
             android:id="@+id/btn_previous"
             />
         <Button
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
-            android:background="@drawable/ic_navigate_next_black_24px"
+            android:background="@drawable/nav_next"
             android:id="@+id/btn_next"
             />
     </RelativeLayout>

@@ -4,20 +4,34 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import org.udandroid.bakingapp.IdlingResource.SimpleIdlingResource;
 import org.udandroid.bakingapp.R;
 import org.udandroid.bakingapp.adapter.RecipeListAdapter;
-import org.udandroid.bakingapp.util.RecipeMapper;
 import org.udandroid.bakingapp.model.Recipe;
+import org.udandroid.bakingapp.util.RecipeMapper;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private final static String TAG = MainActivity.class.getSimpleName();
     private Recipe[] recipes;
     private RecipeListAdapter recipeListAdapter;
+
+    @Nullable
+    private SimpleIdlingResource mIdlingResource;
+
+
+    @Nullable
+    public SimpleIdlingResource getmIdlingResource() {
+        return mIdlingResource;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         new FetchRecipesTask(this).execute();
+
+        getmIdlingResource();
 
     }
 
@@ -64,6 +80,15 @@ public class MainActivity extends AppCompatActivity {
            // super.onPostExecute(recipes);
            loadRecipeViews();
         }
+    }
+
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (mIdlingResource == null) {
+            mIdlingResource = new SimpleIdlingResource();
+        }
+        return mIdlingResource;
     }
 
 
