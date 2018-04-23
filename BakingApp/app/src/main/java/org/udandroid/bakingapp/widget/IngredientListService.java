@@ -29,7 +29,7 @@ public class IngredientListService extends IntentService {
 
 
     public IngredientListService() {
-        super("IngredientListService");
+        super(IngredientListService.class.getName());
     }
 
     public static void startActionUpdateIngredients(Context context) {
@@ -64,6 +64,7 @@ public class IngredientListService extends IntentService {
         RecipeDatabase recipeDatabase = RecipeDatabase.getRecipeDatabase(this);
         Recipe recipe = recipeDatabase.recipeDAO().getRecent();
         return recipe.getIngredients();
+
     }
 
 

@@ -81,6 +81,7 @@ public class StepActivity extends AppCompatActivity implements
             StepDetailFragment stepDetailFragment = new StepDetailFragment();
             stepDetailFragment.setDescription(currentStep.getDescription());
             stepDetailFragment.setVideoUrl(currentStep.getVideoURL());
+            stepDetailFragment.setThumNailUrl(currentStep.getThumbnailURL());
             stepDetailFragment.setIngredientList(ingredientList);
             stepDetailFragment.setPreviousAndNextStep(previousStepPos, nextStepPos);
             stepDetailFragment.setStepList(stepList);

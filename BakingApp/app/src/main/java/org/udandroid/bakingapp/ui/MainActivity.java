@@ -27,10 +27,15 @@ public class MainActivity extends AppCompatActivity{
     @Nullable
     private SimpleIdlingResource mIdlingResource;
 
-
     @Nullable
     public SimpleIdlingResource getmIdlingResource() {
         return mIdlingResource;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        new FetchRecipesTask(this).execute();
     }
 
     @Override
@@ -39,8 +44,6 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
         new FetchRecipesTask(this).execute();
-
-        getmIdlingResource();
 
     }
 
@@ -57,6 +60,8 @@ public class MainActivity extends AppCompatActivity{
         recipeListAdapter = new RecipeListAdapter(getApplicationContext(), recipes);
         recyclerView.setAdapter(recipeListAdapter);
     }
+
+
 
     private class FetchRecipesTask extends AsyncTask<String,String,Recipe[]>{
 
@@ -90,6 +95,5 @@ public class MainActivity extends AppCompatActivity{
         }
         return mIdlingResource;
     }
-
 
 }

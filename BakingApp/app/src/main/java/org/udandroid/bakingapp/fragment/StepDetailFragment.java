@@ -3,6 +3,7 @@ package org.udandroid.bakingapp.fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,11 +16,14 @@ import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.C;
@@ -60,6 +64,7 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
     private final String TAG = StepDetailFragment.class.getSimpleName();
     private String description;
     private String videoUrl;
+    private String thumNailUrl;
     private int previousStepPosition;
     private int nextStepPosition;
     private SimpleExoPlayer mExoPlayer;
@@ -87,8 +92,13 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup viewGroup, @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_step_detail, viewGroup, false);
+        ImageView imageView = rootView.findViewById(R.id.iv_recipe_step_thumbnail);
+        SimpleExoPlayerView simpleExoPlayerView = rootView.findViewById(R.id.pv_recipe_step_video);
+        TextView tvDescription = rootView.findViewById(R.id.tv_recipe_step_description);
+        LinearLayout llBottomSheet = rootView.findViewById(R.id.bottom_sheet);
+        final RecyclerView recyclerView = rootView.findViewById(R.id.rv_ingredient);
 
-        mPlayerView = rootView.findViewById(R.id.pv_rescipe_step_video);
+        mPlayerView = rootView.findViewById(R.id.pv_recipe_step_video);
 
         if (videoUrl != null && videoUrl.length() > 1) {
 
@@ -105,12 +115,37 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
             // Initialize the player view.
             initializeMediaSession();
 
-        } else {
-           SimpleExoPlayerView simpleExoPlayerView = rootView.findViewById(R.id.pv_rescipe_step_video);
-           simpleExoPlayerView.setVisibility(View.GONE);
-        }
+            imageView.setVisibility(View.GONE);
 
-        final TextView tvDescription = rootView.findViewById(R.id.tv_recipe_step_description);
+        } else {
+
+           simpleExoPlayerView.setVisibility(View.GONE);
+
+           if( imageView != null){
+               RelativeLayout.LayoutParams ivParams = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
+               Display display = getActivity().getWindowManager().getDefaultDisplay();
+               Point size = new Point();
+               try {
+                   display.getRealSize(size);
+               } catch (NoSuchMethodError err) {
+                   display.getSize(size);
+               }
+               int width = size.x/2;
+               int height = size.y/3;
+               ivParams.height = height;
+               ivParams.width = width;
+               ivParams.addRule(RelativeLayout.BELOW, R.id.divider);
+               imageView.setLayoutParams(ivParams);
+               if(  thumNailUrl != null && thumNailUrl != ""  ){
+                   imageView.setImageURI(Uri.parse(thumNailUrl));
+               }
+               RelativeLayout.LayoutParams tvParams = (RelativeLayout.LayoutParams) tvDescription.getLayoutParams();
+               int leftMargin = (int) getResources().getDimension(R.dimen.activity_vertical_margin);
+               tvParams.leftMargin = leftMargin;
+               tvParams.addRule(RelativeLayout.BELOW, R.id.iv_recipe_step_thumbnail);
+               tvDescription.setLayoutParams(tvParams);
+           }
+        }
 
         if( tvDescription != null ){
             tvDescription.setText(description);
@@ -118,9 +153,7 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
 
         getActivity().setTitle(description);
 
-        if (rootView.findViewById(R.id.bottom_sheet) != null) {
-            // get the bottom sheet view
-            LinearLayout llBottomSheet = (LinearLayout) rootView.findViewById(R.id.bottom_sheet);
+        if (llBottomSheet != null) {
 
             // init the bottom sheet behavior
             BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
@@ -148,7 +181,6 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
             });
 
             //ListView adapter
-            final RecyclerView recyclerView = rootView.findViewById(R.id.rv_ingredient);
             recyclerView.setHasFixedSize(true);
             ingredientListAdapter = new IngredientListAdapter(getContext(), ingredientList);
             RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
@@ -238,6 +270,10 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
 
     public void setVideoUrl(String videoUrl) {
         this.videoUrl = videoUrl;
+    }
+
+    public void setThumNailUrl( String thumNailUrl){
+      this.thumNailUrl = thumNailUrl;
     }
 
     public void setIngredientList(List <Ingredient> ingredientList) {

@@ -40,12 +40,6 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
 
     }
 
-    public interface UpdateIngredientListener {
-
-        List<Ingredient> getIngredient();
-
-    }
-
     @Override
     public void onCreate() {
     }
@@ -54,6 +48,7 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
     public void onDataSetChanged() {
         IngredientListService ingredientListService = new IngredientListService();
         ingredientList = ingredientListService.getIngredientList();
+
     }
 
     @Override

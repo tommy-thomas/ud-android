@@ -19,27 +19,26 @@ import static org.hamcrest.Matchers.anything;
 
 
 @RunWith(AndroidJUnit4.class)
-public class IdlingResourceMenuActivityScreenTest {
+public class IdlingResourceMainActivityTest {
 
-    public static final String RECIPE_NAME = "Nutella Pie";
+    @Rule
+    public ActivityTestRule<MainActivity> mActivityTestRule =
+            new ActivityTestRule<>(MainActivity.class);
 
-    @Rule public ActivityTestRule<MainActivity> mActivityTestRule
-            = new ActivityTestRule<>(MainActivity.class);
-
-    private IdlingResource  mIdlingResource;
+    private IdlingResource mIdlingResource;
 
     @Before
-    public void registerIdlingResource(){
+    public void registerIdlingResource() {
         mIdlingResource = mActivityTestRule.getActivity().getIdlingResource();
         // To prove that the test fails, omit this call:
         Espresso.registerIdlingResources(mIdlingResource);
-    }
 
+    }
 
     @Test
     public void idlingResourceTest() {
+        onData(anything()).inAdapterView(withId(R.id.rv_recipe)).atPosition(0).perform(click());
 
-        onData(anything()).inAdapterView(withId(R.id.rv_recipe)).atPosition(1).perform(click());
     }
 
     @After
@@ -48,5 +47,6 @@ public class IdlingResourceMenuActivityScreenTest {
             Espresso.unregisterIdlingResources(mIdlingResource);
         }
     }
+
 
 }
