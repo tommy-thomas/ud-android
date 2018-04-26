@@ -1,4 +1,4 @@
-package org.udandroid.bakingapp.fragment;
+package org.udandroid.bakingapp.ui;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,6 +17,7 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -119,35 +120,50 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
 
         } else {
 
-           simpleExoPlayerView.setVisibility(View.GONE);
+            simpleExoPlayerView.setVisibility(View.GONE);
+            ViewGroup.LayoutParams parentParams = viewGroup.getLayoutParams();
+            Display display = getActivity().getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            try {
+                display.getRealSize(size);
+            } catch (NoSuchMethodError err) {
+                display.getSize(size);
+            }
+            int width = size.x / 2;
+            int height = size.y / 3;
+            int leftMargin = (int) getResources().getDimension(R.dimen.activity_vertical_margin);
 
-           if( imageView != null){
-               RelativeLayout.LayoutParams ivParams = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
-               Display display = getActivity().getWindowManager().getDefaultDisplay();
-               Point size = new Point();
-               try {
-                   display.getRealSize(size);
-               } catch (NoSuchMethodError err) {
-                   display.getSize(size);
-               }
-               int width = size.x/2;
-               int height = size.y/3;
-               ivParams.height = height;
-               ivParams.width = width;
-               ivParams.addRule(RelativeLayout.BELOW, R.id.divider);
-               imageView.setLayoutParams(ivParams);
-               if(  thumNailUrl != null && thumNailUrl != ""  ){
-                   imageView.setImageURI(Uri.parse(thumNailUrl));
-               }
-               RelativeLayout.LayoutParams tvParams = (RelativeLayout.LayoutParams) tvDescription.getLayoutParams();
-               int leftMargin = (int) getResources().getDimension(R.dimen.activity_vertical_margin);
-               tvParams.leftMargin = leftMargin;
-               tvParams.addRule(RelativeLayout.BELOW, R.id.iv_recipe_step_thumbnail);
-               tvDescription.setLayoutParams(tvParams);
-           }
+            if (imageView != null) {
+                if ( imageView.getLayoutParams() instanceof LinearLayout.LayoutParams) {
+                    LinearLayout.LayoutParams ivParams = (LinearLayout.LayoutParams) imageView.getLayoutParams();
+                    LinearLayout.LayoutParams tvParams = (LinearLayout.LayoutParams) tvDescription.getLayoutParams();
+                    ivParams.height = height;
+                    ivParams.width = width;
+                    ivParams.gravity = Gravity.CENTER;
+                    imageView.setLayoutParams(ivParams);
+                    if (thumNailUrl != null && thumNailUrl != "") {
+                        imageView.setImageURI(Uri.parse(thumNailUrl));
+                    }
+                    tvParams.leftMargin = leftMargin;
+                    tvDescription.setLayoutParams(tvParams);
+                } else if ( imageView.getLayoutParams() instanceof RelativeLayout.LayoutParams ){
+                    RelativeLayout.LayoutParams ivParams = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
+                    RelativeLayout.LayoutParams tvParams = (RelativeLayout.LayoutParams) tvDescription.getLayoutParams();
+                    ivParams.height = height;
+                    ivParams.width = width;
+                    ivParams.addRule(RelativeLayout.BELOW, R.id.divider);
+                    imageView.setLayoutParams(ivParams);
+                    if (thumNailUrl != null && thumNailUrl != "") {
+                        imageView.setImageURI(Uri.parse(thumNailUrl));
+                    }
+                    tvParams.leftMargin = leftMargin;
+                    tvParams.addRule(RelativeLayout.BELOW, R.id.iv_recipe_step_thumbnail);
+                    tvDescription.setLayoutParams(tvParams);
+                }
+            }
         }
 
-        if( tvDescription != null ){
+        if (tvDescription != null) {
             tvDescription.setText(description);
         }
 
@@ -272,8 +288,8 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
         this.videoUrl = videoUrl;
     }
 
-    public void setThumNailUrl( String thumNailUrl){
-      this.thumNailUrl = thumNailUrl;
+    public void setThumNailUrl(String thumNailUrl) {
+        this.thumNailUrl = thumNailUrl;
     }
 
     public void setIngredientList(List <Ingredient> ingredientList) {
@@ -383,41 +399,6 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
         mMediaSession.setPlaybackState(mStateBuilder.build());
 
     }
-
-
-//    @Override
-//    public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-//
-//        if (playbackState == ExoPlayer.STATE_READY) {
-//            if (mPlayerPosition > -1) {
-//               mExoPlayer.seekTo(mPlayerPosition);
-//                mPlayerPosition = -1;
-//                mExoPlayer.setPlayWhenReady(mPlayWhenReady);
-//            }
-//        }
-//    }
-
-
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        mPlayerPosition = mExoPlayer.getCurrentPosition();
-//        releasePlayer();
-//
-//    }
-
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        releasePlayer();
-//        initializePlayer(Uri.parse(videoUrl));
-//    }
-
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        releasePlayer();
-//    }
 
     @Override
     public void onDestroy() {

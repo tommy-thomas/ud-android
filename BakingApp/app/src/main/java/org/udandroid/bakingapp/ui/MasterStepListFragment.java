@@ -1,4 +1,4 @@
-package org.udandroid.bakingapp.fragment;
+package org.udandroid.bakingapp.ui;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -55,7 +55,7 @@ public class MasterStepListFragment extends Fragment {
 
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
-                    + " must implement OnStepClickListener and LoadSteps.");
+                    + " must implement OnStepClickListener.");
         }
     }
 

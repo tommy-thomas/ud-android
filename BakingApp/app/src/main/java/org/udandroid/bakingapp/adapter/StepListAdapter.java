@@ -13,7 +13,7 @@ import org.udandroid.bakingapp.model.Step;
 
 import java.util.List;
 
-import static org.udandroid.bakingapp.fragment.MasterStepListFragment.StepClickListener;
+import static org.udandroid.bakingapp.ui.MasterStepListFragment.StepClickListener;
 
 /**
  * Created by tommy-thomas on 4/1/18.

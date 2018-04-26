@@ -1,8 +1,11 @@
 package org.udandroid.bakingapp.widget;
 
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -11,6 +14,7 @@ import com.google.gson.reflect.TypeToken;
 
 import org.udandroid.bakingapp.R;
 import org.udandroid.bakingapp.model.Ingredient;
+import org.udandroid.bakingapp.service.IngredientListService;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -24,6 +28,7 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
     private Context context;
     private List <Ingredient> ingredientList;
     private final String TAG = IngredientRemoteViewsFactory.class.getSimpleName();
+    private IngredientListReceiver ingredientListReceiver;
 
 
     public IngredientRemoteViewsFactory(Context context, Intent intent) {
@@ -37,6 +42,7 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
             }.getType();
             ingredientList = gson.fromJson(stringIngredientList, type);
         }
+        registerIngredientListReceiver();
 
     }
 
@@ -44,15 +50,15 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
     public void onCreate() {
     }
 
+
     @Override
     public void onDataSetChanged() {
-        IngredientListService ingredientListService = new IngredientListService();
-        ingredientList = ingredientListService.getIngredientList();
-
+        IngredientListService.startActionGetIngredientList(context);
     }
 
     @Override
     public void onDestroy() {
+        //context.unregisterReceiver(ingredientListReceiver);
     }
 
     @Override
@@ -70,6 +76,25 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
         }
 
         return remoteViews;
+    }
+
+    private void registerIngredientListReceiver(){
+       ingredientListReceiver = new IngredientListReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(IngredientListService.ACTION_GET_INGREDIENT_LIST);
+        context.registerReceiver(ingredientListReceiver, intentFilter);
+    }
+
+    private class IngredientListReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String stringIngredientList = intent.getStringExtra("ingredient-list");
+            Gson gson = new Gson();
+            Type type = new TypeToken<List<Ingredient>>() {}.getType();
+            ingredientList = gson.fromJson(stringIngredientList, type);
+            Log.d(TAG , ingredientList.get(2).getIngredient().toString());
+        }
     }
 
     @Override
@@ -91,4 +116,6 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
     public boolean hasStableIds() {
         return false;
     }
+
+
 }

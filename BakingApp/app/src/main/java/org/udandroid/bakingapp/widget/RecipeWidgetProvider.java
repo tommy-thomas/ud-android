@@ -15,6 +15,7 @@ import com.google.gson.reflect.TypeToken;
 
 import org.udandroid.bakingapp.R;
 import org.udandroid.bakingapp.model.Ingredient;
+import org.udandroid.bakingapp.service.IngredientListService;
 import org.udandroid.bakingapp.ui.MainActivity;
 
 import java.lang.reflect.Type;

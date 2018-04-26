@@ -37,9 +37,9 @@
             android:name=".ui.StepDetailActivity"
             android:configChanges="orientation|screenSize" />
 
-        <receiver android:name=".fragment.StepDetailFragment$MediaReceiver" />
+        <receiver android:name=".ui.StepDetailFragment$MediaReceiver" />
 
-        <service android:name=".widget.IngredientListService" />
+        <service android:name=".service.IngredientListService" />
 
         <service
             android:name=".widget.IngredientRemoteViewsService"

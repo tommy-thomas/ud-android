@@ -11,8 +11,6 @@ import com.google.gson.reflect.TypeToken;
 
 import org.udandroid.bakingapp.R;
 import org.udandroid.bakingapp.adapter.IngredientListAdapter;
-import org.udandroid.bakingapp.fragment.MasterStepListFragment;
-import org.udandroid.bakingapp.fragment.StepDetailFragment;
 import org.udandroid.bakingapp.model.Ingredient;
 import org.udandroid.bakingapp.model.Recipe;
 import org.udandroid.bakingapp.model.Step;
