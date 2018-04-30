@@ -10,16 +10,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.widget.RemoteViews;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import org.udandroid.bakingapp.R;
-import org.udandroid.bakingapp.model.Ingredient;
 import org.udandroid.bakingapp.service.IngredientListService;
 import org.udandroid.bakingapp.ui.MainActivity;
-
-import java.lang.reflect.Type;
-import java.util.List;
 
 /**
  * Implementation of App Widget functionality.
@@ -30,7 +23,8 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId, String recipeName, List <Ingredient> ingredientList) {
+                                int appWidgetId, String recipeName) {
+
 
 
         // Construct the RemoteViews object
@@ -42,32 +36,27 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, contextIntent, 0);
         views.setOnClickPendingIntent(R.id.tv_recipe_title, pendingIntent);
 
-        try {
-            Gson gson = new Gson();
-            Type type = new TypeToken <List <Ingredient>>() {
-            }.getType();
-            String json_ingredient_list = gson.toJson(ingredientList, type);
-            Intent intent = new Intent(context, IngredientRemoteViewsService.class);
-//            intent.putExtra("ingredientList", json_ingredient_list);
-//            views.setRemoteAdapter(R.id.lv_ingredient_list, intent);
-
-
-        } catch (Exception e) {
-            e.getMessage();
-        }
+        Intent intent = new Intent(context, IngredientRemoteViewsService.class);
+        views.setRemoteAdapter(R.id.lv_ingredient_list, intent);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
-
     }
 
+    /**
+     * @param context
+     * @param appWidgetManager
+     * @param appWidgetIds
+     * @param recipeName
+     */
     public static void updateRecipeWidget(Context context, AppWidgetManager appWidgetManager,
-                                          int[] appWidgetIds, String recipeName, List <Ingredient> ingredientList) {
+                                          int[] appWidgetIds, String recipeName) {
         for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId, recipeName, ingredientList);
+            updateAppWidget(context, appWidgetManager, appWidgetId, recipeName );
         }
 
     }
+
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -81,7 +70,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
        // super.onReceive(context, intent);
-        IngredientListService.startActionUpdateIngredients(context);
+       IngredientListService.startActionUpdateIngredients(context);
     }
 
 

@@ -84,11 +84,11 @@ public class IngredientListService extends IntentService {
         Recipe recipe = recipeDatabase.recipeDAO().getRecent();
         if (recipe != null) {
             String recipeName = recipe.getName();
-            List <Ingredient> ingredientList = recipe.getIngredients();
+            //List <Ingredient> ingredientList = recipe.getIngredients();
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
             int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, RecipeWidgetProvider.class));
-        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.lv_ingredient_list);
-            RecipeWidgetProvider.updateRecipeWidget(this, appWidgetManager, appWidgetIds, recipeName, ingredientList);
+            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.lv_ingredient_list);
+            RecipeWidgetProvider.updateRecipeWidget(this, appWidgetManager, appWidgetIds, recipeName);
         }
     }
 

@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -34,20 +35,20 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
 
         this.context = context;
 
-
-//        if (intent.hasExtra("ingredientList")) {
 //            Gson gson = new Gson();
-//            String stringIngredientList = intent.getStringExtra("ingredientList");
+//            String stringIngredientList = intent.getExtras().getString("ingredientList");//getStringExtra("ingredientList");
 //            Type type = new TypeToken <List <Ingredient>>() {
 //            }.getType();
 //            ingredientList = gson.fromJson(stringIngredientList, type);
-//        }
-        registerIngredientListReceiver();
+//            Log.d(TAG , ingredientList.get(0).getIngredient());
+        //IngredientListService.startActionGetIngredientList(context);
 
     }
 
     @Override
     public void onCreate() {
+        registerIngredientListReceiver();
+        IngredientListService.startActionGetIngredientList(context);
     }
 
 
@@ -79,7 +80,7 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
     }
 
     private void registerIngredientListReceiver(){
-       ingredientListReceiver = new IngredientListReceiver();
+        ingredientListReceiver = new IngredientListReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(IngredientListService.ACTION_GET_INGREDIENT_LIST);
         context.registerReceiver(ingredientListReceiver, intentFilter);
@@ -93,6 +94,7 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
             Gson gson = new Gson();
             Type type = new TypeToken<List<Ingredient>>() {}.getType();
             ingredientList = gson.fromJson(stringIngredientList, type);
+            Log.d(TAG , "Data received...");
         }
     }
 
