@@ -24,7 +24,7 @@ public class SaveRecipeTask extends AsyncTask <Recipe, String, Recipe> {
 
     @Override
     protected Recipe doInBackground(Recipe... recipes) {
-        recipes[0].setDate(System.currentTimeMillis() / 1000);
+        recipes[0].setDate(System.currentTimeMillis());
         RecipeDatabase recipeDatabase = RecipeDatabase.getRecipeDatabase(mContext);
         recipeDatabase.recipeDAO().update(recipes[0]);
 

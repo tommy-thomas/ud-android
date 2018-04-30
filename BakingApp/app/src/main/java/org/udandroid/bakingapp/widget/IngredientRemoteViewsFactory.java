@@ -34,6 +34,7 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
     public IngredientRemoteViewsFactory(Context context, Intent intent) {
 
         this.context = context;
+        Log.d(TAG , "Starting remote views factory...");
 
         if (intent.hasExtra("ingredientList")) {
             Gson gson = new Gson();
@@ -58,7 +59,7 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
 
     @Override
     public void onDestroy() {
-        //context.unregisterReceiver(ingredientListReceiver);
+        context.unregisterReceiver(ingredientListReceiver);
     }
 
     @Override
@@ -93,7 +94,6 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
             Gson gson = new Gson();
             Type type = new TypeToken<List<Ingredient>>() {}.getType();
             ingredientList = gson.fromJson(stringIngredientList, type);
-            Log.d(TAG , ingredientList.get(2).getIngredient().toString());
         }
     }
 

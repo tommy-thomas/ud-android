@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.udandroid.bakingapp.R;
 import org.udandroid.bakingapp.data.RecipeDatabase;
 import org.udandroid.bakingapp.model.Ingredient;
 import org.udandroid.bakingapp.model.Recipe;
@@ -55,34 +56,40 @@ public class IngredientListService extends IntentService {
             final String action = intent.getAction();
             if (ACTION_UPDATE_INGREDIENTS.equals(action)) {
                 handleActionUpdateIngredients();
-            } else if(ACTION_GET_INGREDIENT_LIST.equals(action)){
+            } else if (ACTION_GET_INGREDIENT_LIST.equals(action)) {
                 sendIngredientListBackToClient();
             }
         }
 
     }
 
-    private void sendIngredientListBackToClient(){
+    private void sendIngredientListBackToClient() {
         RecipeDatabase recipeDatabase = RecipeDatabase.getRecipeDatabase(this);
         Recipe recipe = recipeDatabase.recipeDAO().getRecent();
         Gson gson = new Gson();
-        Type type = new TypeToken<List<Ingredient>>() {}.getType();
+        Type type = new TypeToken <List <Ingredient>>() {
+        }.getType();
         String json = gson.toJson(recipe.getIngredients(), type);
         Intent intent = new Intent();
         intent.setAction(ACTION_GET_INGREDIENT_LIST);
-        intent.putExtra("ingredient-list",json);
+        intent.putExtra("ingredient-list", json);
         sendBroadcast(intent);
     }
 
     private void handleActionUpdateIngredients() {
         RecipeDatabase recipeDatabase = RecipeDatabase.getRecipeDatabase(this);
+        if(recipeDatabase.recipeDAO().countRecipes() < 0 ){
+            return;
+        }
         Recipe recipe = recipeDatabase.recipeDAO().getRecent();
-        String recipeName = recipe.getName();
-        List <Ingredient> ingredientList = recipe.getIngredients();
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, RecipeWidgetProvider.class));
-//        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.lv_ingredient_list);
-        RecipeWidgetProvider.updateRecipeWidget(this, appWidgetManager, appWidgetIds, recipeName, ingredientList);
+        if (recipe != null) {
+            String recipeName = recipe.getName();
+            List <Ingredient> ingredientList = recipe.getIngredients();
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, RecipeWidgetProvider.class));
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.lv_ingredient_list);
+            RecipeWidgetProvider.updateRecipeWidget(this, appWidgetManager, appWidgetIds, recipeName, ingredientList);
+        }
     }
 
 

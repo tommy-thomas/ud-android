@@ -3,6 +3,7 @@ package org.udandroid.bakingapp.data;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
@@ -17,8 +18,8 @@ public interface RecipeDAO {
     @Query("SELECT distinct * FROM recipes order by id asc")
     Recipe[] getAll();
 
-    @Query("SELECT * FROM recipes where id = :id limit 1")
-    Recipe findByID(int id);
+    @Query("SELECT * FROM recipes where name = :name limit 1")
+    Recipe findByName(String name);
 
     @Query("SELECT COUNT(*) from recipes")
     int countRecipes();
@@ -29,8 +30,8 @@ public interface RecipeDAO {
     @Query("DELETE from recipes")
     void clearRecipes();
 
-    @Insert
-    void insertAll(Recipe... recipes);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(Recipe... recipes);
 
     @Delete
     void delete(Recipe recipe);

@@ -11,7 +11,7 @@ import org.udandroid.bakingapp.model.Recipe;
 /**
  * Created by tommy-thomas on 4/14/18.
  */
-@Database(entities = {Recipe.class}, version = 1)
+@Database(entities = {Recipe.class}, version = 2)
 @TypeConverters({Converters.class})
 public abstract class RecipeDatabase extends RoomDatabase {
 
