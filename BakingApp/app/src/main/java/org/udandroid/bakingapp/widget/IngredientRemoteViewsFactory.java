@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -34,15 +33,15 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
     public IngredientRemoteViewsFactory(Context context, Intent intent) {
 
         this.context = context;
-        Log.d(TAG , "Starting remote views factory...");
 
-        if (intent.hasExtra("ingredientList")) {
-            Gson gson = new Gson();
-            String stringIngredientList = intent.getStringExtra("ingredientList");
-            Type type = new TypeToken <List <Ingredient>>() {
-            }.getType();
-            ingredientList = gson.fromJson(stringIngredientList, type);
-        }
+
+//        if (intent.hasExtra("ingredientList")) {
+//            Gson gson = new Gson();
+//            String stringIngredientList = intent.getStringExtra("ingredientList");
+//            Type type = new TypeToken <List <Ingredient>>() {
+//            }.getType();
+//            ingredientList = gson.fromJson(stringIngredientList, type);
+//        }
         registerIngredientListReceiver();
 
     }

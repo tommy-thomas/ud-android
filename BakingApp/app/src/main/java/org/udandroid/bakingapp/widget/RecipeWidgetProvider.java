@@ -48,8 +48,8 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
             }.getType();
             String json_ingredient_list = gson.toJson(ingredientList, type);
             Intent intent = new Intent(context, IngredientRemoteViewsService.class);
-            intent.putExtra("ingredientList", json_ingredient_list);
-            views.setRemoteAdapter(R.id.lv_ingredient_list, intent);
+//            intent.putExtra("ingredientList", json_ingredient_list);
+//            views.setRemoteAdapter(R.id.lv_ingredient_list, intent);
 
 
         } catch (Exception e) {

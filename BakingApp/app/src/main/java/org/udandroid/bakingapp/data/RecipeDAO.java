@@ -18,7 +18,7 @@ public interface RecipeDAO {
     @Query("SELECT distinct * FROM recipes order by id asc")
     Recipe[] getAll();
 
-    @Query("SELECT * FROM recipes where name = :name limit 1")
+    @Query("SELECT distinct * FROM recipes where name = :name limit 1")
     Recipe findByName(String name);
 
     @Query("SELECT COUNT(*) from recipes")
