@@ -11,7 +11,7 @@ import org.udandroid.bakingapp.model.Recipe;
 /**
  * Created by tommy-thomas on 4/14/18.
  */
-@Database(entities = {Recipe.class}, version = 2)
+@Database(entities = {Recipe.class}, version = 1)
 @TypeConverters({Converters.class})
 public abstract class RecipeDatabase extends RoomDatabase {
 
@@ -23,7 +23,7 @@ public abstract class RecipeDatabase extends RoomDatabase {
     public static RecipeDatabase getRecipeDatabase(Context context) {
         if (INSTANCE == null) {
             INSTANCE =
-                    Room.databaseBuilder(context.getApplicationContext(), RecipeDatabase.class, "recipe-database")
+                    Room.databaseBuilder(context.getApplicationContext(), RecipeDatabase.class, "recipe_database")
                             // allow queries on the main thread.
                             // Don't do this on a real app! See PersistenceBasicSample for an example.
                           //.allowMainThreadQueries()

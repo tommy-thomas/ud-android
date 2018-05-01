@@ -35,26 +35,19 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
 
         this.context = context;
 
-//            Gson gson = new Gson();
-//            String stringIngredientList = intent.getExtras().getString("ingredientList");//getStringExtra("ingredientList");
-//            Type type = new TypeToken <List <Ingredient>>() {
-//            }.getType();
-//            ingredientList = gson.fromJson(stringIngredientList, type);
-//            Log.d(TAG , ingredientList.get(0).getIngredient());
-        //IngredientListService.startActionGetIngredientList(context);
+        registerIngredientListReceiver();
 
     }
 
     @Override
     public void onCreate() {
-        registerIngredientListReceiver();
-        IngredientListService.startActionGetIngredientList(context);
+       // IngredientListService.startActionGetIngredientList(context);
     }
 
 
     @Override
     public void onDataSetChanged() {
-        IngredientListService.startActionGetIngredientList(context);
+        //IngredientListService.startActionGetIngredientList(context);
     }
 
     @Override
@@ -87,14 +80,16 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
     }
 
     private class IngredientListReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, Intent intent) {
             String stringIngredientList = intent.getStringExtra("ingredient-list");
-            Gson gson = new Gson();
-            Type type = new TypeToken<List<Ingredient>>() {}.getType();
-            ingredientList = gson.fromJson(stringIngredientList, type);
-            Log.d(TAG , "Data received...");
+            if( stringIngredientList != null && stringIngredientList != ""){
+                Gson gson = new Gson();
+                Type type = new TypeToken <List <Ingredient>>() {
+                }.getType();
+                ingredientList = gson.fromJson(stringIngredientList, type);
+                Log.d(TAG, "Data received...");
+            }
         }
     }
 
@@ -115,7 +110,7 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
 
     @Override
     public boolean hasStableIds() {
-        return false;
+        return true;
     }
 
 
