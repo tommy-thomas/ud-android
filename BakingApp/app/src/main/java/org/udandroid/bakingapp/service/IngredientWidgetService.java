@@ -23,7 +23,7 @@ import java.util.List;
  * Created by tommy-thomas on 4/17/18.
  */
 
-public class IngredientListService extends IntentService {
+public class IngredientWidgetService extends IntentService {
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
      *
@@ -34,18 +34,18 @@ public class IngredientListService extends IntentService {
     public static final String ACTION_GET_INGREDIENT_LIST = "org.udandroid.bakingapp.service.action.get_ingredient_list";
     final static String INGREDIENT_LIST_DATA = "ingredient_list_data";
 
-    public IngredientListService() {
-        super(IngredientListService.class.getName());
+    public IngredientWidgetService() {
+        super(IngredientWidgetService.class.getName());
     }
 
     public static void startActionUpdateIngredients(Context context) {
-        Intent intent = new Intent(context, IngredientListService.class);
+        Intent intent = new Intent(context, IngredientWidgetService.class);
         intent.setAction(ACTION_UPDATE_INGREDIENTS);
         context.startService(intent);
     }
 
     public static void startActionGetIngredientList(Context context) {
-        Intent intent = new Intent(context, IngredientListService.class);
+        Intent intent = new Intent(context, IngredientWidgetService.class);
         intent.setAction(ACTION_GET_INGREDIENT_LIST);
         context.startService(intent);
     }

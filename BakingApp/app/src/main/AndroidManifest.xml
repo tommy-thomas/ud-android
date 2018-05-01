@@ -39,7 +39,7 @@
 
         <receiver android:name=".ui.StepDetailFragment$MediaReceiver" />
 
-        <service android:name=".service.IngredientListService" />
+        <service android:name=".service.IngredientWidgetService" />
 
         <service
             android:name=".widget.IngredientRemoteViewsService"

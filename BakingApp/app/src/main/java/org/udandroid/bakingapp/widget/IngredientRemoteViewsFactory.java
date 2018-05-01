@@ -14,7 +14,7 @@ import com.google.gson.reflect.TypeToken;
 
 import org.udandroid.bakingapp.R;
 import org.udandroid.bakingapp.model.Ingredient;
-import org.udandroid.bakingapp.service.IngredientListService;
+import org.udandroid.bakingapp.service.IngredientWidgetService;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -28,7 +28,7 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
     private Context context;
     private List <Ingredient> ingredientList;
     private final String TAG = IngredientRemoteViewsFactory.class.getSimpleName();
-    private IngredientListReceiver ingredientListReceiver;
+    private IngredientWidgetReceiver ingredientWidgetReceiver;
 
 
     public IngredientRemoteViewsFactory(Context context, Intent intent) {
@@ -41,18 +41,18 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
 
     @Override
     public void onCreate() {
-       // IngredientListService.startActionGetIngredientList(context);
+       // IngredientWidgetService.startActionGetIngredientList(context);
     }
 
 
     @Override
     public void onDataSetChanged() {
-        //IngredientListService.startActionGetIngredientList(context);
+        //IngredientWidgetService.startActionGetIngredientList(context);
     }
 
     @Override
     public void onDestroy() {
-        context.unregisterReceiver(ingredientListReceiver);
+        context.unregisterReceiver(ingredientWidgetReceiver);
     }
 
     @Override
@@ -73,13 +73,13 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
     }
 
     private void registerIngredientListReceiver(){
-        ingredientListReceiver = new IngredientListReceiver();
+        ingredientWidgetReceiver = new IngredientWidgetReceiver();
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(IngredientListService.ACTION_GET_INGREDIENT_LIST);
-        context.registerReceiver(ingredientListReceiver, intentFilter);
+        intentFilter.addAction(IngredientWidgetService.ACTION_GET_INGREDIENT_LIST);
+        context.registerReceiver(ingredientWidgetReceiver, intentFilter);
     }
 
-    private class IngredientListReceiver extends BroadcastReceiver {
+    private class IngredientWidgetReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             String stringIngredientList = intent.getStringExtra("ingredient-list");

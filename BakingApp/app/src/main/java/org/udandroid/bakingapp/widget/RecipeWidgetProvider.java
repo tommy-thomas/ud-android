@@ -11,7 +11,7 @@ import android.os.Bundle;
 import android.widget.RemoteViews;
 
 import org.udandroid.bakingapp.R;
-import org.udandroid.bakingapp.service.IngredientListService;
+import org.udandroid.bakingapp.service.IngredientWidgetService;
 import org.udandroid.bakingapp.ui.MainActivity;
 
 /**
@@ -32,7 +32,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
         views.setTextViewText(R.id.tv_recipe_title, "Recipe: " + recipeName);
 
-        IngredientListService.startActionGetIngredientList(context);
+        IngredientWidgetService.startActionGetIngredientList(context);
 
         Intent contextIntent = new Intent(context, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, contextIntent, 0);
@@ -64,7 +64,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     @Override
     public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager,
                                           int appWidgetId, Bundle newOptions) {
-        IngredientListService.startActionUpdateIngredients(context);
+        IngredientWidgetService.startActionUpdateIngredients(context);
         super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
 
     }
@@ -72,14 +72,14 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
        // super.onReceive(context, intent);
-       IngredientListService.startActionUpdateIngredients(context);
+       IngredientWidgetService.startActionUpdateIngredients(context);
     }
 
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
-        IngredientListService.startActionUpdateIngredients(context);
+        IngredientWidgetService.startActionUpdateIngredients(context);
     }
 
     @Override
