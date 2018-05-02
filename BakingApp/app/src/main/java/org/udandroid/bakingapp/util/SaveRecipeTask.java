@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 
 import org.udandroid.bakingapp.data.RecipeDatabase;
 import org.udandroid.bakingapp.model.Recipe;
+import org.udandroid.bakingapp.service.IngredientWidgetService;
 import org.udandroid.bakingapp.widget.RecipeWidgetProvider;
 
 /**
@@ -37,6 +38,8 @@ public class SaveRecipeTask extends AsyncTask <Recipe, String, Recipe> {
     }
 
     private void notifyServiceUpdateRecipeWidget(){
+        IngredientWidgetService.startActionGetIngredientList(mContext);
+
         Intent intent = new Intent(mContext, RecipeWidgetProvider.class);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,

@@ -32,8 +32,6 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
         views.setTextViewText(R.id.tv_recipe_title, "Recipe: " + recipeName);
 
-        IngredientWidgetService.startActionGetIngredientList(context);
-
         Intent contextIntent = new Intent(context, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, contextIntent, 0);
         views.setOnClickPendingIntent(R.id.tv_recipe_title, pendingIntent);
