@@ -26,14 +26,13 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
                                 int appWidgetId, String recipeName) {
 
 
-
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
 
         views.setTextViewText(R.id.tv_recipe_title, "Recipe: " + recipeName);
 
-        Intent contextIntent = new Intent(context, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, contextIntent, 0);
+        Intent mainIntent = new Intent(context, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, mainIntent, 0);
         views.setOnClickPendingIntent(R.id.tv_recipe_title, pendingIntent);
 
         Intent intent = new Intent(context, IngredientRemoteViewsService.class);
@@ -83,6 +82,8 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     @Override
     public void onEnabled(Context context) {
         // Enter relevant functionality for when the first widget is created
+        IngredientWidgetService.startActionUpdateIngredients(context);
+        IngredientWidgetService.startActionGetIngredientList(context);
     }
 
     @Override
