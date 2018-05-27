@@ -2,6 +2,7 @@ package org.udandroid.bakingapp.ui;
 
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.IdlingResource;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -12,15 +13,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.udandroid.bakingapp.R;
 
-import static android.support.test.espresso.Espresso.onData;
+import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static org.hamcrest.Matchers.anything;
 
 
 @RunWith(AndroidJUnit4.class)
 public class IdlingResourceMainActivityTest {
+
+    private static int POSITION_TO_TEST = 0;
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule =
@@ -38,17 +39,9 @@ public class IdlingResourceMainActivityTest {
     @Test
     public void idlingResourceTest() {
 
-//        onData(withId(R.id.iv_recipe_card))
-//                .inAdapterView(withId(R.id.rv_recipe))
-//                .atPosition(1)
-//                .perform(matches());
+        onView(withId(R.id.rv_recipe))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(POSITION_TO_TEST, click()));
 
-                onData(anything()).inAdapterView(withId(R.id.rv_recipe)).atPosition(0).perform(scrollTo(), click());
-
-//        onData(instanceOf(Item.class))
-//                .inAdapterView(allOf(withId(android.R.id.list), isDisplayed()))
-//                .atPosition(9)
-//                .check(matches("foo"));
     }
 
     @After
