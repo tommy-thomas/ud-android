@@ -31,7 +31,6 @@ import static org.hamcrest.Matchers.allOf;
 @RunWith(AndroidJUnit4.class)
 public class IdlingResourceMainActivityTest {
 
-    final static int POSITION_TO_TEST = 0;
     final static String TITLE_TO_TEST = "Nutella Pie";
 
     @Rule

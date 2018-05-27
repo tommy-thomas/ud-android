@@ -24,7 +24,7 @@ public class RecipeMapper {
 
     private Context context;
 
-    private static final int DELAY_MILLIS = 000;
+    private static final int DELAY_MILLIS = 3000;
 
     private static final String TAG = RecipeMapper.class.getSimpleName();
 

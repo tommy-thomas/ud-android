@@ -41,7 +41,7 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
 
     @Override
     public void onCreate() {
-       //IngredientWidgetService.startActionGetIngredientList(context);
+       IngredientWidgetService.startActionGetIngredientList(context);
     }
 
 
