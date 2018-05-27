@@ -116,11 +116,13 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
             // Initialize the player view.
             initializeMediaSession();
 
-            imageView.setVisibility(View.GONE);
+            if( simpleExoPlayerView != null ) simpleExoPlayerView.setVisibility(View.VISIBLE);
+            if( imageView != null )  imageView.setVisibility(View.GONE);
 
         } else {
 
-            simpleExoPlayerView.setVisibility(View.GONE);
+            if( simpleExoPlayerView != null ) simpleExoPlayerView.setVisibility(View.GONE);
+            if( imageView != null )  imageView.setVisibility(View.VISIBLE);
             ViewGroup.LayoutParams parentParams = viewGroup.getLayoutParams();
             Display display = getActivity().getWindowManager().getDefaultDisplay();
             Point size = new Point();
@@ -136,7 +138,6 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
             if (imageView != null) {
                 if ( imageView.getLayoutParams() instanceof LinearLayout.LayoutParams) {
                     LinearLayout.LayoutParams ivParams = (LinearLayout.LayoutParams) imageView.getLayoutParams();
-                    LinearLayout.LayoutParams tvParams = (LinearLayout.LayoutParams) tvDescription.getLayoutParams();
                     ivParams.height = height;
                     ivParams.width = width;
                     ivParams.gravity = Gravity.CENTER;
@@ -144,8 +145,11 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
                     if (thumNailUrl != null && thumNailUrl != "") {
                         imageView.setImageURI(Uri.parse(thumNailUrl));
                     }
-                    tvParams.leftMargin = leftMargin;
-                    tvDescription.setLayoutParams(tvParams);
+                    if( tvDescription != null ){
+                        LinearLayout.LayoutParams tvParams = (LinearLayout.LayoutParams) tvDescription.getLayoutParams();
+                        tvParams.leftMargin = leftMargin;
+                        tvDescription.setLayoutParams(tvParams);
+                    }
                 } else if ( imageView.getLayoutParams() instanceof RelativeLayout.LayoutParams ){
                     RelativeLayout.LayoutParams ivParams = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
                     RelativeLayout.LayoutParams tvParams = (RelativeLayout.LayoutParams) tvDescription.getLayoutParams();

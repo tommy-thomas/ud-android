@@ -53,9 +53,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId, recipeName );
         }
-
     }
-
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
