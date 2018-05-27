@@ -14,6 +14,7 @@ import org.udandroid.bakingapp.R;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.anything;
 
@@ -31,14 +32,23 @@ public class IdlingResourceMainActivityTest {
     public void registerIdlingResource() {
         mIdlingResource = mActivityTestRule.getActivity().getIdlingResource();
         // To prove that the test fails, omit this call:
-        Espresso.registerIdlingResources(mIdlingResource);
-
+       Espresso.registerIdlingResources(mIdlingResource);
     }
 
     @Test
     public void idlingResourceTest() {
-        onData(anything()).inAdapterView(withId(R.id.rv_recipe)).atPosition(0).perform(click());
 
+//        onData(withId(R.id.iv_recipe_card))
+//                .inAdapterView(withId(R.id.rv_recipe))
+//                .atPosition(1)
+//                .perform(matches());
+
+                onData(anything()).inAdapterView(withId(R.id.rv_recipe)).atPosition(0).perform(scrollTo(), click());
+
+//        onData(instanceOf(Item.class))
+//                .inAdapterView(allOf(withId(android.R.id.list), isDisplayed()))
+//                .atPosition(9)
+//                .check(matches("foo"));
     }
 
     @After

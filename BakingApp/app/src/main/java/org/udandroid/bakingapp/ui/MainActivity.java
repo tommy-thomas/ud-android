@@ -18,7 +18,7 @@ import org.udandroid.bakingapp.adapter.RecipeListAdapter;
 import org.udandroid.bakingapp.model.Recipe;
 import org.udandroid.bakingapp.util.RecipeMapper;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements RecipeMapper.DelayerCallback {
 
     private final static String TAG = MainActivity.class.getSimpleName();
     private Recipe[] recipes;
@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity{
 
         new FetchRecipesTask(this).execute();
 
+        getIdlingResource();
+
     }
 
     private void loadRecipeViews(){
@@ -61,6 +63,20 @@ public class MainActivity extends AppCompatActivity{
         recyclerView.setAdapter(recipeListAdapter);
     }
 
+    @Override
+    public void onDone(Recipe[] recipes) {
+        RecyclerView recyclerView = findViewById(R.id.rv_recipe);
+        recyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 1);
+        recyclerView.setLayoutManager(layoutManager);
+        if (getApplicationContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
+        } else {
+            recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+        }
+        recipeListAdapter = new RecipeListAdapter(getApplicationContext(), recipes);
+        recyclerView.setAdapter(recipeListAdapter);
+    }
 
 
     private class FetchRecipesTask extends AsyncTask<String,String,Recipe[]>{
@@ -74,7 +90,7 @@ public class MainActivity extends AppCompatActivity{
         @Override
         protected Recipe[] doInBackground(String... strings) {
             RecipeMapper mapper = new RecipeMapper(aynscContext);
-            mapper.mapData();
+            mapper.mapData( MainActivity.this , mIdlingResource);
             recipes = mapper.recipes();
             return null;
         }
