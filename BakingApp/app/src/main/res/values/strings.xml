@@ -15,4 +15,5 @@
     <string name="add_widget">Add widget</string>
     <string name="SAVED_STEP_STATE">SAVED-STEP-STATE</string>
     <string name="ingredients">Ingredients</string>
+    <string name="there_is_no_data_at_this_time">There is no data at this time.</string>
 </resources>

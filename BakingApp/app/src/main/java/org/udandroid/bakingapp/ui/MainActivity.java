@@ -7,16 +7,22 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+import android.support.multidex.BuildConfig;
 import android.support.test.espresso.IdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.TextView;
 
 import org.udandroid.bakingapp.IdlingResource.SimpleIdlingResource;
 import org.udandroid.bakingapp.R;
 import org.udandroid.bakingapp.adapter.RecipeListAdapter;
 import org.udandroid.bakingapp.model.Recipe;
+import org.udandroid.bakingapp.releasetree.BakingAppReleaseTree;
 import org.udandroid.bakingapp.util.RecipeMapper;
+
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity implements RecipeMapper.DelayerCallback {
 
@@ -45,11 +51,18 @@ public class MainActivity extends AppCompatActivity implements RecipeMapper.Dela
 
         new FetchRecipesTask(this).execute();
 
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        } else {
+            Timber.plant(new BakingAppReleaseTree());
+        }
+
         getIdlingResource();
 
     }
 
-    private void loadRecipeViews(){
+    private void loadRecipeViews() {
+        TextView tvNoData = findViewById(R.id.tv_no_data);
         RecyclerView recyclerView = findViewById(R.id.rv_recipe);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 1);
@@ -58,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements RecipeMapper.Dela
             recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
         } else {
             recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+        }
+        if (recipes != null && recipes.length > 0) {
+            tvNoData.setVisibility(View.GONE);
         }
         recipeListAdapter = new RecipeListAdapter(getApplicationContext(), recipes);
         recyclerView.setAdapter(recipeListAdapter);
@@ -79,18 +95,19 @@ public class MainActivity extends AppCompatActivity implements RecipeMapper.Dela
     }
 
 
-    private class FetchRecipesTask extends AsyncTask<String,String,Recipe[]>{
+    private class FetchRecipesTask extends AsyncTask <String, String, Recipe[]> {
 
         private Context aynscContext;
 
-        public FetchRecipesTask(Context context){
+        public FetchRecipesTask(Context context) {
             aynscContext = context;
         }
 
         @Override
         protected Recipe[] doInBackground(String... strings) {
+
             RecipeMapper mapper = new RecipeMapper(aynscContext);
-            mapper.mapData( MainActivity.this , mIdlingResource);
+            mapper.mapData(MainActivity.this, mIdlingResource);
             recipes = mapper.recipes();
             return null;
         }
@@ -98,8 +115,9 @@ public class MainActivity extends AppCompatActivity implements RecipeMapper.Dela
 
         @Override
         protected void onPostExecute(Recipe[] recipes) {
-           // super.onPostExecute(recipes);
-           loadRecipeViews();
+            // super.onPostExecute(recipes);
+            loadRecipeViews();
+            Timber.v("Recipes loaded.");
         }
     }
 

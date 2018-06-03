@@ -5,7 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.util.Log;
+import android.support.multidex.BuildConfig;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -14,10 +14,13 @@ import com.google.gson.reflect.TypeToken;
 
 import org.udandroid.bakingapp.R;
 import org.udandroid.bakingapp.model.Ingredient;
+import org.udandroid.bakingapp.releasetree.BakingAppReleaseTree;
 import org.udandroid.bakingapp.service.IngredientWidgetService;
 
 import java.lang.reflect.Type;
 import java.util.List;
+
+import timber.log.Timber;
 
 /**
  * Created by tommy-thomas on 4/8/18.
@@ -41,7 +44,13 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
 
     @Override
     public void onCreate() {
-       IngredientWidgetService.startActionGetIngredientList(context);
+
+        if( BuildConfig.DEBUG ){
+            Timber.plant( new Timber.DebugTree());
+        } else {
+            Timber.plant( new BakingAppReleaseTree() );
+        }
+        IngredientWidgetService.startActionGetIngredientList(context);
     }
 
 
@@ -88,7 +97,7 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
                 Type type = new TypeToken <List <Ingredient>>() {
                 }.getType();
                 ingredientList = gson.fromJson(stringIngredientList, type);
-                Log.d(TAG, "Data received...");
+                Timber.v("Data received.");
             }
         }
     }

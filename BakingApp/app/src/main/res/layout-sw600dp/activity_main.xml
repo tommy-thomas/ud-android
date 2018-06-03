@@ -7,6 +7,12 @@
     tools:context="org.udandroid.bakingapp.ui.MainActivity"
     android:id="@+id/ll_main_activity">
 
+    <TextView
+        android:id="@+id/tv_no_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/there_is_no_data_at_this_time"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_recipe"
         android:scrollbars="vertical"

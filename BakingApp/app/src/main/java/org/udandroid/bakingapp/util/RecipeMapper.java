@@ -68,7 +68,7 @@ public class RecipeMapper {
             }
         } else {
 
-            if (recipeDatabase.recipeDAO().countRecipes() > 0)
+            if (recipeDatabase != null && recipeDatabase.recipeDAO().countRecipes() > 0)
                 recipes = recipeDatabase.recipeDAO().getAll();
         }
 

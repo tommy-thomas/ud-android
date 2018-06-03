@@ -160,6 +160,7 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
                     if (thumNailUrl != null && thumNailUrl != "") {
                         imageView.setImageURI(Uri.parse(thumNailUrl));
                     }
+
                     tvParams.leftMargin = leftMargin;
                     tvParams.addRule(RelativeLayout.BELOW, R.id.iv_recipe_step_thumbnail);
                     tvDescription.setLayoutParams(tvParams);

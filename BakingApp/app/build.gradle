@@ -46,6 +46,8 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.2'
     compile 'com.google.android.exoplayer:exoplayer:r2.2.0'
     compile 'com.android.support:multidex:1.0.1'
+    compile 'com.jakewharton.timber:timber:4.5.1'
+
 
     // ROOM DEPENDENCIES //
     // ViewModel and LiveData
