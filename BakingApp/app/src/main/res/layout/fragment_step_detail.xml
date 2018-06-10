@@ -50,8 +50,7 @@
         android:layout_marginTop="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_baking_icon_48px"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <TextView

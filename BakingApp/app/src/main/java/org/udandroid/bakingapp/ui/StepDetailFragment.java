@@ -75,6 +75,7 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
     public static MediaSessionCompat mMediaSession;
     private PlaybackStateCompat.Builder mStateBuilder;
     private SimpleExoPlayerView mPlayerView;
+    private boolean isPlayWhenReady;
 
     public StepDetailFragment() {
     }
@@ -101,11 +102,14 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
 
         mPlayerView = rootView.findViewById(R.id.pv_recipe_step_video);
 
+
         if (videoUrl != null && videoUrl.length() > 1) {
 
             mPlayerPosition = C.TIME_UNSET;
+            isPlayWhenReady = false;
             if (savedInstanceState != null) {
                 mPlayerPosition = savedInstanceState.getLong("selectedPosition", C.TIME_UNSET);
+                isPlayWhenReady = savedInstanceState.getBoolean("isPlayWhenReady");
                 description = savedInstanceState.getString("description");
                 videoUrl = savedInstanceState.getString("videoUrl");
             }
@@ -116,13 +120,13 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
             // Initialize the player view.
             initializeMediaSession();
 
-            if( simpleExoPlayerView != null ) simpleExoPlayerView.setVisibility(View.VISIBLE);
-            if( imageView != null )  imageView.setVisibility(View.GONE);
+            if (simpleExoPlayerView != null) simpleExoPlayerView.setVisibility(View.VISIBLE);
+            if (imageView != null) imageView.setVisibility(View.GONE);
 
         } else {
 
-            if( simpleExoPlayerView != null ) simpleExoPlayerView.setVisibility(View.GONE);
-            if( imageView != null )  imageView.setVisibility(View.VISIBLE);
+            if (simpleExoPlayerView != null) simpleExoPlayerView.setVisibility(View.GONE);
+            if (imageView != null) imageView.setVisibility(View.VISIBLE);
             ViewGroup.LayoutParams parentParams = viewGroup.getLayoutParams();
             Display display = getActivity().getWindowManager().getDefaultDisplay();
             Point size = new Point();
@@ -136,30 +140,33 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
             int leftMargin = (int) getResources().getDimension(R.dimen.activity_vertical_margin);
 
             if (imageView != null) {
-                if ( imageView.getLayoutParams() instanceof LinearLayout.LayoutParams) {
+                if (imageView.getLayoutParams() instanceof LinearLayout.LayoutParams) {
                     LinearLayout.LayoutParams ivParams = (LinearLayout.LayoutParams) imageView.getLayoutParams();
                     ivParams.height = height;
                     ivParams.width = width;
                     ivParams.gravity = Gravity.CENTER;
                     imageView.setLayoutParams(ivParams);
-                    if (thumNailUrl != null && thumNailUrl != "") {
-                        imageView.setImageURI(Uri.parse(thumNailUrl));
-                    }
-                    if( tvDescription != null ){
+                    GlideApp.with(getContext())
+                            .load(thumNailUrl)
+                            .placeholder(R.drawable.ic_baking_icon_48px)
+                            .into(imageView);
+                    if (tvDescription != null) {
                         LinearLayout.LayoutParams tvParams = (LinearLayout.LayoutParams) tvDescription.getLayoutParams();
                         tvParams.leftMargin = leftMargin;
                         tvDescription.setLayoutParams(tvParams);
                     }
-                } else if ( imageView.getLayoutParams() instanceof RelativeLayout.LayoutParams ){
+                } else if (imageView.getLayoutParams() instanceof RelativeLayout.LayoutParams) {
                     RelativeLayout.LayoutParams ivParams = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
                     RelativeLayout.LayoutParams tvParams = (RelativeLayout.LayoutParams) tvDescription.getLayoutParams();
                     ivParams.height = height;
                     ivParams.width = width;
                     ivParams.addRule(RelativeLayout.BELOW, R.id.divider);
                     imageView.setLayoutParams(ivParams);
-                    if (thumNailUrl != null && thumNailUrl != "") {
-                        imageView.setImageURI(Uri.parse(thumNailUrl));
-                    }
+                    GlideApp.with(getContext())
+                            .load(thumNailUrl)
+                            .placeholder(R.drawable.ic_baking_icon_48px)
+                            .into(imageView);
+
 
                     tvParams.leftMargin = leftMargin;
                     tvParams.addRule(RelativeLayout.BELOW, R.id.iv_recipe_step_thumbnail);
@@ -294,7 +301,7 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
     }
 
     public void setThumNailUrl(String thumNailUrl) {
-        this.thumNailUrl = thumNailUrl;
+        this.thumNailUrl = thumNailUrl != null && thumNailUrl != "" ? thumNailUrl : "";
     }
 
     public void setIngredientList(List <Ingredient> ingredientList) {
@@ -333,6 +340,7 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
                     getActivity(), userAgent), new DefaultExtractorsFactory(), null, null);
             mExoPlayer.prepare(mediaSource);
+            mExoPlayer.seekTo(mPlayerPosition);
             mExoPlayer.setPlayWhenReady(false);
         }
     }
@@ -375,12 +383,14 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        isPlayWhenReady = true;
         outState.putString("description", description);
         outState.putString("videoUrl", videoUrl);
         outState.putLong("selectedPosition", mPlayerPosition);
         outState.putBoolean("playWhenReady", mPlayWhenReady);
         outState.putInt("previousStepPos", previousStepPosition);
         outState.putInt("nextStepPos", nextStepPosition);
+        outState.putBoolean("isPlayWhenReady", isPlayWhenReady);
         super.onSaveInstanceState(outState);
     }
 
