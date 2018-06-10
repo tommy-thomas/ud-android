@@ -21,6 +21,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -54,6 +55,7 @@ import org.udandroid.bakingapp.model.Ingredient;
 import org.udandroid.bakingapp.model.Step;
 
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -166,8 +168,6 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
                             .load(thumNailUrl)
                             .placeholder(R.drawable.ic_baking_icon_48px)
                             .into(imageView);
-
-
                     tvParams.leftMargin = leftMargin;
                     tvParams.addRule(RelativeLayout.BELOW, R.id.iv_recipe_step_thumbnail);
                     tvDescription.setLayoutParams(tvParams);
@@ -301,7 +301,18 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
     }
 
     public void setThumNailUrl(String thumNailUrl) {
-        this.thumNailUrl = thumNailUrl != null && thumNailUrl != "" ? thumNailUrl : "";
+        this.thumNailUrl = thumNailUrl != null && thumNailUrl != "" && isValidImage(thumNailUrl) ? thumNailUrl : "";
+    }
+
+    public boolean isValidImage(String url) {
+        String type = null;
+        String[] valid = {"jpeg" , "jpg" , "pnp", "gif"};
+        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        if (extension != null) {
+            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+            return Arrays.asList( valid ).contains( type );
+        }
+        return false;
     }
 
     public void setIngredientList(List <Ingredient> ingredientList) {
