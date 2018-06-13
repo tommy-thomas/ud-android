@@ -48,6 +48,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.squareup.picasso.Picasso;
 
 import org.udandroid.bakingapp.R;
 import org.udandroid.bakingapp.adapter.IngredientListAdapter;
@@ -148,7 +149,7 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
                     ivParams.width = width;
                     ivParams.gravity = Gravity.CENTER;
                     imageView.setLayoutParams(ivParams);
-                    GlideApp.with(getContext())
+                    Picasso.with(getContext())
                             .load(thumNailUrl)
                             .placeholder(R.drawable.ic_baking_icon_48px)
                             .into(imageView);
@@ -164,7 +165,7 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
                     ivParams.width = width;
                     ivParams.addRule(RelativeLayout.BELOW, R.id.divider);
                     imageView.setLayoutParams(ivParams);
-                    GlideApp.with(getContext())
+                    Picasso.with(getContext())
                             .load(thumNailUrl)
                             .placeholder(R.drawable.ic_baking_icon_48px)
                             .into(imageView);
@@ -426,10 +427,23 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
 
     }
 
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        releasePlayer();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        releasePlayer();
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
-        releasePlayer();
     }
 
     /**
