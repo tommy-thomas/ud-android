@@ -45,15 +45,8 @@ public class RecipeMapper {
     public void mapData( final DelayerCallback callback,
                          @Nullable final SimpleIdlingResource idlingResource ) {
 
-        ConnectivityManager cm =
-                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-
-        boolean isConnected = activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
         final RecipeDatabase recipeDatabase = RecipeDatabase.getRecipeDatabase(context);
-        if (isConnected) {
+        if ( isNetworkAvailable(context) ) {
             try {
 
                 ObjectMapper Mapper = new ObjectMapper();
@@ -99,4 +92,13 @@ public class RecipeMapper {
         return (recipes != null) ? recipes : new Recipe[0];
     }
 
+
+    /**
+     * Returns true if network is available or about to become available
+     */
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
 }

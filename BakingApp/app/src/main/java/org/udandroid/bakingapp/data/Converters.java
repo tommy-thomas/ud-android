@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.udandroid.bakingapp.model.Ingredient;
+import org.udandroid.bakingapp.model.Recipe;
 import org.udandroid.bakingapp.model.Step;
 
 import java.lang.reflect.Type;
@@ -45,6 +46,22 @@ public class Converters {
     public static String stepsToString(List<Step> list) {
         Gson gson = new Gson();
         Type type = new TypeToken<List<Step>>() {}.getType();
+        String json = gson.toJson(list, type);
+        return json;
+    }
+
+    @TypeConverter
+    public static List<Recipe> stringToRecipes(String json) {
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<Recipe>>() {}.getType();
+        List<Recipe> recipeList= gson.fromJson(json, type);
+        return recipeList;
+    }
+
+    @TypeConverter
+    public static String recipesToString(List<Recipe> list) {
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<Recipe>>() {}.getType();
         String json = gson.toJson(list, type);
         return json;
     }

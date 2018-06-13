@@ -16,4 +16,5 @@
     <string name="SAVED_STEP_STATE">SAVED-STEP-STATE</string>
     <string name="ingredients">Ingredients</string>
     <string name="there_is_no_data_at_this_time">There is no data at this time.</string>
+    <string name="select_the_recipe_to_display">Select the recipe to display.!</string>
 </resources>

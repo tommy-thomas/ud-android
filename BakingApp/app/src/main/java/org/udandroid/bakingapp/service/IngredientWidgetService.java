@@ -32,6 +32,7 @@ public class IngredientWidgetService extends IntentService {
 
     public static final String ACTION_UPDATE_INGREDIENTS = "org.udandroid.bakingapp.service.action.update_ingredients";
     public static final String ACTION_GET_INGREDIENT_LIST = "org.udandroid.bakingapp.service.action.get_ingredient_list";
+    public static final String ACTION_GET_RECIPE_LIST = "org.udandroid.bakingapp.service.action.get_recipe_list";
     final static String INGREDIENT_LIST_DATA = "ingredient_list_data";
 
     public IngredientWidgetService() {
@@ -50,6 +51,12 @@ public class IngredientWidgetService extends IntentService {
         context.startService(intent);
     }
 
+    public static void startActionGetRecipeList(Context context) {
+        Intent intent = new Intent(context, IngredientWidgetService.class);
+        intent.setAction(ACTION_GET_RECIPE_LIST);
+        context.startService(intent);
+    }
+
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         if (intent != null) {
@@ -58,6 +65,8 @@ public class IngredientWidgetService extends IntentService {
                 handleActionUpdateIngredients();
             } else if (ACTION_GET_INGREDIENT_LIST.equals(action)) {
                 sendIngredientListBackToClient();
+            } else if( ACTION_GET_RECIPE_LIST.equals(action)) {
+                sendRecipeListBackToClient();
             }
         }
 
@@ -73,6 +82,19 @@ public class IngredientWidgetService extends IntentService {
         Intent intent = new Intent();
         intent.setAction(ACTION_GET_INGREDIENT_LIST);
         intent.putExtra("ingredient-list", json);
+        sendBroadcast(intent);
+    }
+
+    private void sendRecipeListBackToClient() {
+        RecipeDatabase recipeDatabase = RecipeDatabase.getRecipeDatabase(this);
+        Recipe[] recipes = recipeDatabase.recipeDAO().getAll();
+        Gson gson = new Gson();
+        Type type = new TypeToken <Recipe[]>() {
+        }.getType();
+        String json = gson.toJson(recipes, type);
+        Intent intent = new Intent();
+        intent.setAction(ACTION_GET_RECIPE_LIST);
+        intent.putExtra("recipe-list", json);
         sendBroadcast(intent);
     }
 

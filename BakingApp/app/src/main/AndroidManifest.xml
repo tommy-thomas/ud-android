@@ -21,6 +21,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/recipe_widget_provider_info" />
         </receiver>
+
         <activity
             android:name=".ui.MainActivity"
             android:configChanges="orientation|screenSize">
@@ -37,10 +38,15 @@
             android:name=".ui.StepDetailActivity"
             android:configChanges="orientation|screenSize" />
 
+        <activity android:name=".widget.IngredientWidgetConfig">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
+
         <receiver android:name=".ui.StepDetailFragment$MediaReceiver" />
 
         <service android:name=".service.IngredientWidgetService" />
-
         <service
             android:name=".widget.IngredientRemoteViewsService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
