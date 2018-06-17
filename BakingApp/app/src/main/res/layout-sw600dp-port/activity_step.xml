@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="vertical"
+    tools:context="org.udandroid.bakingapp.ui.StepActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        tools:context=".ui.StepActivity"
+        android:id="@+id/ll_fragment_step_detail">
+
+        <!-- static master list fragment //-->
+        <fragment
+            android:id="@+id/master_list_fragment"
+            android:name="org.udandroid.bakingapp.ui.MasterStepListFragment"
+            android:layout_width="match_parent"
+            android:layout_height="400dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+        <FrameLayout
+            android:id="@+id/fr_step_detail_container"
+            android:layout_width="match_parent"
+            android:layout_height="450dp"
+            />
+
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

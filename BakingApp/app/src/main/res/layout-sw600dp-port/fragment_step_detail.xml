@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="450dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="450dp">
+
+        <LinearLayout
+            android:id="@+id/top_nav"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true">
+
+            <Button
+                android:id="@+id/btn_previous"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="left"
+                android:layout_marginRight="100dp"
+                android:background="@drawable/nav_previous" />
+
+            <Button
+                android:id="@+id/btn_next"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="right"
+                android:background="@drawable/nav_next" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/top_nav"
+            android:background="@color/divider" />
+
+        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+            android:id="@+id/pv_recipe_step_video"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@+id/divider"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_alignEnd="@+id/divider"/>
+
+        <ImageView
+            android:id="@+id/iv_recipe_step_thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_below="@+id/divider"
+
+            android:src="@drawable/ic_baking_icon_48px"/>
+
+        <TextView
+            android:id="@+id/tv_recipe_step_description"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:layout_below="@+id/pv_recipe_step_video"
+            android:layout_gravity="bottom" />
+
+    </RelativeLayout>
+
+
+    <!-- include bottom sheet -->
+    <include layout="@layout/ingredient_bottom_sheet" />
+
+
+</android.support.design.widget.CoordinatorLayout>
