@@ -67,7 +67,6 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
        super.onReceive(context, intent);
-        IngredientWidgetService.startActionGetIngredientList(context);
         IngredientWidgetService.startActionUpdateIngredients(context);
     }
 
@@ -75,14 +74,12 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
-        IngredientWidgetService.startActionGetIngredientList(context);
         IngredientWidgetService.startActionUpdateIngredients(context);
     }
 
     @Override
     public void onEnabled(Context context) {
         // Enter relevant functionality for when the first widget is created
-        IngredientWidgetService.startActionGetIngredientList(context);
         IngredientWidgetService.startActionUpdateIngredients(context);
     }
 

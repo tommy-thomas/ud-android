@@ -56,7 +56,7 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
 
     @Override
     public void onDataSetChanged() {
-        //IngredientWidgetService.startActionGetIngredientList(context);
+        IngredientWidgetService.startActionGetIngredientList(context);
     }
 
     @Override
@@ -98,6 +98,8 @@ public class IngredientRemoteViewsFactory implements RemoteViewsService.RemoteVi
                 }.getType();
                 ingredientList = gson.fromJson(stringIngredientList, type);
                 Timber.v("Data received.");
+            } else {
+                Timber.d("No data Data received.");
             }
         }
     }

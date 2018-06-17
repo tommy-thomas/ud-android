@@ -53,13 +53,13 @@ public class IngredientWidgetConfig extends AppCompatActivity {
 //        });
     }
 
-    private void handleSetupWidget() {
-        showAppWidget();
+    private void handleSetupWidget(Recipe selectedRecipe) {
+        showAppWidget(selectedRecipe);
     }
 
     int appWidgetId;
 
-    private void showAppWidget() {
+    private void showAppWidget(Recipe selectedRecipe) {
         appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
         //Retrieve the App Widget ID from the Intent that launched the Activity//
@@ -93,7 +93,14 @@ public class IngredientWidgetConfig extends AppCompatActivity {
         }
     }
 
-    private void registerRecipeListReceiver(){
+    private void registerRecipeListReceiver() {
+        recipeListReceiver = new IngredientWidgetConfig.RecipeListReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(IngredientWidgetService.ACTION_GET_RECIPE_LIST);
+        this.registerReceiver(recipeListReceiver, intentFilter);
+    }
+
+    private void registerIngredientListReceiver() {
         recipeListReceiver = new IngredientWidgetConfig.RecipeListReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(IngredientWidgetService.ACTION_GET_RECIPE_LIST);
@@ -102,38 +109,37 @@ public class IngredientWidgetConfig extends AppCompatActivity {
 
     private class RecipeListReceiver extends BroadcastReceiver {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, Intent intent) {
             String stringRecipeList = intent.getStringExtra("recipe-list");
-            if( stringRecipeList != null && stringRecipeList != ""){
+            if (stringRecipeList != null && stringRecipeList != "") {
                 Gson gson = new Gson();
-                Type type = new TypeToken<Recipe[]>() {
+                Type type = new TypeToken <Recipe[]>() {
                 }.getType();
                 recipeList = gson.fromJson(stringRecipeList, type);
 
                 ArrayList recipeNames = new ArrayList();
-                final HashMap<String , Recipe> hmRecipes = new HashMap<String, Recipe>();
+                final HashMap <String, Recipe> hmRecipes = new HashMap <>();
 
-                recipeNames.add("--select a recipe--");
-                for(int i=0; i< recipeList.length; i++){
-                    recipeNames.add( recipeList[i].getName() );
-                    hmRecipes.put(  recipeList[i].getName() ,  recipeList[i]);
+                recipeNames.add("Select a Recipe");
+                for (int i = 0; i < recipeList.length; i++) {
+                    recipeNames.add(recipeList[i].getName());
+                    hmRecipes.put(recipeList[i].getName(), recipeList[i]);
                 }
 
-                ArrayAdapter<Recipe> adapter =
-                        new ArrayAdapter<Recipe>(context,  android.R.layout.simple_spinner_dropdown_item, recipeNames);
-                adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
+                ArrayAdapter <Recipe> adapter =
+                        new ArrayAdapter <Recipe>(context, android.R.layout.simple_spinner_dropdown_item, recipeNames);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                 spinner.setAdapter(adapter);
 
                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView <?> parent, View view, int position, long id) {
-//                        Toast.makeText(parent.getContext(),
-//                                "OnItemSelectedListener : " + parent.getItemAtPosition(position).toString(),
-//                                Toast.LENGTH_SHORT).show();
-                        if(!parent.getItemAtPosition(position).toString().equals("--select a recipe--")) {
-                            new SaveRecipeTask(getApplicationContext()).execute(hmRecipes.get(parent.getItemAtPosition(position).toString()));
-                            handleSetupWidget();
+
+                        if (!parent.getItemAtPosition(position).toString().equals("Select a Recipe")) {
+                            Recipe selectedRecipe = hmRecipes.get(parent.getItemAtPosition(position).toString());
+                            new SaveRecipeTask(getApplicationContext()).execute(selectedRecipe);
+                            handleSetupWidget(selectedRecipe);
                         }
                     }
 
@@ -154,8 +160,8 @@ public class IngredientWidgetConfig extends AppCompatActivity {
         unregisterRecipeListener();
     }
 
-    private void unregisterRecipeListener(){
-        if( recipeListReceiver !=  null){
+    private void unregisterRecipeListener() {
+        if (recipeListReceiver != null) {
             this.unregisterReceiver(recipeListReceiver);
         }
     }

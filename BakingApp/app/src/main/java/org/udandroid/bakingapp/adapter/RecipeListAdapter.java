@@ -6,8 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -66,8 +68,6 @@ public class RecipeListAdapter extends RecyclerView.Adapter <RecipeListAdapter.V
                 @Override
                 public void onClick(View v) {
 
-                    new SaveRecipeTask(context).execute(selectedRecipe);
-
                     Context context = viewHolder.itemView.getContext();
                     int i = viewHolder.getAdapterPosition();
                     Intent showRecipeSteps = new Intent(context, StepActivity.class);
@@ -78,6 +78,20 @@ public class RecipeListAdapter extends RecyclerView.Adapter <RecipeListAdapter.V
                     String json_recipe = gson.toJson(recipes[i], type_recipe);
                     showRecipeSteps.putExtra("RECIPE_EXTRA", json_recipe);
                     context.startActivity(showRecipeSteps);
+                }
+            });
+
+
+            viewHolder.ibRecipeCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new SaveRecipeTask(context).execute(selectedRecipe);
+                    CharSequence message =  selectedRecipe.getName().concat(" recipe saved to widget.");
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, message, duration);
+                    toast.show();
+
                 }
             });
 
@@ -96,12 +110,14 @@ public class RecipeListAdapter extends RecyclerView.Adapter <RecipeListAdapter.V
         private ImageView ivRecipeCard;
         private TextView tvRecipeCard;
         private TextView tvServingCard;
+        private ImageButton ibRecipeCard;
 
         public ViewHolder(View view) {
             super(view);
             ivRecipeCard = view.findViewById(R.id.iv_recipe_card);
             tvRecipeCard = view.findViewById(R.id.tv_recipe_card);
             tvServingCard = view.findViewById(R.id.tv_recipe_serving_card);
+            ibRecipeCard = view.findViewById(R.id.id_recipe_widget_button);
         }
 
     }
