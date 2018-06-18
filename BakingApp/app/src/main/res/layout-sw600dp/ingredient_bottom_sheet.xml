@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/bottom_sheet"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@android:color/background_light"
     android:orientation="vertical"
     app:behavior_hideable="true"
@@ -16,7 +16,9 @@
         android:background="@color/colorAccent"
         android:textAlignment="center"
         android:text="@string/ingredients"
+        android:paddingTop="8dp"
         android:textSize="18sp"
+        android:layout_marginBottom="0dp"
         android:textStyle="bold|italic"
         android:textColor="@android:color/white" />
 
@@ -25,7 +27,7 @@
         android:id="@+id/rv_ingredient"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
     </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

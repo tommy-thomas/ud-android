@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:baselineAligned="false"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         tools:context=".ui.StepActivity"
         android:id="@+id/ll_fragment_step_detail">
 
@@ -30,7 +30,8 @@
         <FrameLayout
             android:id="@+id/fr_step_detail_container"
             android:layout_width="match_parent"
-            android:layout_height="450dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
             />
 
 

@@ -125,11 +125,13 @@ public class StepDetailFragment extends Fragment implements View.OnClickListener
 
             if (simpleExoPlayerView != null) simpleExoPlayerView.setVisibility(View.VISIBLE);
             if (imageView != null) imageView.setVisibility(View.GONE);
+            if(tvDescription != null ) tvDescription.setVisibility(View.GONE);
 
         } else {
 
             if (simpleExoPlayerView != null) simpleExoPlayerView.setVisibility(View.GONE);
             if (imageView != null) imageView.setVisibility(View.VISIBLE);
+            if (tvDescription != null ) tvDescription.setVisibility(View.VISIBLE);
             ViewGroup.LayoutParams parentParams = viewGroup.getLayoutParams();
             Display display = getActivity().getWindowManager().getDefaultDisplay();
             Point size = new Point();
